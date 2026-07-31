@@ -20,7 +20,7 @@
             <p class="text-xs font-semibold text-blue-400 uppercase tracking-widest mb-6">Student Results Management System (MSRMS)</p>
             
             <div class="bg-slate-900/60 p-5 rounded-xl border border-slate-700 mb-6 text-left">
-                <h3 class="text-lg font-bold text-emerald-400 mb-1">Hello, Mwalimu Malole!</h3>
+                <h3 class="text-lg font-bold text-emerald-400 mb-1">Hello, Mwalimu!</h3>
                 <p class="text-slate-300 text-sm leading-relaxed">
                     Karibu sana kwenye Mfumo wa Matokeo wa Shule ya Msingi Mwashiku.
                 </p>
@@ -78,7 +78,7 @@
                 <form onsubmit="handleRegister(event)" class="space-y-3">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">Jina Kamili la Mwalimu</label>
-                        <input type="text" id="reg-fullname" placeholder="Mfano: Mwalimu Juma" required class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <input type="text" id="reg-fullname" placeholder="Mfano: Mwalimu Malole" required class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">Namba ya Simu</label>
@@ -157,11 +157,12 @@
                 </div>
             </header>
 
+            <!-- VIEW: DASHBOARD -->
             <div id="view-dashboard" class="p-6 space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div class="bg-white p-4 rounded-xl shadow-sm border">
                         <p class="text-xs text-slate-500 font-bold uppercase">Jumla ya Wanafunzi</p>
-                        <h3 class="text-2xl font-black text-slate-800 mt-1">450</h3>
+                        <h3 class="text-2xl font-black text-slate-800 mt-1" id="stat-students-count">0</h3>
                     </div>
                     <div class="bg-white p-4 rounded-xl shadow-sm border">
                         <p class="text-xs text-slate-500 font-bold uppercase">Walimu Waliosajiliwa</p>
@@ -172,12 +173,136 @@
                         <h3 class="text-2xl font-black text-slate-800 mt-1">8 (Awali - VII)</h3>
                     </div>
                     <div class="bg-white p-4 rounded-xl shadow-sm border">
-                        <p class="text-xs text-slate-500 font-bold uppercase">Mtihani Unaoendelea</p>
-                        <h3 class="text-lg font-bold text-emerald-600 mt-1">Terminal Exam 2026</h3>
+                        <p class="text-xs text-slate-500 font-bold uppercase">Mwaka wa Masomo</p>
+                        <h3 class="text-lg font-bold text-emerald-600 mt-1">2026 Academic Year</h3>
                     </div>
                 </div>
             </div>
 
+            <!-- VIEW: WANAFUNZI -->
+            <div id="view-students" class="p-6 hidden space-y-6">
+                <div class="bg-white p-6 rounded-xl shadow border">
+                    <h2 class="text-lg font-bold text-slate-800 mb-4"><i class="fa-solid fa-user-plus text-blue-600 mr-2"></i>Sajili Mwanafunzi Mpya</h2>
+                    <form onsubmit="handleSaveStudent(event)" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Jina Kamili la Mwanafunzi</label>
+                            <input type="text" id="std-fullname" required placeholder="Mfano: Baraka Juma" class="w-full px-3 py-2 border rounded-lg text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Namba ya Mtihani/Prem</label>
+                            <input type="text" id="std-prem" required placeholder="Mfano: MW-001" class="w-full px-3 py-2 border rounded-lg text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Jinsia</label>
+                            <select id="std-gender" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                                <option value="M">Mvulana (M)</option>
+                                <option value="K">Msichana (K)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Darasa</label>
+                            <select id="std-class" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                                <option value="Darasa VII">Darasa VII</option>
+                                <option value="Darasa VI">Darasa VI</option>
+                                <option value="Darasa V">Darasa V</option>
+                                <option value="Darasa IV">Darasa IV</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-4 text-right">
+                            <button type="submit" class="bg-blue-600 text-white font-bold px-6 py-2 rounded-lg hover:bg-blue-700">Hifadhi Mwanafunzi</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="bg-white rounded-xl shadow border overflow-hidden">
+                    <div class="p-4 bg-slate-50 border-b"><h3 class="font-bold text-slate-800">Orodha ya Wanafunzi Waliosajiliwa</h3></div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-slate-100 font-bold text-slate-700">
+                                <tr>
+                                    <th class="p-3">Prem No</th>
+                                    <th class="p-3">Jina la Mwanafunzi</th>
+                                    <th class="p-3">Jinsia</th>
+                                    <th class="p-3">Darasa</th>
+                                </tr>
+                            </thead>
+                            <tbody id="students-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: MATOKEO & MAONI -->
+            <div id="view-results" class="p-6 hidden space-y-6">
+                <div class="bg-white p-6 rounded-xl shadow border">
+                    <h2 class="text-lg font-bold text-slate-800 mb-4"><i class="fa-solid fa-file-pen text-emerald-600 mr-2"></i>Ingiza Matokeo ya Mwanafunzi</h2>
+                    <form onsubmit="handleSaveResults(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Chagua Mwanafunzi</label>
+                                <select id="res-student-select" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                                    <option value="">-- Chagua Mwanafunzi --</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Aina ya Mtihani</label>
+                                <select id="res-exam-type" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                                    <option value="Mid-Term">Mid-Term Exam</option>
+                                    <option value="Terminal">Terminal Exam</option>
+                                    <option value="Annual">Annual Exam</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-3 bg-slate-50 p-4 rounded-lg border">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Kiswahili</label>
+                                <input type="number" min="0" max="100" id="m-kisw" placeholder="0-100" class="w-full px-2 py-1 border rounded text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">English</label>
+                                <input type="number" min="0" max="100" id="m-eng" placeholder="0-100" class="w-full px-2 py-1 border rounded text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Maarifa</label>
+                                <input type="number" min="0" max="100" id="m-maarifa" placeholder="0-100" class="w-full px-2 py-1 border rounded text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Hisabati</label>
+                                <input type="number" min="0" max="100" id="m-hisabati" placeholder="0-100" class="w-full px-2 py-1 border rounded text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Sayansi</label>
+                                <input type="number" min="0" max="100" id="m-sayansi" placeholder="0-100" class="w-full px-2 py-1 border rounded text-sm">
+                            </div>
+                        </div>
+
+                        <div class="text-right">
+                            <button type="submit" class="bg-emerald-600 text-white font-bold px-6 py-2 rounded-lg hover:bg-emerald-700">Hifadhi Matokeo</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="bg-white rounded-xl shadow border overflow-hidden">
+                    <div class="p-4 bg-slate-50 border-b"><h3 class="font-bold text-slate-800">Matokeo Yaliyorekodiwa</h3></div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-slate-100 font-bold text-slate-700">
+                                <tr>
+                                    <th class="p-3">Jina</th>
+                                    <th class="p-3">Mtihani</th>
+                                    <th class="p-3">Jumla</th>
+                                    <th class="p-3">Wastani</th>
+                                    <th class="p-3">Daraja</th>
+                                </tr>
+                            </thead>
+                            <tbody id="results-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: WALIMU -->
             <div id="view-teachers" class="p-6 hidden">
                 <h2 class="text-lg font-bold mb-4">Orodha ya Walimu Waliosajiliwa Mfomoni</h2>
                 <div class="bg-white rounded-xl shadow border overflow-hidden">
@@ -195,9 +320,6 @@
                     </table>
                 </div>
             </div>
-
-            <div id="view-students" class="p-6 hidden"><h2 class="font-bold">Usimamizi wa Wanafunzi</h2></div>
-            <div id="view-results" class="p-6 hidden"><h2 class="font-bold">Kuingiza Matokeo & Maoni</h2></div>
         </main>
     </div>
 
@@ -209,6 +331,12 @@
                     { name: "Mwalimu Malole", phone: "-", classAssigned: "Darasa VII", username: "malole", pass: "123", role: "Mwalimu" }
                 ];
                 localStorage.setItem('msrms_users', JSON.stringify(defaultUsers));
+            }
+            if (!localStorage.getItem('msrms_students')) {
+                localStorage.setItem('msrms_students', JSON.stringify([]));
+            }
+            if (!localStorage.getItem('msrms_results')) {
+                localStorage.setItem('msrms_results', JSON.stringify([]));
             }
         }
         initDatabase();
@@ -243,15 +371,14 @@
             let users = JSON.parse(localStorage.getItem('msrms_users')) || [];
 
             if (users.find(u => u.username === uname)) {
-                alert("Jina hili la mtumiaji (Username) limeshatumiwa na mwalimu mwingine! Chagua jingine.");
+                alert("Username hii imeshatumiwa! Chagua jingine.");
                 return;
             }
 
-            const newUser = { name: fullName, phone: phone, classAssigned: cls, username: uname, pass: pass, role: "Mwalimu" };
-            users.push(newUser);
+            users.push({ name: fullName, phone: phone, classAssigned: cls, username: uname, pass: pass, role: "Mwalimu" });
             localStorage.setItem('msrms_users', JSON.stringify(users));
 
-            alert("Hongera! Umesajiliwa kikamilifu. Sasa unaweza kuingia mfomoni.");
+            alert("Hongera! Umesajiliwa kikamilifu.");
             switchForm('login');
         }
 
@@ -272,28 +399,91 @@
                 document.getElementById('user-name-display').innerText = user.name;
                 document.getElementById('user-role-badge').innerText = user.role;
 
-                loadTeachersTable();
+                loadAllData();
             } else {
-                alert("Haujaweza kuingia! Akaunti haijapatikana au neno la siri sio sahihi. Kama hujajisajili, tafadhali bonyeza 'Jisajili Kama Mwalimu'.");
+                alert("Akaunti haijapatikana au neno la siri si sahihi.");
             }
         }
 
-        function loadTeachersTable() {
-            let users = JSON.parse(localStorage.getItem('msrms_users')) || [];
-            document.getElementById('stat-teachers-count').innerText = users.length;
+        function handleSaveStudent(e) {
+            e.preventDefault();
+            const name = document.getElementById('std-fullname').value.trim();
+            const prem = document.getElementById('std-prem').value.trim();
+            const gender = document.getElementById('std-gender').value;
+            const cls = document.getElementById('std-class').value;
 
-            const tbody = document.getElementById('teachers-table-body');
-            tbody.innerHTML = '';
+            let students = JSON.parse(localStorage.getItem('msrms_students')) || [];
+            students.push({ prem, name, gender, cls });
+            localStorage.setItem('msrms_students', JSON.stringify(students));
+
+            alert("Mwanafunzi amesajiliwa kikamilifu!");
+            document.getElementById('std-fullname').value = '';
+            document.getElementById('std-prem').value = '';
+            loadAllData();
+        }
+
+        function handleSaveResults(e) {
+            e.preventDefault();
+            const stdPrem = document.getElementById('res-student-select').value;
+            const exam = document.getElementById('res-exam-type').value;
+
+            const kisw = Number(document.getElementById('m-kisw').value) || 0;
+            const eng = Number(document.getElementById('m-eng').value) || 0;
+            const maarifa = Number(document.getElementById('m-maarifa').value) || 0;
+            const hisabati = Number(document.getElementById('m-hisabati').value) || 0;
+            const sayansi = Number(document.getElementById('m-sayansi').value) || 0;
+
+            const total = kisw + eng + maarifa + hisabati + sayansi;
+            const avg = (total / 5).toFixed(1);
+
+            let grade = 'F';
+            if (avg >= 81) grade = 'A';
+            else if (avg >= 61) grade = 'B';
+            else if (avg >= 41) grade = 'C';
+            else if (avg >= 21) grade = 'D';
+
+            let students = JSON.parse(localStorage.getItem('msrms_students')) || [];
+            const std = students.find(s => s.prem === stdPrem);
+
+            let results = JSON.parse(localStorage.getItem('msrms_results')) || [];
+            results.push({ studentName: std ? std.name : stdPrem, exam, total, avg, grade });
+            localStorage.setItem('msrms_results', JSON.stringify(results));
+
+            alert("Matokeo yamehifadhiwa vyema!");
+            loadAllData();
+        }
+
+        function loadAllData() {
+            let users = JSON.parse(localStorage.getItem('msrms_users')) || [];
+            let students = JSON.parse(localStorage.getItem('msrms_students')) || [];
+            let results = JSON.parse(localStorage.getItem('msrms_results')) || [];
+
+            document.getElementById('stat-teachers-count').innerText = users.length;
+            document.getElementById('stat-students-count').innerText = students.length;
+
+            // Load Teachers
+            const tBody = document.getElementById('teachers-table-body');
+            tBody.innerHTML = '';
             users.forEach(u => {
-                tbody.innerHTML += `
-                    <tr class="border-b hover:bg-slate-50">
-                        <td class="p-3 font-semibold">${u.name}</td>
-                        <td class="p-3">${u.phone}</td>
-                        <td class="p-3">${u.classAssigned}</td>
-                        <td class="p-3 font-mono text-blue-600">${u.username}</td>
-                        <td class="p-3"><span class="bg-slate-200 text-slate-800 text-xs px-2 py-1 rounded font-bold">${u.role}</span></td>
-                    </tr>
-                `;
+                tBody.innerHTML += `<tr class="border-b hover:bg-slate-50"><td class="p-3 font-semibold">${u.name}</td><td class="p-3">${u.phone}</td><td class="p-3">${u.classAssigned}</td><td class="p-3 font-mono text-blue-600">${u.username}</td><td class="p-3"><span class="bg-slate-200 text-slate-800 text-xs px-2 py-1 rounded font-bold">${u.role}</span></td></tr>`;
+            });
+
+            // Load Students Table & Select Dropdown
+            const sBody = document.getElementById('students-table-body');
+            const sSelect = document.getElementById('res-student-select');
+            sBody.innerHTML = '';
+            sSelect.innerHTML = '<option value="">-- Chagua Mwanafunzi --</option>';
+
+            students.forEach(s => {
+                sBody.innerHTML += `<tr class="border-b hover:bg-slate-50"><td class="p-3 font-mono text-xs">${s.prem}</td><td class="p-3 font-semibold">${s.name}</td><td class="p-3">${s.gender}</td><td class="p-3">${s.cls}</td></tr>`;
+                sSelect.innerHTML += `<option value="${s.prem}">${s.name} (${s.cls})</option>`;
+            });
+
+            // Load Results Table
+            const rBody = document.getElementById('results-table-body');
+            rBody.innerHTML = '';
+            results.forEach(r => {
+                rBody.innerHTML += `<tr class="border-b hover:bg-slate-50"><td class="p-3 font-semibold">${r.studentName}</td><td class="p-3">${r.exam}</td><td class="p-3 font-bold">${r.total}</td><td class="p-3 text-blue-600 font-bold">${r.avg}</td><td class="p-3"><span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded font-black">${r.grade}</span></td></tr>`;
             });
         }
 
@@ -311,4 +501,3 @@
     </script>
 </body>
 </html>
-
