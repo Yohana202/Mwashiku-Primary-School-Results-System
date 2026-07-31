@@ -131,10 +131,10 @@
                     <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
                 </button>
                 <button onclick="switchTab('students')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
-                    <i class="fa-solid fa-user-graduate w-5"></i> Wanafunzi
+                    <i class="fa-solid fa-user-graduate w-5"></i> Wanafunzi (Excel)
                 </button>
                 <button onclick="switchTab('results')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
-                    <i class="fa-solid fa-file-signature w-5"></i> Matokeo & Maoni
+                    <i class="fa-solid fa-file-signature w-5"></i> Matokeo & SMS
                 </button>
                 <button onclick="switchTab('teachers')" id="menu-teachers" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
                     <i class="fa-solid fa-chalkboard-user w-5"></i> Walimu Waliosajiliwa
@@ -181,16 +181,33 @@
 
             <!-- VIEW: WANAFUNZI -->
             <div id="view-students" class="p-6 hidden space-y-6">
+                <!-- EXCEL TEMPLATE / UPLOAD SECTION -->
+                <div class="bg-blue-50 p-6 rounded-xl border border-blue-200 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div>
+                        <h3 class="font-bold text-blue-900 text-base"><i class="fa-solid fa-file-excel text-emerald-600 mr-2"></i>Sajili Wanafunzi Kwa Mkupuo (Excel CSV)</h3>
+                        <p class="text-xs text-slate-600 mt-1">Pakua template, jaza majina ya wanafunzi offline, kisha u-upload hapa kuokoa muda.</p>
+                    </div>
+                    <div class="flex gap-2 w-full md:w-auto">
+                        <button onclick="downloadStudentTemplate()" class="bg-emerald-600 text-white text-xs font-bold px-4 py-2.5 rounded-lg hover:bg-emerald-700 transition flex items-center gap-2">
+                            <i class="fa-solid fa-download"></i> Pakua Template
+                        </button>
+                        <label class="bg-blue-600 text-white text-xs font-bold px-4 py-2.5 rounded-lg hover:bg-blue-700 transition cursor-pointer flex items-center gap-2">
+                            <i class="fa-solid fa-upload"></i> Upload File (CSV)
+                            <input type="file" accept=".csv" class="hidden" onchange="uploadStudentsCSV(event)">
+                        </label>
+                    </div>
+                </div>
+
                 <div class="bg-white p-6 rounded-xl shadow border">
-                    <h2 class="text-lg font-bold text-slate-800 mb-4"><i class="fa-solid fa-user-plus text-blue-600 mr-2"></i>Sajili Mwanafunzi Mpya</h2>
+                    <h2 class="text-sm font-bold text-slate-800 mb-3">Au Sajili Mwanafunzi Mmoja Mmoja</h2>
                     <form onsubmit="handleSaveStudent(event)" class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Jina Kamili la Mwanafunzi</label>
-                            <input type="text" id="std-fullname" required placeholder="Mfano: Baraka Juma" class="w-full px-3 py-2 border rounded-lg text-sm">
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Jina Kamili</label>
+                            <input type="text" id="std-fullname" placeholder="Mfano: Baraka Juma" required class="w-full px-3 py-2 border rounded-lg text-sm">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Namba ya Mtihani/Prem</label>
-                            <input type="text" id="std-prem" required placeholder="Mfano: MW-001" class="w-full px-3 py-2 border rounded-lg text-sm">
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Prem No/Namba</label>
+                            <input type="text" id="std-prem" placeholder="MW-001" required class="w-full px-3 py-2 border rounded-lg text-sm">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1">Jinsia</label>
@@ -209,13 +226,13 @@
                             </select>
                         </div>
                         <div class="md:col-span-4 text-right">
-                            <button type="submit" class="bg-blue-600 text-white font-bold px-6 py-2 rounded-lg hover:bg-blue-700">Hifadhi Mwanafunzi</button>
+                            <button type="submit" class="bg-slate-800 text-white font-bold text-xs px-5 py-2.5 rounded-lg hover:bg-slate-900">Hifadhi</button>
                         </div>
                     </form>
                 </div>
 
                 <div class="bg-white rounded-xl shadow border overflow-hidden">
-                    <div class="p-4 bg-slate-50 border-b"><h3 class="font-bold text-slate-800">Orodha ya Wanafunzi Waliosajiliwa</h3></div>
+                    <div class="p-4 bg-slate-50 border-b"><h3 class="font-bold text-slate-800">Orodha ya Wanafunzi</h3></div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-left">
                             <thead class="bg-slate-100 font-bold text-slate-700">
@@ -232,68 +249,39 @@
                 </div>
             </div>
 
-            <!-- VIEW: MATOKEO & MAONI -->
+            <!-- VIEW: MATOKEO & SMS -->
             <div id="view-results" class="p-6 hidden space-y-6">
-                <div class="bg-white p-6 rounded-xl shadow border">
-                    <h2 class="text-lg font-bold text-slate-800 mb-4"><i class="fa-solid fa-file-pen text-emerald-600 mr-2"></i>Ingiza Matokeo ya Mwanafunzi</h2>
-                    <form onsubmit="handleSaveResults(event)" class="space-y-4">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Chagua Mwanafunzi</label>
-                                <select id="res-student-select" required class="w-full px-3 py-2 border rounded-lg text-sm">
-                                    <option value="">-- Chagua Mwanafunzi --</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Aina ya Mtihani</label>
-                                <select id="res-exam-type" required class="w-full px-3 py-2 border rounded-lg text-sm">
-                                    <option value="Mid-Term">Mid-Term Exam</option>
-                                    <option value="Terminal">Terminal Exam</option>
-                                    <option value="Annual">Annual Exam</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-2 md:grid-cols-5 gap-3 bg-slate-50 p-4 rounded-lg border">
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Kiswahili</label>
-                                <input type="number" min="0" max="100" id="m-kisw" placeholder="0-100" class="w-full px-2 py-1 border rounded text-sm">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">English</label>
-                                <input type="number" min="0" max="100" id="m-eng" placeholder="0-100" class="w-full px-2 py-1 border rounded text-sm">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Maarifa</label>
-                                <input type="number" min="0" max="100" id="m-maarifa" placeholder="0-100" class="w-full px-2 py-1 border rounded text-sm">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Hisabati</label>
-                                <input type="number" min="0" max="100" id="m-hisabati" placeholder="0-100" class="w-full px-2 py-1 border rounded text-sm">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Sayansi</label>
-                                <input type="number" min="0" max="100" id="m-sayansi" placeholder="0-100" class="w-full px-2 py-1 border rounded text-sm">
-                            </div>
-                        </div>
-
-                        <div class="text-right">
-                            <button type="submit" class="bg-emerald-600 text-white font-bold px-6 py-2 rounded-lg hover:bg-emerald-700">Hifadhi Matokeo</button>
-                        </div>
-                    </form>
+                <!-- EXCEL MATOKEO UPLOAD SECTION -->
+                <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-200 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div>
+                        <h3 class="font-bold text-emerald-900 text-base"><i class="fa-solid fa-file-invoice text-emerald-600 mr-2"></i>Upload Matokeo Ya Darasa Zima (Excel CSV)</h3>
+                        <p class="text-xs text-slate-600 mt-1">Pakua template yenye orodha ya wanafunzi, jaza maksi za masomo zote, kisha u-upload mfumo upige wastani na daraja.</p>
+                    </div>
+                    <div class="flex gap-2 w-full md:w-auto">
+                        <button onclick="downloadResultsTemplate()" class="bg-slate-800 text-white text-xs font-bold px-4 py-2.5 rounded-lg hover:bg-slate-900 transition flex items-center gap-2">
+                            <i class="fa-solid fa-download"></i> Pakua Template Matokeo
+                        </button>
+                        <label class="bg-emerald-600 text-white text-xs font-bold px-4 py-2.5 rounded-lg hover:bg-emerald-700 transition cursor-pointer flex items-center gap-2">
+                            <i class="fa-solid fa-upload"></i> Upload Matokeo (CSV)
+                            <input type="file" accept=".csv" class="hidden" onchange="uploadResultsCSV(event)">
+                        </label>
+                    </div>
                 </div>
 
                 <div class="bg-white rounded-xl shadow border overflow-hidden">
-                    <div class="p-4 bg-slate-50 border-b"><h3 class="font-bold text-slate-800">Matokeo Yaliyorekodiwa</h3></div>
+                    <div class="p-4 bg-slate-50 border-b flex justify-between items-center">
+                        <h3 class="font-bold text-slate-800">Matokeo Yaliyorekodiwa & Kutuma Kwa Wazazi</h3>
+                    </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-left">
                             <thead class="bg-slate-100 font-bold text-slate-700">
                                 <tr>
-                                    <th class="p-3">Jina</th>
+                                    <th class="p-3">Jina la Mwanafunzi</th>
                                     <th class="p-3">Mtihani</th>
                                     <th class="p-3">Jumla</th>
                                     <th class="p-3">Wastani</th>
                                     <th class="p-3">Daraja</th>
+                                    <th class="p-3 text-center">Tuma Kwa Mzazi</th>
                                 </tr>
                             </thead>
                             <tbody id="results-table-body"></tbody>
@@ -405,6 +393,46 @@
             }
         }
 
+        /* --- EXCEL TEMPLATE / CSV FUNCTIONS FOR STUDENTS --- */
+        function downloadStudentTemplate() {
+            let csvContent = "data:text/csv;charset=utf-8,Prem_No,Jina_Kamili,Jinsia,Darasa\n";
+            csvContent += "MW-001,Baraka Juma,M,Darasa VII\nMW-002,Amina Salum,K,Darasa VII";
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "Template_Usajili_Wanafunzi.csv");
+            document.body.appendChild(link);
+            link.click();
+        }
+
+        function uploadStudentsCSV(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const text = e.target.result;
+                const lines = text.split('\n');
+                let students = JSON.parse(localStorage.getItem('msrms_students')) || [];
+
+                for (let i = 1; i < lines.length; i++) {
+                    const row = lines[i].split(',');
+                    if (row.length >= 4 && row[0].trim() !== '') {
+                        students.push({
+                            prem: row[0].trim(),
+                            name: row[1].trim(),
+                            gender: row[2].trim(),
+                            cls: row[3].trim()
+                        });
+                    }
+                }
+                localStorage.setItem('msrms_students', JSON.stringify(students));
+                alert("Wanafunzi wote kwenye Excel file wamesajiliwa kikamilifu!");
+                loadAllData();
+            };
+            reader.readAsText(file);
+        }
+
         function handleSaveStudent(e) {
             e.preventDefault();
             const name = document.getElementById('std-fullname').value.trim();
@@ -422,35 +450,70 @@
             loadAllData();
         }
 
-        function handleSaveResults(e) {
-            e.preventDefault();
-            const stdPrem = document.getElementById('res-student-select').value;
-            const exam = document.getElementById('res-exam-type').value;
-
-            const kisw = Number(document.getElementById('m-kisw').value) || 0;
-            const eng = Number(document.getElementById('m-eng').value) || 0;
-            const maarifa = Number(document.getElementById('m-maarifa').value) || 0;
-            const hisabati = Number(document.getElementById('m-hisabati').value) || 0;
-            const sayansi = Number(document.getElementById('m-sayansi').value) || 0;
-
-            const total = kisw + eng + maarifa + hisabati + sayansi;
-            const avg = (total / 5).toFixed(1);
-
-            let grade = 'F';
-            if (avg >= 81) grade = 'A';
-            else if (avg >= 61) grade = 'B';
-            else if (avg >= 41) grade = 'C';
-            else if (avg >= 21) grade = 'D';
-
+        /* --- EXCEL TEMPLATE / CSV FUNCTIONS FOR RESULTS --- */
+        function downloadResultsTemplate() {
             let students = JSON.parse(localStorage.getItem('msrms_students')) || [];
-            const std = students.find(s => s.prem === stdPrem);
+            if(students.length === 0) {
+                alert("Tafadhali sajili wanafunzi kwanza kabla ya kupakua template ya matokeo!");
+                return;
+            }
+            let csvContent = "data:text/csv;charset=utf-8,Prem_No,Jina_Mwanafunzi,Mtihani,Kiswahili,English,Maarifa,Hisabati,Sayansi\n";
+            students.forEach(s => {
+                csvContent += `${s.prem},${s.name},Terminal Exam,0,0,0,0,0\n`;
+            });
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "Template_Matokeo_Mwashiku.csv");
+            document.body.appendChild(link);
+            link.click();
+        }
 
-            let results = JSON.parse(localStorage.getItem('msrms_results')) || [];
-            results.push({ studentName: std ? std.name : stdPrem, exam, total, avg, grade });
-            localStorage.setItem('msrms_results', JSON.stringify(results));
+        function uploadResultsCSV(event) {
+            const file = event.target.files[0];
+            if (!file) return;
 
-            alert("Matokeo yamehifadhiwa vyema!");
-            loadAllData();
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const text = e.target.result;
+                const lines = text.split('\n');
+                let results = JSON.parse(localStorage.getItem('msrms_results')) || [];
+
+                for (let i = 1; i < lines.length; i++) {
+                    const row = lines[i].split(',');
+                    if (row.length >= 8 && row[0].trim() !== '') {
+                        const name = row[1].trim();
+                        const exam = row[2].trim();
+                        const kisw = Number(row[3]) || 0;
+                        const eng = Number(row[4]) || 0;
+                        const maarifa = Number(row[5]) || 0;
+                        const hisabati = Number(row[6]) || 0;
+                        const sayansi = Number(row[7]) || 0;
+
+                        const total = kisw + eng + maarifa + hisabati + sayansi;
+                        const avg = (total / 5).toFixed(1);
+
+                        let grade = 'F';
+                        if (avg >= 81) grade = 'A';
+                        else if (avg >= 61) grade = 'B';
+                        else if (avg >= 41) grade = 'C';
+                        else if (avg >= 21) grade = 'D';
+
+                        results.push({ studentName: name, exam, total, avg, grade });
+                    }
+                }
+                localStorage.setItem('msrms_results', JSON.stringify(results));
+                alert("Matokeo ya Excel yamehifadhiwa vyema!");
+                loadAllData();
+            };
+            reader.readAsText(file);
+        }
+
+        /* --- SEND RESULTS TO PARENTS VIA WHATSAPP / SMS --- */
+        function sendSMS(studentName, exam, avg, grade) {
+            const message = `SHULE YA MSINGI MWASHIKU: Matokeo ya Mwanafunzi ${studentName} kwa mtihani wa ${exam}: Wastani ni ${avg} (Daraja ${grade}). Ahsante - Mwalimu Mkuu.`;
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://api.whatsapp.com/send?text=${encodedMessage}`, '_blank');
         }
 
         function loadAllData() {
@@ -468,22 +531,31 @@
                 tBody.innerHTML += `<tr class="border-b hover:bg-slate-50"><td class="p-3 font-semibold">${u.name}</td><td class="p-3">${u.phone}</td><td class="p-3">${u.classAssigned}</td><td class="p-3 font-mono text-blue-600">${u.username}</td><td class="p-3"><span class="bg-slate-200 text-slate-800 text-xs px-2 py-1 rounded font-bold">${u.role}</span></td></tr>`;
             });
 
-            // Load Students Table & Select Dropdown
+            // Load Students Table
             const sBody = document.getElementById('students-table-body');
-            const sSelect = document.getElementById('res-student-select');
             sBody.innerHTML = '';
-            sSelect.innerHTML = '<option value="">-- Chagua Mwanafunzi --</option>';
-
             students.forEach(s => {
                 sBody.innerHTML += `<tr class="border-b hover:bg-slate-50"><td class="p-3 font-mono text-xs">${s.prem}</td><td class="p-3 font-semibold">${s.name}</td><td class="p-3">${s.gender}</td><td class="p-3">${s.cls}</td></tr>`;
-                sSelect.innerHTML += `<option value="${s.prem}">${s.name} (${s.cls})</option>`;
             });
 
             // Load Results Table
             const rBody = document.getElementById('results-table-body');
             rBody.innerHTML = '';
             results.forEach(r => {
-                rBody.innerHTML += `<tr class="border-b hover:bg-slate-50"><td class="p-3 font-semibold">${r.studentName}</td><td class="p-3">${r.exam}</td><td class="p-3 font-bold">${r.total}</td><td class="p-3 text-blue-600 font-bold">${r.avg}</td><td class="p-3"><span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded font-black">${r.grade}</span></td></tr>`;
+                rBody.innerHTML += `
+                    <tr class="border-b hover:bg-slate-50">
+                        <td class="p-3 font-semibold">${r.studentName}</td>
+                        <td class="p-3">${r.exam}</td>
+                        <td class="p-3 font-bold">${r.total}</td>
+                        <td class="p-3 text-blue-600 font-bold">${r.avg}</td>
+                        <td class="p-3"><span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded font-black">${r.grade}</span></td>
+                        <td class="p-3 text-center">
+                            <button onclick="sendSMS('${r.studentName}', '${r.exam}', '${r.avg}', '${r.grade}')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition flex items-center justify-center gap-1 mx-auto">
+                                <i class="fa-brands fa-whatsapp"></i> Tuma Ujumbe
+                            </button>
+                        </td>
+                    </tr>
+                `;
             });
         }
 
