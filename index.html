@@ -14,7 +14,7 @@
 </head>
 <body class="bg-slate-900 font-sans text-slate-800 min-h-screen">
 
-    <!-- WELCOME / LANDING PAGE SECTION -->
+    <!-- WELCOME / LANDING PAGE SECTION (ALWAYS SHOWN FIRST) -->
     <div id="welcome-section" class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-950 via-slate-900 to-blue-900 text-white">
         <div class="max-w-xl w-full bg-slate-800/80 backdrop-blur-md p-8 rounded-2xl border border-slate-700 shadow-2xl text-center">
             <div class="bg-blue-600 text-white w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl shadow-lg border-2 border-blue-400">
@@ -44,7 +44,7 @@
             </div>
 
             <div class="mt-8 text-xs text-slate-400 border-t border-slate-800 pt-4">
-                <p>Mwalimu Mkuu: <strong>Innocent Valentine Silayo</strong> (0653708999)</p>
+                <p>Mwalimu Mkuu: <strong>Innocent Valentine</strong> (0653708999)</p>
             </div>
         </div>
     </div>
@@ -422,34 +422,54 @@
                 </div>
             </div>
 
-            <!-- VIEW: RIPOTI NA RANKING (PDF / PRINT) -->
+            <!-- VIEW: RIPOTI NA RANKING (PDF / PRINT WITH CLASS FILTER) -->
             <div id="view-reports" class="p-6 hidden space-y-6">
-                <div class="bg-white p-6 rounded-xl shadow border">
-                    <h2 class="text-lg font-bold text-slate-800 mb-2"><i class="fa-solid fa-print text-blue-600 mr-2"></i>Kudownload & Kuprint Ripoti na Ranking</h2>
-                    <p class="text-xs text-slate-500 mb-6">Chagua aina ya ripoti unayotaka kudownload kwa ajili ya darasa husika:</p>
+                <div class="bg-white p-6 rounded-xl shadow border space-y-6">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-800 mb-1"><i class="fa-solid fa-print text-blue-600 mr-2"></i>Kudownload & Kuprint Ripoti na Ranking</h2>
+                        <p class="text-xs text-slate-500">Chagua darasa unalotaka kupata ripoti yake kisha pakua PDF:</p>
+                    </div>
+
+                    <!-- SELECT CLASS & EXAM FILTER FOR REPORT -->
+                    <div class="bg-slate-50 p-4 rounded-xl border flex flex-col sm:flex-row items-center gap-4">
+                        <div class="w-full sm:w-1/2">
+                            <label class="block text-xs font-bold text-slate-700 mb-1"><i class="fa-solid fa-filter mr-1"></i>Chagua Darasa la Kupakulia Ripoti:</label>
+                            <select id="report-select-class" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none">
+                                <option value="ALL">Madarasa Yote Pamoja</option>
+                                <option value="Awali">Awali</option>
+                                <option value="Darasa I">Darasa I</option>
+                                <option value="Darasa II">Darasa II</option>
+                                <option value="Darasa III">Darasa III</option>
+                                <option value="Darasa IV">Darasa IV</option>
+                                <option value="Darasa V">Darasa V</option>
+                                <option value="Darasa VI">Darasa VI</option>
+                                <option value="Darasa VII" selected>Darasa VII</option>
+                            </select>
+                        </div>
+                    </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="p-4 border rounded-xl bg-slate-50 hover:bg-blue-50 transition border-slate-200">
                             <h3 class="font-bold text-sm text-slate-800 mb-1"><i class="fa-solid fa-list-ol text-blue-600 mr-2"></i>Ranking ya Wanafunzi</h3>
-                            <p class="text-xs text-slate-500 mb-4">Pakua orodha ya wanafunzi iliyopangwa kuanzia wa 1 hadi wa mwisho kulingana na wastani.</p>
-                            <button onclick="downloadStudentRankingPDF()" class="w-full bg-blue-600 text-white font-bold text-xs py-2 rounded-lg hover:bg-blue-700">
-                                <i class="fa-solid fa-download mr-1"></i> Pakua PDF Ranking
+                            <p class="text-xs text-slate-500 mb-4">Pakua orodha ya wanafunzi wa darasa lililochaguliwa iliyopangwa kuanzia wa 1 hadi wa mwisho.</p>
+                            <button onclick="downloadStudentRankingPDF()" class="w-full bg-blue-600 text-white font-bold text-xs py-2.5 rounded-lg hover:bg-blue-700 shadow transition flex items-center justify-center gap-1">
+                                <i class="fa-solid fa-download"></i> Pakua PDF Ranking
                             </button>
                         </div>
 
                         <div class="p-4 border rounded-xl bg-slate-50 hover:bg-emerald-50 transition border-slate-200">
                             <h3 class="font-bold text-sm text-slate-800 mb-1"><i class="fa-solid fa-book text-emerald-600 mr-2"></i>Ranking ya Masomo</h3>
-                            <p class="text-xs text-slate-500 mb-4">Pakua ripoti inayoonyesha masomo yaliyofaulishwa zaidi (Subject Performance Ranking).</p>
-                            <button onclick="downloadSubjectRankingPDF()" class="w-full bg-emerald-600 text-white font-bold text-xs py-2 rounded-lg hover:bg-emerald-700">
-                                <i class="fa-solid fa-download mr-1"></i> Pakua PDF Masomo
+                            <p class="text-xs text-slate-500 mb-4">Pakua ripoti inayoonyesha masomo yaliyofaulishwa zaidi kwa darasa hili.</p>
+                            <button onclick="downloadSubjectRankingPDF()" class="w-full bg-emerald-600 text-white font-bold text-xs py-2.5 rounded-lg hover:bg-emerald-700 shadow transition flex items-center justify-center gap-1">
+                                <i class="fa-solid fa-download"></i> Pakua PDF Masomo
                             </button>
                         </div>
 
                         <div class="p-4 border rounded-xl bg-slate-50 hover:bg-purple-50 transition border-slate-200">
                             <h3 class="font-bold text-sm text-slate-800 mb-1"><i class="fa-solid fa-chart-bar text-purple-600 mr-2"></i>Ufaulu wa Kila Somo</h3>
-                            <p class="text-xs text-slate-500 mb-4">Pakua ripoti inayochanganua idadi ya A, B, C, D, F kwa kila somo la mtihani.</p>
-                            <button onclick="downloadSubjectBreakdownPDF()" class="w-full bg-purple-600 text-white font-bold text-xs py-2 rounded-lg hover:bg-purple-700">
-                                <i class="fa-solid fa-download mr-1"></i> Pakua PDF Ufaulu
+                            <p class="text-xs text-slate-500 mb-4">Pakua uchanganuzi wa idadi ya A, B, C, D, F kwa kila somo katika darasa lililochaguliwa.</p>
+                            <button onclick="downloadSubjectBreakdownPDF()" class="w-full bg-purple-600 text-white font-bold text-xs py-2.5 rounded-lg hover:bg-purple-700 shadow transition flex items-center justify-center gap-1">
+                                <i class="fa-solid fa-download"></i> Pakua PDF Ufaulu
                             </button>
                         </div>
                     </div>
@@ -481,9 +501,8 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // FIREBASE CONFIGURATION
         const firebaseConfig = {
             apiKey: "AIzaSyDzMmcwSYRZg_kGXqixZqjQemAG7k4twIE",
             authDomain: "family-goals-system.firebaseapp.com",
@@ -505,7 +524,7 @@
         let examChartInstance = null;
         let progressChartInstance = null;
 
-        // Auth listeners
+        // AUTH: LOGIN FORM SUBMISSION
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('login-email').value.trim();
@@ -513,11 +532,14 @@
 
             try {
                 await signInWithEmailAndPassword(auth, email, pass);
+                closeAuthModal();
+                showAppDashboard();
             } catch (err) {
-                alert("Imeshindwa Kuingia: " + err.message);
+                alert("Imeshindwa Kuingia: Barua pepe au Password sio sahihi.");
             }
         });
 
+        // AUTH: REGISTER FORM SUBMISSION
         document.getElementById('register-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('reg-fullname').value.trim();
@@ -532,32 +554,46 @@
                     name, phone, classAssigned: cls, email, role: "Mwalimu"
                 });
                 alert("Usajili wa Mwalimu umekamilika kikamilifu!");
+                closeAuthModal();
+                showAppDashboard();
             } catch (err) {
                 alert("Imeshindwa kusajili: " + err.message);
             }
         });
 
+        // FORCE LANDING PAGE FIRST - NO DIRECT AUTO LOGIN
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
-                document.getElementById('auth-modal').classList.add('hidden');
-                document.getElementById('welcome-section').classList.add('hidden');
-                document.getElementById('app-section').classList.remove('hidden');
-
-                document.getElementById('user-welcome-header').innerText = `Karibu, ${user.email}`;
-                document.getElementById('user-name-display').innerText = user.email;
-
-                await loadAllCloudData();
             } else {
                 currentUser = null;
-                document.getElementById('welcome-section').classList.remove('hidden');
-                document.getElementById('app-section').classList.add('hidden');
+                showWelcomeLandingPage();
             }
         });
 
-        document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
+        function showAppDashboard() {
+            if (currentUser) {
+                document.getElementById('welcome-section').classList.add('hidden');
+                document.getElementById('app-section').classList.remove('hidden');
 
-        // Save Single Student to Firestore
+                document.getElementById('user-welcome-header').innerText = `Karibu, ${currentUser.email}`;
+                document.getElementById('user-name-display').innerText = currentUser.email;
+
+                loadAllCloudData();
+            }
+        }
+
+        function showWelcomeLandingPage() {
+            document.getElementById('welcome-section').classList.remove('hidden');
+            document.getElementById('app-section').classList.add('hidden');
+        }
+
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            signOut(auth);
+            showWelcomeLandingPage();
+        });
+
+        // Save Single Student
         document.getElementById('add-student-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('std-fullname').value.trim();
@@ -822,7 +858,6 @@
                 };
             });
 
-            // Populate Class Progress Table
             const tbody = document.getElementById('class-progress-table-body');
             tbody.innerHTML = '';
 
@@ -843,7 +878,6 @@
                 `;
             });
 
-            // Render Class Progress Comparison Chart
             const ctx = document.getElementById('classProgressChart').getContext('2d');
             if (progressChartInstance) progressChartInstance.destroy();
 
@@ -867,7 +901,7 @@
             });
         }
 
-        // Expose SMS & PDF Functions
+        // SMS & PDF FUNCTIONS WITH CLASS FILTERING
         window.sendNormalSMS = function(studentName, exam, avg, grade) {
             const msg = `SHULE YA MSINGI MWASHIKU: Matokeo ya Mwanafunzi ${studentName} kwa mtihani wa ${exam}: Wastani ni ${avg} (Daraja ${grade}). Ahsante - Mwalimu Mkuu.`;
             window.open(`sms:?body=${encodeURIComponent(msg)}`, '_self');
@@ -878,15 +912,27 @@
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
         };
 
+        // PDF 1: STUDENT RANKING PER SELECTED CLASS
         window.downloadStudentRankingPDF = function() {
+            const selectedClass = document.getElementById('report-select-class').value;
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
+
+            let targetResults = loadedResults;
+            if (selectedClass !== 'ALL') {
+                targetResults = loadedResults.filter(r => (r.cls || 'Darasa VII') === selectedClass);
+            }
+
+            if (targetResults.length === 0) {
+                return alert(`Hakuna matokeo yaliyorekodiwa kwa ajili ya: ${selectedClass}`);
+            }
+
             doc.setFontSize(14);
             doc.text("SHULE YA MSINGI MWASHIKU", 14, 15);
             doc.setFontSize(11);
-            doc.text("RIPOTI YA RANKING YA WANAFUNZI (POSITION)", 14, 22);
+            doc.text(`RIPOTI YA RANKING YA WANAFUNZI (${selectedClass.toUpperCase()})`, 14, 22);
 
-            const rows = loadedResults.map((r, idx) => [
+            const rows = targetResults.map((r, idx) => [
                 idx + 1, r.studentName, r.cls || 'Darasa VII', r.exam, r.total, r.avg, r.grade
             ]);
 
@@ -898,18 +944,28 @@
                 headStyles: { fillColor: [2, 132, 199] }
             });
 
-            doc.save("Ranking_ya_Wanafunzi_Mwashiku.pdf");
+            doc.save(`Ranking_Wanafunzi_${selectedClass.replace(/\s+/g, '_')}.pdf`);
         };
 
+        // PDF 2: SUBJECT RANKING PER SELECTED CLASS
         window.downloadSubjectRankingPDF = function() {
+            const selectedClass = document.getElementById('report-select-class').value;
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
+
+            let targetResults = loadedResults;
+            if (selectedClass !== 'ALL') {
+                targetResults = loadedResults.filter(r => (r.cls || 'Darasa VII') === selectedClass);
+            }
+
+            if (targetResults.length === 0) {
+                return alert(`Hakuna matokeo yaliyorekodiwa kwa ajili ya: ${selectedClass}`);
+            }
+
             doc.setFontSize(14);
             doc.text("SHULE YA MSINGI MWASHIKU", 14, 15);
             doc.setFontSize(11);
-            doc.text("RANKING YA MASOMO (SUBJECT PERFORMANCE)", 14, 22);
-
-            if (loadedResults.length === 0) return alert("Hakuna matokeo yaliyorekodiwa!");
+            doc.text(`RANKING YA MASOMO (${selectedClass.toUpperCase()})`, 14, 22);
 
             const subjects = [
                 { name: 'Kiswahili', key: 'kisw' },
@@ -920,8 +976,8 @@
             ];
 
             const subjectAvgs = subjects.map(s => {
-                const totalMarks = loadedResults.reduce((sum, r) => sum + (r[s.key] || 0), 0);
-                const avg = (totalMarks / loadedResults.length).toFixed(1);
+                const totalMarks = targetResults.reduce((sum, r) => sum + (r[s.key] || 0), 0);
+                const avg = (totalMarks / targetResults.length).toFixed(1);
                 return { name: s.name, avg: Number(avg) };
             });
 
@@ -936,16 +992,28 @@
                 headStyles: { fillColor: [16, 185, 129] }
             });
 
-            doc.save("Ranking_ya_Masomo_Mwashiku.pdf");
+            doc.save(`Ranking_Masomo_${selectedClass.replace(/\s+/g, '_')}.pdf`);
         };
 
+        // PDF 3: SUBJECT BREAKDOWN (A, B, C, D, F) PER SELECTED CLASS
         window.downloadSubjectBreakdownPDF = function() {
+            const selectedClass = document.getElementById('report-select-class').value;
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
+
+            let targetResults = loadedResults;
+            if (selectedClass !== 'ALL') {
+                targetResults = loadedResults.filter(r => (r.cls || 'Darasa VII') === selectedClass);
+            }
+
+            if (targetResults.length === 0) {
+                return alert(`Hakuna matokeo yaliyorekodiwa kwa ajili ya: ${selectedClass}`);
+            }
+
             doc.setFontSize(14);
             doc.text("SHULE YA MSINGI MWASHIKU", 14, 15);
             doc.setFontSize(11);
-            doc.text("UFAULU WA WANAFUNZI KATIKA KILA SOMO (A, B, C, D, F)", 14, 22);
+            doc.text(`UFAULU WA KILA SOMO (${selectedClass.toUpperCase()})`, 14, 22);
 
             const subjects = [
                 { name: 'Kiswahili', key: 'kisw' },
@@ -957,7 +1025,7 @@
 
             const rows = subjects.map(s => {
                 let a = 0, b = 0, c = 0, d = 0, f = 0;
-                loadedResults.forEach(r => {
+                targetResults.forEach(r => {
                     const mark = r[s.key] || 0;
                     if (mark >= 81) a++;
                     else if (mark >= 61) b++;
@@ -965,7 +1033,7 @@
                     else if (mark >= 21) d++;
                     else f++;
                 });
-                return [s.name, a, b, c, d, f, loadedResults.length];
+                return [s.name, a, b, c, d, f, targetResults.length];
             });
 
             doc.autoTable({
@@ -976,7 +1044,7 @@
                 headStyles: { fillColor: [139, 92, 246] }
             });
 
-            doc.save("Ufaulu_wa_Kila_Somo_Mwashiku.pdf");
+            doc.save(`Ufaulu_Kila_Somo_${selectedClass.replace(/\s+/g, '_')}.pdf`);
         };
     </script>
 
