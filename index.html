@@ -6,6 +6,9 @@
     <title>SHULE YA MSINGI MWASHIKU - MSRMS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- jsPDF & AutoTable for PDF Download/Print -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body class="bg-slate-900 font-sans text-slate-800 min-h-screen">
 
@@ -17,12 +20,12 @@
             </div>
             
             <h1 class="text-2xl md:text-3xl font-black tracking-wide text-white mb-2">SHULE YA MSINGI MWASHIKU</h1>
-            <p class="text-xs font-semibold text-blue-400 uppercase tracking-widest mb-6">Student Results Management System (MSRMS)</p>
+            <p class="text-xs font-semibold text-blue-400 uppercase tracking-widest mb-6">Student Results Management System (MSRMS Cloud)</p>
             
             <div class="bg-slate-900/60 p-5 rounded-xl border border-slate-700 mb-6 text-left">
                 <h3 class="text-lg font-bold text-emerald-400 mb-1">Hello, Mwalimu!</h3>
                 <p class="text-slate-300 text-sm leading-relaxed">
-                    Karibu sana kwenye Mfumo wa Matokeo wa Shule ya Msingi Mwashiku.
+                    Karibu sana kwenye Mfumo wa Matokeo wa Shule ya Msingi Mwashiku uliounganishwa na Cloud Database.
                 </p>
                 <p class="text-xs text-amber-400 font-serif italic mt-3 border-t border-slate-800 pt-2 text-center">
                     "Elimu ni Ufunguo wa Maisha."
@@ -52,16 +55,16 @@
             <!-- LOGIN FORM -->
             <div id="form-login-container">
                 <h2 class="text-xl font-bold text-slate-800 mb-1">Kuingia Mfomoni</h2>
-                <p class="text-xs text-slate-500 mb-4">Ingiza username na password uliyojisajilia.</p>
+                <p class="text-xs text-slate-500 mb-4">Ingiza Email na Password uliyojisajilia.</p>
                 
-                <form onsubmit="handleLogin(event)" class="space-y-4">
+                <form id="login-form" class="space-y-4">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Username / Jina la Mtumiaji</label>
-                        <input type="text" id="login-username" required class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Barua Pepe (Email)</label>
+                        <input type="email" id="login-email" required placeholder="mwalimu@gmail.com" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">Password / Neno la Siri</label>
-                        <input type="password" id="login-password" required class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                        <input type="password" id="login-password" required placeholder="******" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none">
                     </div>
                     <button type="submit" class="w-full bg-blue-700 text-white font-bold py-2.5 rounded-lg hover:bg-blue-800 transition">
                         Ingia
@@ -73,9 +76,9 @@
             <!-- REGISTER FORM -->
             <div id="form-register-container" class="hidden">
                 <h2 class="text-xl font-bold text-slate-800 mb-1">Usajili wa Mwalimu Mpya</h2>
-                <p class="text-xs text-slate-500 mb-4">Jaza taarifa zako vizuri ili kufungua akaunti.</p>
+                <p class="text-xs text-slate-500 mb-4">Jaza taarifa zako vizuri ili kufungua akaunti ya Cloud.</p>
                 
-                <form onsubmit="handleRegister(event)" class="space-y-3">
+                <form id="register-form" class="space-y-3">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">Jina Kamili la Mwalimu</label>
                         <input type="text" id="reg-fullname" placeholder="Mfano: Mwalimu Malole" required class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
@@ -99,12 +102,12 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Username (Akaunti)</label>
-                        <input type="text" id="reg-username" required class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Email (Akaunti)</label>
+                        <input type="email" id="reg-email" required placeholder="mwalimu@gmail.com" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">Password</label>
-                        <input type="password" id="reg-password" required class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <input type="password" id="reg-password" required placeholder="******" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
                     </div>
                     <button type="submit" class="w-full bg-emerald-600 text-white font-bold py-2.5 rounded-lg hover:bg-emerald-700 transition">
                         Kamilisha Usajili
@@ -122,13 +125,13 @@
                 <div class="bg-blue-600 p-2 rounded-lg"><i class="fa-solid fa-school"></i></div>
                 <div>
                     <h2 class="font-bold text-sm leading-tight">MSINGI MWASHIKU</h2>
-                    <span class="text-[10px] text-blue-400 block font-mono">MSRMS v2.0</span>
+                    <span class="text-[10px] text-blue-400 block font-mono">MSRMS Cloud v3.0</span>
                 </div>
             </div>
 
             <nav class="p-4 space-y-1 text-sm">
                 <button onclick="switchTab('dashboard')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-800 text-white font-medium hover:bg-blue-700 transition">
-                    <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
+                    <i class="fa-solid fa-chart-pie w-5"></i> Dashboard & Analytics
                 </button>
                 <button onclick="switchTab('students')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
                     <i class="fa-solid fa-user-graduate w-5"></i> Wanafunzi (Excel)
@@ -136,10 +139,13 @@
                 <button onclick="switchTab('results')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
                     <i class="fa-solid fa-file-signature w-5"></i> Matokeo & SMS
                 </button>
+                <button onclick="switchTab('reports')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                    <i class="fa-solid fa-print w-5"></i> Ripoti & Ranking (PDF)
+                </button>
                 <button onclick="switchTab('teachers')" id="menu-teachers" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
                     <i class="fa-solid fa-chalkboard-user w-5"></i> Walimu Waliosajiliwa
                 </button>
-                <button onclick="logout()" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:bg-red-900/30 transition mt-6">
+                <button id="logout-btn" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:bg-red-900/30 transition mt-6">
                     <i class="fa-solid fa-right-from-bracket w-5"></i> Ondoka (Logout)
                 </button>
             </nav>
@@ -177,11 +183,61 @@
                         <h3 class="text-lg font-bold text-emerald-600 mt-1">2026 Academic Year</h3>
                     </div>
                 </div>
+
+                <!-- 10 BEST & 10 BOTTOM PUPILS SECTION -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- 10 BEST PUPILS -->
+                    <div class="bg-white p-5 rounded-xl shadow border">
+                        <div class="flex justify-between items-center mb-4 border-b pb-2">
+                            <h3 class="font-bold text-emerald-700 flex items-center gap-2">
+                                <i class="fa-solid fa-trophy text-amber-500"></i> Wanafunzi 10 Bora (Top 10)
+                            </h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-xs text-left">
+                                <thead class="bg-emerald-50 text-emerald-900 font-bold">
+                                    <tr>
+                                        <th class="p-2">Nafasi</th>
+                                        <th class="p-2">Jina la Mwanafunzi</th>
+                                        <th class="p-2">Wastani</th>
+                                        <th class="p-2">Daraja</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="top10-table-body">
+                                    <tr><td colspan="4" class="p-3 text-center text-slate-400">Hakuna matokeo yaliyorekodiwa bado.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 10 BOTTOM PUPILS -->
+                    <div class="bg-white p-5 rounded-xl shadow border">
+                        <div class="flex justify-between items-center mb-4 border-b pb-2">
+                            <h3 class="font-bold text-red-600 flex items-center gap-2">
+                                <i class="fa-solid fa-triangle-exclamation"></i> Wanafunzi 10 wa Chini (Bottom 10)
+                            </h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-xs text-left">
+                                <thead class="bg-red-50 text-red-900 font-bold">
+                                    <tr>
+                                        <th class="p-2">Nafasi</th>
+                                        <th class="p-2">Jina la Mwanafunzi</th>
+                                        <th class="p-2">Wastani</th>
+                                        <th class="p-2">Daraja</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bottom10-table-body">
+                                    <tr><td colspan="4" class="p-3 text-center text-slate-400">Hakuna matokeo yaliyorekodiwa bado.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- VIEW: WANAFUNZI -->
             <div id="view-students" class="p-6 hidden space-y-6">
-                <!-- EXCEL TEMPLATE / UPLOAD SECTION -->
                 <div class="bg-blue-50 p-6 rounded-xl border border-blue-200 flex flex-col md:flex-row justify-between items-center gap-4">
                     <div>
                         <h3 class="font-bold text-blue-900 text-base"><i class="fa-solid fa-file-excel text-emerald-600 mr-2"></i>Sajili Wanafunzi Kwa Mkupuo (Excel CSV)</h3>
@@ -193,14 +249,14 @@
                         </button>
                         <label class="bg-blue-600 text-white text-xs font-bold px-4 py-2.5 rounded-lg hover:bg-blue-700 transition cursor-pointer flex items-center gap-2">
                             <i class="fa-solid fa-upload"></i> Upload File (CSV)
-                            <input type="file" accept=".csv" class="hidden" onchange="uploadStudentsCSV(event)">
+                            <input type="file" id="students-csv-file" accept=".csv" class="hidden">
                         </label>
                     </div>
                 </div>
 
                 <div class="bg-white p-6 rounded-xl shadow border">
                     <h2 class="text-sm font-bold text-slate-800 mb-3">Au Sajili Mwanafunzi Mmoja Mmoja</h2>
-                    <form onsubmit="handleSaveStudent(event)" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <form id="add-student-form" class="grid grid-cols-1 md:grid-cols-5 gap-4">
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1">Jina Kamili</label>
                             <input type="text" id="std-fullname" placeholder="Mfano: Baraka Juma" required class="w-full px-3 py-2 border rounded-lg text-sm">
@@ -217,22 +273,30 @@
                             </select>
                         </div>
                         <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Simu ya Mzazi</label>
+                            <input type="tel" id="std-parent-phone" placeholder="07XXXXXXXX" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                        </div>
+                        <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1">Darasa</label>
                             <select id="std-class" required class="w-full px-3 py-2 border rounded-lg text-sm">
                                 <option value="Darasa VII">Darasa VII</option>
                                 <option value="Darasa VI">Darasa VI</option>
                                 <option value="Darasa V">Darasa V</option>
                                 <option value="Darasa IV">Darasa IV</option>
+                                <option value="Darasa III">Darasa III</option>
+                                <option value="Darasa II">Darasa II</option>
+                                <option value="Darasa I">Darasa I</option>
+                                <option value="Awali">Awali</option>
                             </select>
                         </div>
-                        <div class="md:col-span-4 text-right">
-                            <button type="submit" class="bg-slate-800 text-white font-bold text-xs px-5 py-2.5 rounded-lg hover:bg-slate-900">Hifadhi</button>
+                        <div class="md:col-span-5 text-right">
+                            <button type="submit" class="bg-slate-800 text-white font-bold text-xs px-5 py-2.5 rounded-lg hover:bg-slate-900">Hifadhi Cloud Database</button>
                         </div>
                     </form>
                 </div>
 
                 <div class="bg-white rounded-xl shadow border overflow-hidden">
-                    <div class="p-4 bg-slate-50 border-b"><h3 class="font-bold text-slate-800">Orodha ya Wanafunzi</h3></div>
+                    <div class="p-4 bg-slate-50 border-b"><h3 class="font-bold text-slate-800">Orodha ya Wanafunzi Mtandaoni</h3></div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-left">
                             <thead class="bg-slate-100 font-bold text-slate-700">
@@ -240,6 +304,7 @@
                                     <th class="p-3">Prem No</th>
                                     <th class="p-3">Jina la Mwanafunzi</th>
                                     <th class="p-3">Jinsia</th>
+                                    <th class="p-3">Simu Mzazi</th>
                                     <th class="p-3">Darasa</th>
                                 </tr>
                             </thead>
@@ -251,7 +316,6 @@
 
             <!-- VIEW: MATOKEO & SMS -->
             <div id="view-results" class="p-6 hidden space-y-6">
-                <!-- EXCEL MATOKEO UPLOAD SECTION -->
                 <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-200 flex flex-col md:flex-row justify-between items-center gap-4">
                     <div>
                         <h3 class="font-bold text-emerald-900 text-base"><i class="fa-solid fa-file-invoice text-emerald-600 mr-2"></i>Upload Matokeo Ya Darasa Zima (Excel CSV)</h3>
@@ -263,7 +327,7 @@
                         </button>
                         <label class="bg-emerald-600 text-white text-xs font-bold px-4 py-2.5 rounded-lg hover:bg-emerald-700 transition cursor-pointer flex items-center gap-2">
                             <i class="fa-solid fa-upload"></i> Upload Matokeo (CSV)
-                            <input type="file" accept=".csv" class="hidden" onchange="uploadResultsCSV(event)">
+                            <input type="file" id="results-csv-file" accept=".csv" class="hidden">
                         </label>
                     </div>
                 </div>
@@ -290,9 +354,43 @@
                 </div>
             </div>
 
+            <!-- VIEW: RIPOTI NA RANKING (PDF / PRINT) -->
+            <div id="view-reports" class="p-6 hidden space-y-6">
+                <div class="bg-white p-6 rounded-xl shadow border">
+                    <h2 class="text-lg font-bold text-slate-800 mb-2"><i class="fa-solid fa-print text-blue-600 mr-2"></i>Kudownload & Kuprint Ripoti na Ranking</h2>
+                    <p class="text-xs text-slate-500 mb-6">Chagua aina ya ripoti unayotaka kudownload kwa ajili ya darasa husika:</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-4 border rounded-xl bg-slate-50 hover:bg-blue-50 transition border-slate-200">
+                            <h3 class="font-bold text-sm text-slate-800 mb-1"><i class="fa-solid fa-list-ol text-blue-600 mr-2"></i>Ranking ya Wanafunzi</h3>
+                            <p class="text-xs text-slate-500 mb-4">Pakua orodha ya wanafunzi iliyopangwa kuanzia wa 1 hadi wa mwisho kulingana na wastani.</p>
+                            <button onclick="downloadStudentRankingPDF()" class="w-full bg-blue-600 text-white font-bold text-xs py-2 rounded-lg hover:bg-blue-700">
+                                <i class="fa-solid fa-download mr-1"></i> Pakua PDF Ranking
+                            </button>
+                        </div>
+
+                        <div class="p-4 border rounded-xl bg-slate-50 hover:bg-emerald-50 transition border-slate-200">
+                            <h3 class="font-bold text-sm text-slate-800 mb-1"><i class="fa-solid fa-book text-emerald-600 mr-2"></i>Ranking ya Masomo</h3>
+                            <p class="text-xs text-slate-500 mb-4">Pakua ripoti inayoonyesha masomo yaliyofaulishwa zaidi (Subject Performance Ranking).</p>
+                            <button onclick="downloadSubjectRankingPDF()" class="w-full bg-emerald-600 text-white font-bold text-xs py-2 rounded-lg hover:bg-emerald-700">
+                                <i class="fa-solid fa-download mr-1"></i> Pakua PDF Masomo
+                            </button>
+                        </div>
+
+                        <div class="p-4 border rounded-xl bg-slate-50 hover:bg-purple-50 transition border-slate-200">
+                            <h3 class="font-bold text-sm text-slate-800 mb-1"><i class="fa-solid fa-chart-bar text-purple-600 mr-2"></i>Ufaulu wa Kila Somo</h3>
+                            <p class="text-xs text-slate-500 mb-4">Pakua ripoti inayochanganua idadi ya A, B, C, D, F kwa kila somo la mtihani.</p>
+                            <button onclick="downloadSubjectBreakdownPDF()" class="w-full bg-purple-600 text-white font-bold text-xs py-2 rounded-lg hover:bg-purple-700">
+                                <i class="fa-solid fa-download mr-1"></i> Pakua PDF Ufaulu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- VIEW: WALIMU -->
             <div id="view-teachers" class="p-6 hidden">
-                <h2 class="text-lg font-bold mb-4">Orodha ya Walimu Waliosajiliwa Mfomoni</h2>
+                <h2 class="text-lg font-bold mb-4">Orodha ya Walimu Waliosajiliwa Mfomoni Mtandaoni</h2>
                 <div class="bg-white rounded-xl shadow border overflow-hidden">
                     <table class="w-full text-sm text-left">
                         <thead class="bg-slate-100 font-bold text-slate-700">
@@ -300,7 +398,7 @@
                                 <th class="p-3">Jina la Mwalimu</th>
                                 <th class="p-3">Simu</th>
                                 <th class="p-3">Darasa</th>
-                                <th class="p-3">Username</th>
+                                <th class="p-3">Email</th>
                                 <th class="p-3">Wadhifa</th>
                             </tr>
                         </thead>
@@ -311,173 +409,143 @@
         </main>
     </div>
 
-    <script>
-        function initDatabase() {
-            if (!localStorage.getItem('msrms_users')) {
-                const defaultUsers = [
-                    { name: "Innocent Valentine (Mwalimu Mkuu)", phone: "0653708999", classAssigned: "Shule Nzima", username: "admin", pass: "admin123", role: "Super Admin" },
-                    { name: "Mwalimu Malole", phone: "-", classAssigned: "Darasa VII", username: "malole", pass: "123", role: "Mwalimu" }
-                ];
-                localStorage.setItem('msrms_users', JSON.stringify(defaultUsers));
-            }
-            if (!localStorage.getItem('msrms_students')) {
-                localStorage.setItem('msrms_students', JSON.stringify([]));
-            }
-            if (!localStorage.getItem('msrms_results')) {
-                localStorage.setItem('msrms_results', JSON.stringify([]));
-            }
-        }
-        initDatabase();
+    <!-- FIREBASE SDKs & LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        function showAuthModal(type) {
-            document.getElementById('auth-modal').classList.remove('hidden');
-            switchForm(type);
-        }
+        // FIREBASE CONFIGURATION
+        const firebaseConfig = {
+            apiKey: "AIzaSyDzMmcwSYRZg_kGXqixZqjQemAG7k4twIE",
+            authDomain: "family-goals-system.firebaseapp.com",
+            projectId: "family-goals-system",
+            storageBucket: "family-goals-system.firebasestorage.app",
+            messagingSenderId: "938650283930",
+            appId: "1:938650283930:web:ea4fb2e549d26d32c95423"
+        };
 
-        function closeAuthModal() {
-            document.getElementById('auth-modal').classList.add('hidden');
-        }
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-        function switchForm(type) {
-            if (type === 'login') {
-                document.getElementById('form-login-container').classList.remove('hidden');
-                document.getElementById('form-register-container').classList.add('hidden');
-            } else {
-                document.getElementById('form-login-container').classList.add('hidden');
-                document.getElementById('form-register-container').classList.remove('hidden');
-            }
-        }
+        let currentUser = null;
+        let loadedStudents = [];
+        let loadedResults = [];
+        let loadedTeachers = [];
 
-        function handleRegister(e) {
+        // Auth listeners
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const fullName = document.getElementById('reg-fullname').value.trim();
+            const email = document.getElementById('login-email').value.trim();
+            const pass = document.getElementById('login-password').value.trim();
+
+            try {
+                await signInWithEmailAndPassword(auth, email, pass);
+            } catch (err) {
+                alert("Imeshindwa Kuingia: " + err.message);
+            }
+        });
+
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('reg-fullname').value.trim();
             const phone = document.getElementById('reg-phone').value.trim();
             const cls = document.getElementById('reg-class').value;
-            const uname = document.getElementById('reg-username').value.trim().toLowerCase();
+            const email = document.getElementById('reg-email').value.trim();
             const pass = document.getElementById('reg-password').value.trim();
 
-            let users = JSON.parse(localStorage.getItem('msrms_users')) || [];
-
-            if (users.find(u => u.username === uname)) {
-                alert("Username hii imeshatumiwa! Chagua jingine.");
-                return;
+            try {
+                const res = await createUserWithEmailAndPassword(auth, email, pass);
+                // Save extra teacher info
+                await setDoc(doc(db, "msrms_teachers", res.user.uid), {
+                    name, phone, classAssigned: cls, email, role: "Mwalimu"
+                });
+                alert("Usajili wa Mwalimu umekamilika kikamilifu!");
+            } catch (err) {
+                alert("Imeshindwa kusajili: " + err.message);
             }
+        });
 
-            users.push({ name: fullName, phone: phone, classAssigned: cls, username: uname, pass: pass, role: "Mwalimu" });
-            localStorage.setItem('msrms_users', JSON.stringify(users));
-
-            alert("Hongera! Umesajiliwa kikamilifu.");
-            switchForm('login');
-        }
-
-        function handleLogin(e) {
-            e.preventDefault();
-            const u = document.getElementById('login-username').value.trim().toLowerCase();
-            const p = document.getElementById('login-password').value.trim();
-
-            let users = JSON.parse(localStorage.getItem('msrms_users')) || [];
-            const user = users.find(account => account.username === u && account.pass === p);
-
+        onAuthStateChanged(auth, async (user) => {
             if (user) {
-                closeAuthModal();
+                currentUser = user;
+                document.getElementById('auth-modal').classList.add('hidden');
                 document.getElementById('welcome-section').classList.add('hidden');
                 document.getElementById('app-section').classList.remove('hidden');
 
-                document.getElementById('user-welcome-header').innerText = `Karibu, ${user.name}`;
-                document.getElementById('user-name-display').innerText = user.name;
-                document.getElementById('user-role-badge').innerText = user.role;
+                document.getElementById('user-welcome-header').innerText = `Karibu, ${user.email}`;
+                document.getElementById('user-name-display').innerText = user.email;
 
-                loadAllData();
+                await loadAllCloudData();
             } else {
-                alert("Akaunti haijapatikana au neno la siri si sahihi.");
+                currentUser = null;
+                document.getElementById('welcome-section').classList.remove('hidden');
+                document.getElementById('app-section').classList.add('hidden');
             }
-        }
+        });
 
-        /* --- EXCEL TEMPLATE / CSV FUNCTIONS FOR STUDENTS --- */
-        function downloadStudentTemplate() {
-            let csvContent = "data:text/csv;charset=utf-8,Prem_No,Jina_Kamili,Jinsia,Darasa\n";
-            csvContent += "MW-001,Baraka Juma,M,Darasa VII\nMW-002,Amina Salum,K,Darasa VII";
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "Template_Usajili_Wanafunzi.csv");
-            document.body.appendChild(link);
-            link.click();
-        }
+        document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
 
-        function uploadStudentsCSV(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const text = e.target.result;
-                const lines = text.split('\n');
-                let students = JSON.parse(localStorage.getItem('msrms_students')) || [];
-
-                for (let i = 1; i < lines.length; i++) {
-                    const row = lines[i].split(',');
-                    if (row.length >= 4 && row[0].trim() !== '') {
-                        students.push({
-                            prem: row[0].trim(),
-                            name: row[1].trim(),
-                            gender: row[2].trim(),
-                            cls: row[3].trim()
-                        });
-                    }
-                }
-                localStorage.setItem('msrms_students', JSON.stringify(students));
-                alert("Wanafunzi wote kwenye Excel file wamesajiliwa kikamilifu!");
-                loadAllData();
-            };
-            reader.readAsText(file);
-        }
-
-        function handleSaveStudent(e) {
+        // Save Single Student to Firestore
+        document.getElementById('add-student-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('std-fullname').value.trim();
             const prem = document.getElementById('std-prem').value.trim();
             const gender = document.getElementById('std-gender').value;
+            const parentPhone = document.getElementById('std-parent-phone').value.trim();
             const cls = document.getElementById('std-class').value;
 
-            let students = JSON.parse(localStorage.getItem('msrms_students')) || [];
-            students.push({ prem, name, gender, cls });
-            localStorage.setItem('msrms_students', JSON.stringify(students));
-
-            alert("Mwanafunzi amesajiliwa kikamilifu!");
-            document.getElementById('std-fullname').value = '';
-            document.getElementById('std-prem').value = '';
-            loadAllData();
-        }
-
-        /* --- EXCEL TEMPLATE / CSV FUNCTIONS FOR RESULTS --- */
-        function downloadResultsTemplate() {
-            let students = JSON.parse(localStorage.getItem('msrms_students')) || [];
-            if(students.length === 0) {
-                alert("Tafadhali sajili wanafunzi kwanza kabla ya kupakua template ya matokeo!");
-                return;
+            try {
+                await addDoc(collection(db, "msrms_students"), {
+                    prem, name, gender, parentPhone, cls, createdAt: new Date().toISOString()
+                });
+                alert("Mwanafunzi amehifadhiwa Cloud!");
+                document.getElementById('add-student-form').reset();
+                loadStudentsData();
+            } catch (err) {
+                alert("Error: " + err.message);
             }
-            let csvContent = "data:text/csv;charset=utf-8,Prem_No,Jina_Mwanafunzi,Mtihani,Kiswahili,English,Maarifa,Hisabati,Sayansi\n";
-            students.forEach(s => {
-                csvContent += `${s.prem},${s.name},Terminal Exam,0,0,0,0,0\n`;
-            });
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "Template_Matokeo_Mwashiku.csv");
-            document.body.appendChild(link);
-            link.click();
-        }
+        });
 
-        function uploadResultsCSV(event) {
+        // Upload CSV Students
+        document.getElementById('students-csv-file').addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (!file) return;
 
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = async function(e) {
                 const text = e.target.result;
                 const lines = text.split('\n');
-                let results = JSON.parse(localStorage.getItem('msrms_results')) || [];
+
+                for (let i = 1; i < lines.length; i++) {
+                    const row = lines[i].split(',');
+                    if (row.length >= 4 && row[0].trim() !== '') {
+                        await addDoc(collection(db, "msrms_students"), {
+                            prem: row[0].trim(),
+                            name: row[1].trim(),
+                            gender: row[2].trim(),
+                            parentPhone: row[3] ? row[3].trim() : "",
+                            cls: row[4] ? row[4].trim() : "Darasa VII",
+                            createdAt: new Date().toISOString()
+                        });
+                    }
+                }
+                alert("Wanafunzi wote kutoka Excel wamehifadhiwa Cloud!");
+                loadStudentsData();
+            };
+            reader.readAsText(file);
+        });
+
+        // Upload CSV Results
+        document.getElementById('results-csv-file').addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const text = e.target.result;
+                const lines = text.split('\n');
 
                 for (let i = 1; i < lines.length; i++) {
                     const row = lines[i].split(',');
@@ -499,49 +567,70 @@
                         else if (avg >= 41) grade = 'C';
                         else if (avg >= 21) grade = 'D';
 
-                        results.push({ studentName: name, exam, total, avg, grade });
+                        await addDoc(collection(db, "msrms_results"), {
+                            prem: row[0].trim(),
+                            studentName: name,
+                            exam: exam,
+                            kisw, eng, maarifa, hisabati, sayansi,
+                            total, avg: Number(avg), grade,
+                            createdAt: new Date().toISOString()
+                        });
                     }
                 }
-                localStorage.setItem('msrms_results', JSON.stringify(results));
-                alert("Matokeo ya Excel yamehifadhiwa vyema!");
-                loadAllData();
+                alert("Matokeo yamehifadhiwa mtandaoni kikamilifu!");
+                loadResultsData();
             };
             reader.readAsText(file);
+        });
+
+        // Fetch Cloud Data
+        async function loadAllCloudData() {
+            await loadTeachersData();
+            await loadStudentsData();
+            await loadResultsData();
         }
 
-        /* --- SEND RESULTS TO PARENTS VIA WHATSAPP / SMS --- */
-        function sendSMS(studentName, exam, avg, grade) {
-            const message = `SHULE YA MSINGI MWASHIKU: Matokeo ya Mwanafunzi ${studentName} kwa mtihani wa ${exam}: Wastani ni ${avg} (Daraja ${grade}). Ahsante - Mwalimu Mkuu.`;
-            const encodedMessage = encodeURIComponent(message);
-            window.open(`https://api.whatsapp.com/send?text=${encodedMessage}`, '_blank');
-        }
-
-        function loadAllData() {
-            let users = JSON.parse(localStorage.getItem('msrms_users')) || [];
-            let students = JSON.parse(localStorage.getItem('msrms_students')) || [];
-            let results = JSON.parse(localStorage.getItem('msrms_results')) || [];
-
-            document.getElementById('stat-teachers-count').innerText = users.length;
-            document.getElementById('stat-students-count').innerText = students.length;
-
-            // Load Teachers
+        async function loadTeachersData() {
+            const querySnapshot = await getDocs(collection(db, "msrms_teachers"));
+            loadedTeachers = [];
             const tBody = document.getElementById('teachers-table-body');
             tBody.innerHTML = '';
-            users.forEach(u => {
-                tBody.innerHTML += `<tr class="border-b hover:bg-slate-50"><td class="p-3 font-semibold">${u.name}</td><td class="p-3">${u.phone}</td><td class="p-3">${u.classAssigned}</td><td class="p-3 font-mono text-blue-600">${u.username}</td><td class="p-3"><span class="bg-slate-200 text-slate-800 text-xs px-2 py-1 rounded font-bold">${u.role}</span></td></tr>`;
+            querySnapshot.forEach(doc => {
+                const u = doc.data();
+                loadedTeachers.push(u);
+                tBody.innerHTML += `<tr class="border-b hover:bg-slate-50"><td class="p-3 font-semibold">${u.name}</td><td class="p-3">${u.phone}</td><td class="p-3">${u.classAssigned}</td><td class="p-3 font-mono text-blue-600">${u.email}</td><td class="p-3"><span class="bg-slate-200 text-slate-800 text-xs px-2 py-1 rounded font-bold">${u.role}</span></td></tr>`;
             });
+            document.getElementById('stat-teachers-count').innerText = loadedTeachers.length;
+        }
 
-            // Load Students Table
+        async function loadStudentsData() {
+            const querySnapshot = await getDocs(collection(db, "msrms_students"));
+            loadedStudents = [];
             const sBody = document.getElementById('students-table-body');
             sBody.innerHTML = '';
-            students.forEach(s => {
-                sBody.innerHTML += `<tr class="border-b hover:bg-slate-50"><td class="p-3 font-mono text-xs">${s.prem}</td><td class="p-3 font-semibold">${s.name}</td><td class="p-3">${s.gender}</td><td class="p-3">${s.cls}</td></tr>`;
+            querySnapshot.forEach(doc => {
+                const s = doc.data();
+                loadedStudents.push(s);
+                sBody.innerHTML += `<tr class="border-b hover:bg-slate-50"><td class="p-3 font-mono text-xs">${s.prem}</td><td class="p-3 font-semibold">${s.name}</td><td class="p-3">${s.gender}</td><td class="p-3">${s.parentPhone || '-'}</td><td class="p-3">${s.cls}</td></tr>`;
             });
+            document.getElementById('stat-students-count').innerText = loadedStudents.length;
+        }
 
-            // Load Results Table
+        async function loadResultsData() {
+            const querySnapshot = await getDocs(collection(db, "msrms_results"));
+            loadedResults = [];
             const rBody = document.getElementById('results-table-body');
             rBody.innerHTML = '';
-            results.forEach(r => {
+
+            querySnapshot.forEach(doc => {
+                const r = doc.data();
+                loadedResults.push(r);
+            });
+
+            // Sort results descending by average
+            loadedResults.sort((a, b) => b.avg - a.avg);
+
+            loadedResults.forEach(r => {
                 rBody.innerHTML += `
                     <tr class="border-b hover:bg-slate-50">
                         <td class="p-3 font-semibold">${r.studentName}</td>
@@ -549,26 +638,228 @@
                         <td class="p-3 font-bold">${r.total}</td>
                         <td class="p-3 text-blue-600 font-bold">${r.avg}</td>
                         <td class="p-3"><span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded font-black">${r.grade}</span></td>
-                        <td class="p-3 text-center">
-                            <button onclick="sendSMS('${r.studentName}', '${r.exam}', '${r.avg}', '${r.grade}')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition flex items-center justify-center gap-1 mx-auto">
-                                <i class="fa-brands fa-whatsapp"></i> Tuma Ujumbe
+                        <td class="p-3 text-center flex justify-center gap-1">
+                            <button onclick="sendNormalSMS('${r.studentName}', '${r.exam}', '${r.avg}', '${r.grade}')" class="bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-bold px-2 py-1 rounded transition flex items-center gap-1">
+                                <i class="fa-solid fa-comment-sms"></i> SMS
+                            </button>
+                            <button onclick="sendWhatsApp('${r.studentName}', '${r.exam}', '${r.avg}', '${r.grade}')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-2 py-1 rounded transition flex items-center gap-1">
+                                <i class="fa-brands fa-whatsapp"></i> WA
                             </button>
                         </td>
                     </tr>
                 `;
             });
+
+            // Load 10 Best & 10 Bottom Pupils
+            loadTopAndBottomPupils();
+        }
+
+        function loadTopAndBottomPupils() {
+            const topBody = document.getElementById('top10-table-body');
+            const bottomBody = document.getElementById('bottom10-table-body');
+            topBody.innerHTML = '';
+            bottomBody.innerHTML = '';
+
+            if (loadedResults.length === 0) return;
+
+            // Top 10
+            const top10 = loadedResults.slice(0, 10);
+            top10.forEach((r, idx) => {
+                topBody.innerHTML += `
+                    <tr class="border-b hover:bg-emerald-50/50">
+                        <td class="p-2 font-bold text-emerald-700">#${idx + 1}</td>
+                        <td class="p-2 font-semibold">${r.studentName}</td>
+                        <td class="p-2 font-bold text-blue-600">${r.avg}</td>
+                        <td class="p-2"><span class="bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.5 rounded">${r.grade}</span></td>
+                    </tr>
+                `;
+            });
+
+            // Bottom 10
+            const bottom10 = [...loadedResults].reverse().slice(0, 10);
+            bottom10.forEach((r, idx) => {
+                bottomBody.innerHTML += `
+                    <tr class="border-b hover:bg-red-50/50">
+                        <td class="p-2 font-bold text-red-600">#${loadedResults.length - idx}</td>
+                        <td class="p-2 font-semibold">${r.studentName}</td>
+                        <td class="p-2 font-bold text-red-600">${r.avg}</td>
+                        <td class="p-2"><span class="bg-red-100 text-red-800 font-bold px-1.5 py-0.5 rounded">${r.grade}</span></td>
+                    </tr>
+                `;
+            });
+        }
+
+        // Expose Functions Globally
+        window.sendNormalSMS = function(studentName, exam, avg, grade) {
+            const msg = `SHULE YA MSINGI MWASHIKU: Matokeo ya Mwanafunzi ${studentName} kwa mtihani wa ${exam}: Wastani ni ${avg} (Daraja ${grade}). Ahsante - Mwalimu Mkuu.`;
+            window.open(`sms:?body=${encodeURIComponent(msg)}`, '_self');
+        };
+
+        window.sendWhatsApp = function(studentName, exam, avg, grade) {
+            const msg = `SHULE YA MSINGI MWASHIKU: Matokeo ya Mwanafunzi ${studentName} kwa mtihani wa ${exam}: Wastani ni ${avg} (Daraja ${grade}). Ahsante - Mwalimu Mkuu.`;
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+        };
+
+        // PDF Generation Functions
+        window.downloadStudentRankingPDF = function() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFontSize(14);
+            doc.text("SHULE YA MSINGI MWASHIKU", 14, 15);
+            doc.setFontSize(11);
+            doc.text("RIPOTI YA RANKING YA WANAFUNZI (POSITION)", 14, 22);
+
+            const rows = loadedResults.map((r, idx) => [
+                idx + 1,
+                r.studentName,
+                r.exam,
+                r.total,
+                r.avg,
+                r.grade
+            ]);
+
+            doc.autoTable({
+                startY: 28,
+                head: [['Nafasi', 'Jina la Mwanafunzi', 'Mtihani', 'Jumla', 'Wastani', 'Daraja']],
+                body: rows,
+                theme: 'grid',
+                headStyles: { fillColor: [2, 132, 199] }
+            });
+
+            doc.save("Ranking_ya_Wanafunzi_Mwashiku.pdf");
+        };
+
+        window.downloadSubjectRankingPDF = function() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFontSize(14);
+            doc.text("SHULE YA MSINGI MWASHIKU", 14, 15);
+            doc.setFontSize(11);
+            doc.text("RANKING YA MASOMO (SUBJECT PERFORMANCE)", 14, 22);
+
+            if (loadedResults.length === 0) return alert("Hakuna matokeo yaliyorekodiwa!");
+
+            const subjects = [
+                { name: 'Kiswahili', key: 'kisw' },
+                { name: 'English', key: 'eng' },
+                { name: 'Maarifa ya Jamii', key: 'maarifa' },
+                { name: 'Hisabati', key: 'hisabati' },
+                { name: 'Sayansi', key: 'sayansi' }
+            ];
+
+            const subjectAvgs = subjects.map(s => {
+                const totalMarks = loadedResults.reduce((sum, r) => sum + (r[s.key] || 0), 0);
+                const avg = (totalMarks / loadedResults.length).toFixed(1);
+                return { name: s.name, avg: Number(avg) };
+            });
+
+            subjectAvgs.sort((a, b) => b.avg - a.avg);
+
+            const rows = subjectAvgs.map((s, idx) => [idx + 1, s.name, s.avg]);
+
+            doc.autoTable({
+                startY: 28,
+                head: [['Nafasi', 'Jina la Somo', 'Wastani wa Somo']],
+                body: rows,
+                theme: 'striped',
+                headStyles: { fillColor: [16, 185, 129] }
+            });
+
+            doc.save("Ranking_ya_Masomo_Mwashiku.pdf");
+        };
+
+        window.downloadSubjectBreakdownPDF = function() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFontSize(14);
+            doc.text("SHULE YA MSINGI MWASHIKU", 14, 15);
+            doc.setFontSize(11);
+            doc.text("UFAULU WA WANAFUNZI KATIKA KILA SOMO (A, B, C, D, F)", 14, 22);
+
+            const subjects = [
+                { name: 'Kiswahili', key: 'kisw' },
+                { name: 'English', key: 'eng' },
+                { name: 'Maarifa ya Jamii', key: 'maarifa' },
+                { name: 'Hisabati', key: 'hisabati' },
+                { name: 'Sayansi', key: 'sayansi' }
+            ];
+
+            const rows = subjects.map(s => {
+                let a = 0, b = 0, c = 0, d = 0, f = 0;
+                loadedResults.forEach(r => {
+                    const mark = r[s.key] || 0;
+                    if (mark >= 81) a++;
+                    else if (mark >= 61) b++;
+                    else if (mark >= 41) c++;
+                    else if (mark >= 21) d++;
+                    else f++;
+                });
+                return [s.name, a, b, c, d, f, loadedResults.length];
+            });
+
+            doc.autoTable({
+                startY: 28,
+                head: [['Somo', 'Daraja A', 'Daraja B', 'Daraja C', 'Daraja D', 'Daraja F', 'Jumla Wanafunzi']],
+                body: rows,
+                theme: 'grid',
+                headStyles: { fillColor: [139, 92, 246] }
+            });
+
+            doc.save("Ufaulu_wa_Kila_Somo_Mwashiku.pdf");
+        };
+    </script>
+
+    <script>
+        // UI Navigation Script
+        function showAuthModal(type) {
+            document.getElementById('auth-modal').classList.remove('hidden');
+            switchForm(type);
+        }
+
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.add('hidden');
+        }
+
+        function switchForm(type) {
+            if (type === 'login') {
+                document.getElementById('form-login-container').classList.remove('hidden');
+                document.getElementById('form-register-container').classList.add('hidden');
+            } else {
+                document.getElementById('form-login-container').classList.add('hidden');
+                document.getElementById('form-register-container').classList.remove('hidden');
+            }
         }
 
         function switchTab(tabName) {
-            ['dashboard', 'students', 'results', 'teachers'].forEach(v => {
+            ['dashboard', 'students', 'results', 'reports', 'teachers'].forEach(v => {
                 document.getElementById(`view-${v}`).classList.add('hidden');
             });
             document.getElementById(`view-${tabName}`).classList.remove('hidden');
         }
 
-        function logout() {
-            document.getElementById('app-section').classList.add('hidden');
-            document.getElementById('welcome-section').classList.remove('hidden');
+        function downloadStudentTemplate() {
+            let csvContent = "data:text/csv;charset=utf-8,Prem_No,Jina_Kamili,Jinsia,Simu_ya_Mzazi,Darasa\n";
+            csvContent += "MW-001,Baraka Juma,M,0754000111,Darasa VII\nMW-002,Amina Salum,K,0765000222,Darasa VII";
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "Template_Usajili_Wanafunzi.csv");
+            document.body.appendChild(link);
+            link.click();
+        }
+
+        function downloadResultsTemplate() {
+            let csvContent = "data:text/csv;charset=utf-8,Prem_No,Jina_Mwanafunzi,Mtihani,Kiswahili,English,Maarifa,Hisabati,Sayansi\n";
+            csvContent += "MW-001,Baraka Juma,Terminal Exam,85,78,90,65,88\nMW-002,Amina Salum,Terminal Exam,70,60,75,50,68";
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "Template_Matokeo_Mwashiku.csv");
+            document.body.appendChild(link);
+            link.click();
         }
     </script>
 </body>
