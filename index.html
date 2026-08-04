@@ -9,6 +9,8 @@
     <!-- jsPDF & AutoTable for PDF Download/Print -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <!-- Chart.js for Interactive Bar & Pie Graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-slate-900 font-sans text-slate-800 min-h-screen">
 
@@ -20,12 +22,12 @@
             </div>
             
             <h1 class="text-2xl md:text-3xl font-black tracking-wide text-white mb-2">SHULE YA MSINGI MWASHIKU</h1>
-            <p class="text-xs font-semibold text-blue-400 uppercase tracking-widest mb-6">Student Results Management System (MSRMS Cloud)</p>
+            <p class="text-xs font-semibold text-blue-400 uppercase tracking-widest mb-6">STUDENT RESULTS MANAGEMENT SYSTEM (MSRMS)</p>
             
             <div class="bg-slate-900/60 p-5 rounded-xl border border-slate-700 mb-6 text-left">
                 <h3 class="text-lg font-bold text-emerald-400 mb-1">Hello, Mwalimu!</h3>
                 <p class="text-slate-300 text-sm leading-relaxed">
-                    Karibu sana kwenye Mfumo wa Matokeo wa Shule ya Msingi Mwashiku uliounganishwa na Cloud Database.
+                    Karibu sana kwenye Mfumo wa Matokeo wa Shule ya Msingi Mwashiku.
                 </p>
                 <p class="text-xs text-amber-400 font-serif italic mt-3 border-t border-slate-800 pt-2 text-center">
                     "Elimu ni Ufunguo wa Maisha."
@@ -125,13 +127,16 @@
                 <div class="bg-blue-600 p-2 rounded-lg"><i class="fa-solid fa-school"></i></div>
                 <div>
                     <h2 class="font-bold text-sm leading-tight">MSINGI MWASHIKU</h2>
-                    <span class="text-[10px] text-blue-400 block font-mono">MSRMS Cloud v3.0</span>
+                    <span class="text-[10px] text-blue-400 block font-mono">MSRMS Analytics v3.5</span>
                 </div>
             </div>
 
             <nav class="p-4 space-y-1 text-sm">
                 <button onclick="switchTab('dashboard')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-800 text-white font-medium hover:bg-blue-700 transition">
                     <i class="fa-solid fa-chart-pie w-5"></i> Dashboard & Analytics
+                </button>
+                <button onclick="switchTab('class-progress')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
+                    <i class="fa-solid fa-chart-line w-5"></i> Progress ya Madarasa
                 </button>
                 <button onclick="switchTab('students')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
                     <i class="fa-solid fa-user-graduate w-5"></i> Wanafunzi (Excel)
@@ -158,12 +163,12 @@
                     <p class="text-xs text-emerald-600 font-semibold">"Elimu ni Ufunguo wa Maisha."</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <span id="user-role-badge" class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full font-bold">Role</span>
+                    <span id="user-role-badge" class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full font-bold">Mwalimu</span>
                     <span id="user-name-display" class="font-semibold text-slate-700 text-sm">User</span>
                 </div>
             </header>
 
-            <!-- VIEW: DASHBOARD -->
+            <!-- VIEW: DASHBOARD & GRAPH ANALYTICS -->
             <div id="view-dashboard" class="p-6 space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div class="bg-white p-4 rounded-xl shadow-sm border">
@@ -184,9 +189,40 @@
                     </div>
                 </div>
 
+                <!-- GRAPH SELECTION & ANALYSIS SECTION -->
+                <div class="bg-white p-6 rounded-xl shadow border space-y-4">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b pb-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-chart-column text-blue-600 mr-2"></i>Tathmini ya Matokeo kwa Graph</h3>
+                            <p class="text-xs text-slate-500">Chagua darasa, mtihani na aina ya Graph kuona uchanganuzi wa madaraja (A, B, C, D, F).</p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <select id="graph-filter-class" onchange="renderExamChart()" class="bg-slate-100 border text-xs font-bold px-3 py-2 rounded-lg outline-none">
+                                <option value="ALL">Madarasa Yote</option>
+                                <option value="Darasa VII">Darasa VII</option>
+                                <option value="Darasa VI">Darasa VI</option>
+                                <option value="Darasa V">Darasa V</option>
+                                <option value="Darasa IV">Darasa IV</option>
+                                <option value="Darasa III">Darasa III</option>
+                                <option value="Darasa II">Darasa II</option>
+                                <option value="Darasa I">Darasa I</option>
+                                <option value="Awali">Awali</option>
+                            </select>
+                            <select id="graph-filter-charttype" onchange="renderExamChart()" class="bg-slate-100 border text-xs font-bold px-3 py-2 rounded-lg outline-none">
+                                <option value="bar">Bar Graph (Milingoti)</option>
+                                <option value="pie">Pie Chart (Duhara)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- CANVAS FOR CHART -->
+                    <div class="w-full h-72 flex items-center justify-center">
+                        <canvas id="examAnalyticsChart"></canvas>
+                    </div>
+                </div>
+
                 <!-- 10 BEST & 10 BOTTOM PUPILS SECTION -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- 10 BEST PUPILS -->
                     <div class="bg-white p-5 rounded-xl shadow border">
                         <div class="flex justify-between items-center mb-4 border-b pb-2">
                             <h3 class="font-bold text-emerald-700 flex items-center gap-2">
@@ -210,7 +246,6 @@
                         </div>
                     </div>
 
-                    <!-- 10 BOTTOM PUPILS -->
                     <div class="bg-white p-5 rounded-xl shadow border">
                         <div class="flex justify-between items-center mb-4 border-b pb-2">
                             <h3 class="font-bold text-red-600 flex items-center gap-2">
@@ -232,6 +267,38 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: CLASS PROGRESS & COMPARISON (AWALI HADI VII) -->
+            <div id="view-class-progress" class="p-6 hidden space-y-6">
+                <div class="bg-white p-6 rounded-xl shadow border">
+                    <h2 class="text-lg font-bold text-slate-800 mb-1"><i class="fa-solid fa-chart-line text-emerald-600 mr-2"></i>Tathmini ya Progress ya Madarasa (Awali - VII)</h2>
+                    <p class="text-xs text-slate-500 mb-6">Ulinganisho wa ufaulu na wastani kwa kila darasa ili kubaini maendeleo ya jumla ya shule.</p>
+
+                    <!-- BAR GRAPH COMPARISON -->
+                    <div class="w-full h-72 mb-8">
+                        <canvas id="classProgressChart"></canvas>
+                    </div>
+
+                    <!-- SUMMARY TABLE PER CLASS -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left border-collapse">
+                            <thead class="bg-slate-100 font-bold text-slate-700">
+                                <tr>
+                                    <th class="p-3 border">Darasa</th>
+                                    <th class="p-3 border">Jumla Wanafunzi</th>
+                                    <th class="p-3 border">Waliofanya Mtihani</th>
+                                    <th class="p-3 border">Wastani wa Darasa</th>
+                                    <th class="p-3 border">Daraja la Darasa</th>
+                                    <th class="p-3 border">Hali (Status)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="class-progress-table-body">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -341,6 +408,7 @@
                             <thead class="bg-slate-100 font-bold text-slate-700">
                                 <tr>
                                     <th class="p-3">Jina la Mwanafunzi</th>
+                                    <th class="p-3">Darasa</th>
                                     <th class="p-3">Mtihani</th>
                                     <th class="p-3">Jumla</th>
                                     <th class="p-3">Wastani</th>
@@ -434,6 +502,9 @@
         let loadedResults = [];
         let loadedTeachers = [];
 
+        let examChartInstance = null;
+        let progressChartInstance = null;
+
         // Auth listeners
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -457,7 +528,6 @@
 
             try {
                 const res = await createUserWithEmailAndPassword(auth, email, pass);
-                // Save extra teacher info
                 await setDoc(doc(db, "msrms_teachers", res.user.uid), {
                     name, phone, classAssigned: cls, email, role: "Mwalimu"
                 });
@@ -557,6 +627,7 @@
                         const maarifa = Number(row[5]) || 0;
                         const hisabati = Number(row[6]) || 0;
                         const sayansi = Number(row[7]) || 0;
+                        const cls = row[8] ? row[8].trim() : "Darasa VII";
 
                         const total = kisw + eng + maarifa + hisabati + sayansi;
                         const avg = (total / 5).toFixed(1);
@@ -571,6 +642,7 @@
                             prem: row[0].trim(),
                             studentName: name,
                             exam: exam,
+                            cls: cls,
                             kisw, eng, maarifa, hisabati, sayansi,
                             total, avg: Number(avg), grade,
                             createdAt: new Date().toISOString()
@@ -627,13 +699,13 @@
                 loadedResults.push(r);
             });
 
-            // Sort results descending by average
             loadedResults.sort((a, b) => b.avg - a.avg);
 
             loadedResults.forEach(r => {
                 rBody.innerHTML += `
                     <tr class="border-b hover:bg-slate-50">
                         <td class="p-3 font-semibold">${r.studentName}</td>
+                        <td class="p-3">${r.cls || 'Darasa VII'}</td>
                         <td class="p-3">${r.exam}</td>
                         <td class="p-3 font-bold">${r.total}</td>
                         <td class="p-3 text-blue-600 font-bold">${r.avg}</td>
@@ -650,8 +722,9 @@
                 `;
             });
 
-            // Load 10 Best & 10 Bottom Pupils
             loadTopAndBottomPupils();
+            renderExamChart();
+            renderClassProgress();
         }
 
         function loadTopAndBottomPupils() {
@@ -662,7 +735,6 @@
 
             if (loadedResults.length === 0) return;
 
-            // Top 10
             const top10 = loadedResults.slice(0, 10);
             top10.forEach((r, idx) => {
                 topBody.innerHTML += `
@@ -675,7 +747,6 @@
                 `;
             });
 
-            // Bottom 10
             const bottom10 = [...loadedResults].reverse().slice(0, 10);
             bottom10.forEach((r, idx) => {
                 bottomBody.innerHTML += `
@@ -689,7 +760,114 @@
             });
         }
 
-        // Expose Functions Globally
+        // RENDER EXAM ANALYTICS CHART (BAR / PIE)
+        window.renderExamChart = function() {
+            const selectedClass = document.getElementById('graph-filter-class').value;
+            const chartType = document.getElementById('graph-filter-charttype').value;
+
+            let filtered = loadedResults;
+            if (selectedClass !== 'ALL') {
+                filtered = loadedResults.filter(r => (r.cls || 'Darasa VII') === selectedClass);
+            }
+
+            let counts = { A: 0, B: 0, C: 0, D: 0, F: 0 };
+            filtered.forEach(r => {
+                if (counts[r.grade] !== undefined) counts[r.grade]++;
+            });
+
+            const ctx = document.getElementById('examAnalyticsChart').getContext('2d');
+            if (examChartInstance) examChartInstance.destroy();
+
+            examChartInstance = new Chart(ctx, {
+                type: chartType,
+                data: {
+                    labels: ['Daraja A', 'Daraja B', 'Daraja C', 'Daraja D', 'Daraja F'],
+                    datasets: [{
+                        label: 'Idadi ya Wanafunzi',
+                        data: [counts.A, counts.B, counts.C, counts.D, counts.F],
+                        backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#64748b']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: chartType === 'pie' ? 'right' : 'top' }
+                    }
+                }
+            });
+        };
+
+        // RENDER CLASS PROGRESS (AWALI - VII)
+        function renderClassProgress() {
+            const classes = ['Awali', 'Darasa I', 'Darasa II', 'Darasa III', 'Darasa IV', 'Darasa V', 'Darasa VI', 'Darasa VII'];
+            const classData = classes.map(cls => {
+                const totalStudents = loadedStudents.filter(s => s.cls === cls).length;
+                const results = loadedResults.filter(r => (r.cls || 'Darasa VII') === cls);
+                
+                let avg = 0;
+                if (results.length > 0) {
+                    const sum = results.reduce((acc, curr) => acc + curr.avg, 0);
+                    avg = (sum / results.length).toFixed(1);
+                }
+
+                let grade = 'F';
+                if (avg >= 81) grade = 'A';
+                else if (avg >= 61) grade = 'B';
+                else if (avg >= 41) grade = 'C';
+                else if (avg >= 21) grade = 'D';
+
+                return {
+                    cls, totalStudents, satExam: results.length, avg: Number(avg), grade
+                };
+            });
+
+            // Populate Class Progress Table
+            const tbody = document.getElementById('class-progress-table-body');
+            tbody.innerHTML = '';
+
+            classData.forEach(cd => {
+                let statusBadge = cd.avg >= 41 ? 
+                    `<span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded font-bold">Inaridhisha</span>` : 
+                    `<span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded font-bold">Ongeza Juhudi</span>`;
+
+                tbody.innerHTML += `
+                    <tr class="border-b hover:bg-slate-50">
+                        <td class="p-3 font-bold text-slate-800">${cd.cls}</td>
+                        <td class="p-3">${cd.totalStudents}</td>
+                        <td class="p-3 font-semibold text-blue-700">${cd.satExam}</td>
+                        <td class="p-3 font-bold text-slate-900">${cd.avg}</td>
+                        <td class="p-3"><span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded font-black">${cd.grade}</span></td>
+                        <td class="p-3">${statusBadge}</td>
+                    </tr>
+                `;
+            });
+
+            // Render Class Progress Comparison Chart
+            const ctx = document.getElementById('classProgressChart').getContext('2d');
+            if (progressChartInstance) progressChartInstance.destroy();
+
+            progressChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: classData.map(c => c.cls),
+                    datasets: [{
+                        label: 'Wastani wa Darasa (Class Average)',
+                        data: classData.map(c => c.avg),
+                        backgroundColor: '#0284c7'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 100 }
+                    }
+                }
+            });
+        }
+
+        // Expose SMS & PDF Functions
         window.sendNormalSMS = function(studentName, exam, avg, grade) {
             const msg = `SHULE YA MSINGI MWASHIKU: Matokeo ya Mwanafunzi ${studentName} kwa mtihani wa ${exam}: Wastani ni ${avg} (Daraja ${grade}). Ahsante - Mwalimu Mkuu.`;
             window.open(`sms:?body=${encodeURIComponent(msg)}`, '_self');
@@ -700,28 +878,21 @@
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
         };
 
-        // PDF Generation Functions
         window.downloadStudentRankingPDF = function() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-
             doc.setFontSize(14);
             doc.text("SHULE YA MSINGI MWASHIKU", 14, 15);
             doc.setFontSize(11);
             doc.text("RIPOTI YA RANKING YA WANAFUNZI (POSITION)", 14, 22);
 
             const rows = loadedResults.map((r, idx) => [
-                idx + 1,
-                r.studentName,
-                r.exam,
-                r.total,
-                r.avg,
-                r.grade
+                idx + 1, r.studentName, r.cls || 'Darasa VII', r.exam, r.total, r.avg, r.grade
             ]);
 
             doc.autoTable({
                 startY: 28,
-                head: [['Nafasi', 'Jina la Mwanafunzi', 'Mtihani', 'Jumla', 'Wastani', 'Daraja']],
+                head: [['Nafasi', 'Jina la Mwanafunzi', 'Darasa', 'Mtihani', 'Jumla', 'Wastani', 'Daraja']],
                 body: rows,
                 theme: 'grid',
                 headStyles: { fillColor: [2, 132, 199] }
@@ -733,7 +904,6 @@
         window.downloadSubjectRankingPDF = function() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-
             doc.setFontSize(14);
             doc.text("SHULE YA MSINGI MWASHIKU", 14, 15);
             doc.setFontSize(11);
@@ -756,7 +926,6 @@
             });
 
             subjectAvgs.sort((a, b) => b.avg - a.avg);
-
             const rows = subjectAvgs.map((s, idx) => [idx + 1, s.name, s.avg]);
 
             doc.autoTable({
@@ -773,7 +942,6 @@
         window.downloadSubjectBreakdownPDF = function() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-
             doc.setFontSize(14);
             doc.text("SHULE YA MSINGI MWASHIKU", 14, 15);
             doc.setFontSize(11);
@@ -834,7 +1002,7 @@
         }
 
         function switchTab(tabName) {
-            ['dashboard', 'students', 'results', 'reports', 'teachers'].forEach(v => {
+            ['dashboard', 'class-progress', 'students', 'results', 'reports', 'teachers'].forEach(v => {
                 document.getElementById(`view-${v}`).classList.add('hidden');
             });
             document.getElementById(`view-${tabName}`).classList.remove('hidden');
@@ -852,8 +1020,8 @@
         }
 
         function downloadResultsTemplate() {
-            let csvContent = "data:text/csv;charset=utf-8,Prem_No,Jina_Mwanafunzi,Mtihani,Kiswahili,English,Maarifa,Hisabati,Sayansi\n";
-            csvContent += "MW-001,Baraka Juma,Terminal Exam,85,78,90,65,88\nMW-002,Amina Salum,Terminal Exam,70,60,75,50,68";
+            let csvContent = "data:text/csv;charset=utf-8,Prem_No,Jina_Mwanafunzi,Mtihani,Kiswahili,English,Maarifa,Hisabati,Sayansi,Darasa\n";
+            csvContent += "MW-001,Baraka Juma,Terminal Exam,85,78,90,65,88,Darasa VII\nMW-002,Amina Salum,Terminal Exam,70,60,75,50,68,Darasa VII";
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);
