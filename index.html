@@ -11,6 +11,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <!-- Chart.js for Interactive Bar & Pie Graphs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- SweetAlert2 for Modern Toast Alerts -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-slate-900 font-sans text-slate-800 min-h-screen">
 
@@ -122,16 +124,24 @@
 
     <!-- MAIN DASHBOARD SYSTEM -->
     <div id="app-section" class="hidden min-h-screen bg-slate-100 flex flex-col md:flex-row">
-        <aside class="w-full md:w-64 bg-slate-900 text-white flex-shrink-0">
-            <div class="p-4 border-b border-slate-800 flex items-center gap-3">
-                <div class="bg-blue-600 p-2 rounded-lg"><i class="fa-solid fa-school"></i></div>
-                <div>
-                    <h2 class="font-bold text-sm leading-tight">MSINGI MWASHIKU</h2>
-                    <span class="text-[10px] text-blue-400 block font-mono">MSRMS Analytics v3.5</span>
+        
+        <!-- SIDEBAR NAVIGATION WITH MOBILE TOGGLE -->
+        <aside id="sidebar-menu" class="w-full md:w-64 bg-slate-900 text-white flex-shrink-0 transition-all duration-300">
+            <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="bg-blue-600 p-2 rounded-lg"><i class="fa-solid fa-school"></i></div>
+                    <div>
+                        <h2 class="font-bold text-sm leading-tight">MSINGI MWASHIKU</h2>
+                        <span class="text-[10px] text-blue-400 block font-mono">MSRMS Analytics v3.5</span>
+                    </div>
                 </div>
+                <!-- MOBILE TOGGLE BUTTON -->
+                <button onclick="toggleMobileSidebar()" class="md:hidden text-slate-300 hover:text-white text-xl">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
             </div>
 
-            <nav class="p-4 space-y-1 text-sm">
+            <nav id="nav-links" class="p-4 space-y-1 text-sm hidden md:block">
                 <button onclick="switchTab('dashboard')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-800 text-white font-medium hover:bg-blue-700 transition">
                     <i class="fa-solid fa-chart-pie w-5"></i> Dashboard & Analytics
                 </button>
@@ -158,9 +168,14 @@
 
         <main class="flex-1 flex flex-col">
             <header class="bg-white border-b px-6 py-4 flex justify-between items-center shadow-sm">
-                <div>
-                    <h1 class="text-xl font-bold text-slate-800" id="user-welcome-header">Karibu Mfomoni</h1>
-                    <p class="text-xs text-emerald-600 font-semibold">"Elimu ni Ufunguo wa Maisha."</p>
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleMobileSidebar()" class="md:hidden text-slate-700 text-lg">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold text-slate-800" id="user-welcome-header">Karibu Mfomoni</h1>
+                        <p class="text-xs text-emerald-600 font-semibold">"Elimu ni Ufunguo wa Maisha."</p>
+                    </div>
                 </div>
                 <div class="flex items-center gap-3">
                     <span id="user-role-badge" class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full font-bold">Mwalimu</span>
@@ -363,7 +378,14 @@
                 </div>
 
                 <div class="bg-white rounded-xl shadow border overflow-hidden">
-                    <div class="p-4 bg-slate-50 border-b"><h3 class="font-bold text-slate-800">Orodha ya Wanafunzi Mtandaoni</h3></div>
+                    <div class="p-4 bg-slate-50 border-b flex flex-col md:flex-row justify-between items-center gap-3">
+                        <h3 class="font-bold text-slate-800">Orodha ya Wanafunzi Mtandaoni</h3>
+                        <!-- LIVE SEARCH FOR STUDENTS -->
+                        <div class="relative w-full md:w-64">
+                            <input type="text" id="search-student-input" onkeyup="filterStudentsTable()" placeholder="Tafuta Jina au Prem No..." class="w-full pl-8 pr-3 py-1.5 border rounded-lg text-xs outline-none focus:ring-2 focus:ring-blue-500">
+                            <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-slate-400 text-xs"></i>
+                        </div>
+                    </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-left">
                             <thead class="bg-slate-100 font-bold text-slate-700">
@@ -400,8 +422,13 @@
                 </div>
 
                 <div class="bg-white rounded-xl shadow border overflow-hidden">
-                    <div class="p-4 bg-slate-50 border-b flex justify-between items-center">
+                    <div class="p-4 bg-slate-50 border-b flex flex-col md:flex-row justify-between items-center gap-3">
                         <h3 class="font-bold text-slate-800">Matokeo Yaliyorekodiwa & Kutuma Kwa Wazazi</h3>
+                        <!-- LIVE SEARCH FOR RESULTS -->
+                        <div class="relative w-full md:w-64">
+                            <input type="text" id="search-results-input" onkeyup="filterResultsTable()" placeholder="Tafuta Mwanafunzi au Mtihani..." class="w-full pl-8 pr-3 py-1.5 border rounded-lg text-xs outline-none focus:ring-2 focus:ring-emerald-500">
+                            <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-slate-400 text-xs"></i>
+                        </div>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-left">
@@ -413,7 +440,7 @@
                                     <th class="p-3">Jumla</th>
                                     <th class="p-3">Wastani</th>
                                     <th class="p-3">Daraja</th>
-                                    <th class="p-3 text-center">Tuma Kwa Mzazi</th>
+                                    <th class="p-3 text-center">Hatua & Tuma Kwa Mzazi</th>
                                 </tr>
                             </thead>
                             <tbody id="results-table-body"></tbody>
@@ -534,8 +561,9 @@
                 await signInWithEmailAndPassword(auth, email, pass);
                 closeAuthModal();
                 showAppDashboard();
+                Swal.fire({ icon: 'success', title: 'Imefanikiwa', text: 'Karibu Mfomoni Mwalimu!', timer: 2000, showConfirmButton: false });
             } catch (err) {
-                alert("Imeshindwa Kuingia: Barua pepe au Password sio sahihi.");
+                Swal.fire({ icon: 'error', title: 'Imeshindwa', text: 'Barua pepe au Password sio sahihi.' });
             }
         });
 
@@ -553,11 +581,11 @@
                 await setDoc(doc(db, "msrms_teachers", res.user.uid), {
                     name, phone, classAssigned: cls, email, role: "Mwalimu"
                 });
-                alert("Usajili wa Mwalimu umekamilika kikamilifu!");
+                Swal.fire({ icon: 'success', title: 'Usajili Umekamilika', text: 'Akaunti ya Mwalimu imefunguliwa Cloud!', timer: 2000, showConfirmButton: false });
                 closeAuthModal();
                 showAppDashboard();
             } catch (err) {
-                alert("Imeshindwa kusajili: " + err.message);
+                Swal.fire({ icon: 'error', title: 'Imeshindwa Kusajili', text: err.message });
             }
         });
 
@@ -606,11 +634,11 @@
                 await addDoc(collection(db, "msrms_students"), {
                     prem, name, gender, parentPhone, cls, createdAt: new Date().toISOString()
                 });
-                alert("Mwanafunzi amehifadhiwa Cloud!");
+                Swal.fire({ icon: 'success', title: 'Imesajiliwa', text: 'Mwanafunzi amehifadhiwa Cloud!', timer: 1800, showConfirmButton: false });
                 document.getElementById('add-student-form').reset();
                 loadStudentsData();
             } catch (err) {
-                alert("Error: " + err.message);
+                Swal.fire({ icon: 'error', title: 'Matatizo', text: err.message });
             }
         });
 
@@ -637,7 +665,7 @@
                         });
                     }
                 }
-                alert("Wanafunzi wote kutoka Excel wamehifadhiwa Cloud!");
+                Swal.fire({ icon: 'success', title: 'Upload Imekamilika', text: 'Wanafunzi wote kutoka Excel wamehifadhiwa Cloud!', timer: 2000, showConfirmButton: false });
                 loadStudentsData();
             };
             reader.readAsText(file);
@@ -685,7 +713,7 @@
                         });
                     }
                 }
-                alert("Matokeo yamehifadhiwa mtandaoni kikamilifu!");
+                Swal.fire({ icon: 'success', title: 'Matokeo Yamehifadhiwa', text: 'Matokeo yote ya darasa yamepakiwa mtandaoni kikamilifu!', timer: 2000, showConfirmButton: false });
                 loadResultsData();
             };
             reader.readAsText(file);
@@ -714,30 +742,43 @@
         async function loadStudentsData() {
             const querySnapshot = await getDocs(collection(db, "msrms_students"));
             loadedStudents = [];
+            querySnapshot.forEach(doc => {
+                loadedStudents.push(doc.data());
+            });
+            renderStudentsTable(loadedStudents);
+            document.getElementById('stat-students-count').innerText = loadedStudents.length;
+        }
+
+        function renderStudentsTable(dataList) {
             const sBody = document.getElementById('students-table-body');
             sBody.innerHTML = '';
-            querySnapshot.forEach(doc => {
-                const s = doc.data();
-                loadedStudents.push(s);
+            dataList.forEach(s => {
                 sBody.innerHTML += `<tr class="border-b hover:bg-slate-50"><td class="p-3 font-mono text-xs">${s.prem}</td><td class="p-3 font-semibold">${s.name}</td><td class="p-3">${s.gender}</td><td class="p-3">${s.parentPhone || '-'}</td><td class="p-3">${s.cls}</td></tr>`;
             });
-            document.getElementById('stat-students-count').innerText = loadedStudents.length;
         }
 
         async function loadResultsData() {
             const querySnapshot = await getDocs(collection(db, "msrms_results"));
             loadedResults = [];
-            const rBody = document.getElementById('results-table-body');
-            rBody.innerHTML = '';
 
             querySnapshot.forEach(doc => {
-                const r = doc.data();
-                loadedResults.push(r);
+                loadedResults.push(doc.data());
             });
 
             loadedResults.sort((a, b) => b.avg - a.avg);
+            renderResultsTable(loadedResults);
 
-            loadedResults.forEach(r => {
+            loadTopAndBottomPupils();
+            renderExamChart();
+            renderClassProgress();
+        }
+
+        function renderResultsTable(dataList) {
+            const rBody = document.getElementById('results-table-body');
+            rBody.innerHTML = '';
+
+            dataList.forEach((r, index) => {
+                const rank = loadedResults.findIndex(x => x.studentName === r.studentName && x.avg === r.avg) + 1;
                 rBody.innerHTML += `
                     <tr class="border-b hover:bg-slate-50">
                         <td class="p-3 font-semibold">${r.studentName}</td>
@@ -747,6 +788,9 @@
                         <td class="p-3 text-blue-600 font-bold">${r.avg}</td>
                         <td class="p-3"><span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded font-black">${r.grade}</span></td>
                         <td class="p-3 text-center flex justify-center gap-1">
+                            <button onclick="downloadSingleReportCard('${r.studentName}', '${r.cls || 'Darasa VII'}', '${r.exam}', '${r.kisw}', '${r.eng}', '${r.maarifa}', '${r.hisabati}', '${r.sayansi}', '${r.total}', '${r.avg}', '${r.grade}', '${rank}')" class="bg-purple-600 hover:bg-purple-700 text-white text-[11px] font-bold px-2 py-1 rounded transition flex items-center gap-1" title="Download Report Card ya Mwanafunzi">
+                                <i class="fa-solid fa-file-pdf"></i> Report
+                            </button>
                             <button onclick="sendNormalSMS('${r.studentName}', '${r.exam}', '${r.avg}', '${r.grade}')" class="bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-bold px-2 py-1 rounded transition flex items-center gap-1">
                                 <i class="fa-solid fa-comment-sms"></i> SMS
                             </button>
@@ -757,11 +801,24 @@
                     </tr>
                 `;
             });
-
-            loadTopAndBottomPupils();
-            renderExamChart();
-            renderClassProgress();
         }
+
+        // FILTER FUNCTIONS FOR SEARCH BARS
+        window.filterStudentsTable = function() {
+            const query = document.getElementById('search-student-input').value.toLowerCase();
+            const filtered = loadedStudents.filter(s => 
+                s.name.toLowerCase().includes(query) || s.prem.toLowerCase().includes(query)
+            );
+            renderStudentsTable(filtered);
+        };
+
+        window.filterResultsTable = function() {
+            const query = document.getElementById('search-results-input').value.toLowerCase();
+            const filtered = loadedResults.filter(r => 
+                r.studentName.toLowerCase().includes(query) || (r.exam && r.exam.toLowerCase().includes(query))
+            );
+            renderResultsTable(filtered);
+        };
 
         function loadTopAndBottomPupils() {
             const topBody = document.getElementById('top10-table-body');
@@ -901,7 +958,7 @@
             });
         }
 
-        // SMS & PDF FUNCTIONS WITH CLASS FILTERING
+        // SMS & WHATSAPP FUNCTIONS
         window.sendNormalSMS = function(studentName, exam, avg, grade) {
             const msg = `SHULE YA MSINGI MWASHIKU: Matokeo ya Mwanafunzi ${studentName} kwa mtihani wa ${exam}: Wastani ni ${avg} (Daraja ${grade}). Ahsante - Mwalimu Mkuu.`;
             window.open(`sms:?body=${encodeURIComponent(msg)}`, '_self');
@@ -911,6 +968,73 @@
             const msg = `SHULE YA MSINGI MWASHIKU: Matokeo ya Mwanafunzi ${studentName} kwa mtihani wa ${exam}: Wastani ni ${avg} (Daraja ${grade}). Ahsante - Mwalimu Mkuu.`;
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
         };
+
+        // DOWNLOAD SINGLE STUDENT REPORT CARD PDF
+        window.downloadSingleReportCard = function(name, cls, exam, kisw, eng, maarifa, hisabati, sayansi, total, avg, grade, rank) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFillColor(2, 132, 199);
+            doc.rect(0, 0, 210, 28, 'F');
+
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(16);
+            doc.setFont("helvetica", "bold");
+            doc.text("SHULE YA MSINGI MWASHIKU", 105, 12, null, null, "center");
+            
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "normal");
+            doc.text("TAARIFA YA MAENDELEO YA MWANAFUNZI (STUDENT REPORT CARD)", 105, 20, null, null, "center");
+
+            doc.setTextColor(30, 41, 59);
+            doc.setFontSize(10);
+            doc.text(`Jina la Mwanafunzi: ${name}`, 14, 38);
+            doc.text(`Darasa: ${cls}`, 14, 45);
+            doc.text(`Aina ya Mtihani: ${exam}`, 140, 38);
+            doc.text(`Nafasi Darasani: Wa ${rank}`, 140, 45);
+
+            const subjectRows = [
+                ['Kiswahili', kisw, getGradeFromMark(kisw)],
+                ['English Language', eng, getGradeFromMark(eng)],
+                ['Maarifa ya Jamii', maarifa, getGradeFromMark(maarifa)],
+                ['Hisabati', hisabati, getGradeFromMark(hisabati)],
+                ['Sayansi na Teknolojia', sayansi, getGradeFromMark(sayansi)],
+            ];
+
+            doc.autoTable({
+                startY: 52,
+                head: [['Somo', 'Alama (Marks)', 'Daraja (Grade)']],
+                body: subjectRows,
+                theme: 'grid',
+                headStyles: { fillColor: [15, 23, 42] }
+            });
+
+            const finalY = doc.lastAutoTable.finalY + 10;
+
+            doc.setFontSize(11);
+            doc.setFont("helvetica", "bold");
+            doc.text(`Jumla ya Alama: ${total} / 500`, 14, finalY);
+            doc.text(`Wastani: ${avg}`, 90, finalY);
+            doc.text(`Daraja la Jumla: ${grade}`, 150, finalY);
+
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "italic");
+            doc.text("Maoni ya Mwalimu Mkuu: Metimiza wajibu vizuri. Ongeza juhudi za masomo.", 14, finalY + 15);
+
+            doc.text("Sahihi ya Mwalimu Mkuu: _____________________", 14, finalY + 30);
+            doc.text("Tarehe: ___________________", 140, finalY + 30);
+
+            doc.save(`Report_Card_${name.replace(/\s+/g, '_')}.pdf`);
+        };
+
+        function getGradeFromMark(mark) {
+            const m = Number(mark) || 0;
+            if (m >= 81) return 'A';
+            if (m >= 61) return 'B';
+            if (m >= 41) return 'C';
+            if (m >= 21) return 'D';
+            return 'F';
+        }
 
         // PDF 1: STUDENT RANKING PER SELECTED CLASS
         window.downloadStudentRankingPDF = function() {
@@ -924,7 +1048,7 @@
             }
 
             if (targetResults.length === 0) {
-                return alert(`Hakuna matokeo yaliyorekodiwa kwa ajili ya: ${selectedClass}`);
+                return Swal.fire({ icon: 'warning', title: 'Hamna Data', text: `Hakuna matokeo yaliyorekodiwa kwa ajili ya: ${selectedClass}` });
             }
 
             doc.setFontSize(14);
@@ -959,7 +1083,7 @@
             }
 
             if (targetResults.length === 0) {
-                return alert(`Hakuna matokeo yaliyorekodiwa kwa ajili ya: ${selectedClass}`);
+                return Swal.fire({ icon: 'warning', title: 'Hamna Data', text: `Hakuna matokeo yaliyorekodiwa kwa ajili ya: ${selectedClass}` });
             }
 
             doc.setFontSize(14);
@@ -1007,7 +1131,7 @@
             }
 
             if (targetResults.length === 0) {
-                return alert(`Hakuna matokeo yaliyorekodiwa kwa ajili ya: ${selectedClass}`);
+                return Swal.fire({ icon: 'warning', title: 'Hamna Data', text: `Hakuna matokeo yaliyorekodiwa kwa ajili ya: ${selectedClass}` });
             }
 
             doc.setFontSize(14);
@@ -1049,7 +1173,12 @@
     </script>
 
     <script>
-        // UI Navigation Script
+        // UI Navigation & Mobile Sidebar Script
+        function toggleMobileSidebar() {
+            const nav = document.getElementById('nav-links');
+            nav.classList.toggle('hidden');
+        }
+
         function showAuthModal(type) {
             document.getElementById('auth-modal').classList.remove('hidden');
             switchForm(type);
@@ -1074,6 +1203,10 @@
                 document.getElementById(`view-${v}`).classList.add('hidden');
             });
             document.getElementById(`view-${tabName}`).classList.remove('hidden');
+
+            if (window.innerWidth < 768) {
+                document.getElementById('nav-links').classList.add('hidden');
+            }
         }
 
         function downloadStudentTemplate() {
