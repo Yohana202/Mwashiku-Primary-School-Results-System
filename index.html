@@ -6,28 +6,28 @@
     <title>SHULE YA MSINGI MWASHIKU - MSRMS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- jsPDF & AutoTable for PDF Download/Print -->
+    <!-- jsPDF & AutoTable -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
-    <!-- Chart.js for Interactive Bar & Pie Graphs -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- SweetAlert2 for Modern Toast Alerts -->
+    <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-slate-900 font-sans text-slate-800 min-h-screen">
 
-    <!-- WELCOME / LANDING PAGE SECTION (ALWAYS SHOWN FIRST) -->
+    <!-- WELCOME LANDING PAGE -->
     <div id="welcome-section" class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-950 via-slate-900 to-blue-900 text-white">
         <div class="max-w-xl w-full bg-slate-800/80 backdrop-blur-md p-8 rounded-2xl border border-slate-700 shadow-2xl text-center">
             <div class="bg-blue-600 text-white w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl shadow-lg border-2 border-blue-400">
                 <i class="fa-solid fa-graduation-cap"></i>
             </div>
             
-            <h1 class="text-2xl md:text-3xl font-black tracking-wide text-white mb-2">SHULE YA MSINGI MWASHIKU</h1>
+            <h1 class="text-2xl md:text-3xl font-black tracking-wide text-white mb-2" id="school-title-display">SHULE YA MSINGI MWASHIKU</h1>
             <p class="text-xs font-semibold text-blue-400 uppercase tracking-widest mb-6">STUDENT RESULTS MANAGEMENT SYSTEM (MSRMS)</p>
             
             <div class="bg-slate-900/60 p-5 rounded-xl border border-slate-700 mb-6 text-left">
-                <h3 class="text-lg font-bold text-emerald-400 mb-1">Hello, Mwalimu!</h3>
+                <h3 class="text-lg font-bold text-emerald-400 mb-1">Hello, Mwalimu Malole!</h3>
                 <p class="text-slate-300 text-sm leading-relaxed">
                     Karibu sana kwenye Mfumo wa Matokeo wa Shule ya Msingi Mwashiku.
                 </p>
@@ -46,12 +46,13 @@
             </div>
 
             <div class="mt-8 text-xs text-slate-400 border-t border-slate-800 pt-4">
-                <p>Mwalimu Mkuu: <strong>Innocent Valentine</strong> (0653708999)</p>
+                <p>Mkuu wa Shule (Admin): <strong>INNOCENT VALENTINE</strong></p>
+                <p>Super Admin: <strong>Mwalimu Malole (Msaidizi)</strong></p>
             </div>
         </div>
     </div>
 
-    <!-- AUTH MODAL (LOGIN / REGISTER POPUP) -->
+    <!-- AUTH MODAL -->
     <div id="auth-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 relative">
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 font-bold text-xl">&times;</button>
@@ -59,7 +60,7 @@
             <!-- LOGIN FORM -->
             <div id="form-login-container">
                 <h2 class="text-xl font-bold text-slate-800 mb-1">Kuingia Mfomoni</h2>
-                <p class="text-xs text-slate-500 mb-4">Ingiza Email na Password uliyojisajilia.</p>
+                <p class="text-xs text-slate-500 mb-4">Ingiza Barua Pepe na Nywila yako.</p>
                 
                 <form id="login-form" class="space-y-4">
                     <div>
@@ -67,7 +68,7 @@
                         <input type="email" id="login-email" required placeholder="mwalimu@gmail.com" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Password / Neno la Siri</label>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Password / Nywila</label>
                         <input type="password" id="login-password" required placeholder="******" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none">
                     </div>
                     <button type="submit" class="w-full bg-blue-700 text-white font-bold py-2.5 rounded-lg hover:bg-blue-800 transition">
@@ -80,7 +81,7 @@
             <!-- REGISTER FORM -->
             <div id="form-register-container" class="hidden">
                 <h2 class="text-xl font-bold text-slate-800 mb-1">Usajili wa Mwalimu Mpya</h2>
-                <p class="text-xs text-slate-500 mb-4">Jaza taarifa zako vizuri ili kufungua akaunti ya Cloud.</p>
+                <p class="text-xs text-slate-500 mb-4">Jaza taarifa zako ili kufungua akaunti.</p>
                 
                 <form id="register-form" class="space-y-3">
                     <div>
@@ -110,7 +111,7 @@
                         <input type="email" id="reg-email" required placeholder="mwalimu@gmail.com" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Password</label>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Nywila (Password)</label>
                         <input type="password" id="reg-password" required placeholder="******" class="w-full px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
                     </div>
                     <button type="submit" class="w-full bg-emerald-600 text-white font-bold py-2.5 rounded-lg hover:bg-emerald-700 transition">
@@ -125,17 +126,16 @@
     <!-- MAIN DASHBOARD SYSTEM -->
     <div id="app-section" class="hidden min-h-screen bg-slate-100 flex flex-col md:flex-row">
         
-        <!-- SIDEBAR NAVIGATION WITH MOBILE TOGGLE -->
+        <!-- SIDEBAR NAVIGATION -->
         <aside id="sidebar-menu" class="w-full md:w-64 bg-slate-900 text-white flex-shrink-0 transition-all duration-300">
             <div class="p-4 border-b border-slate-800 flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <div class="bg-blue-600 p-2 rounded-lg"><i class="fa-solid fa-school"></i></div>
                     <div>
-                        <h2 class="font-bold text-sm leading-tight">MSINGI MWASHIKU</h2>
-                        <span class="text-[10px] text-blue-400 block font-mono">MSRMS Analytics v3.5</span>
+                        <h2 class="font-bold text-sm leading-tight" id="sidebar-school-title">MSINGI MWASHIKU</h2>
+                        <span class="text-[10px] text-blue-400 block font-mono">MSRMS Portal Cloud</span>
                     </div>
                 </div>
-                <!-- MOBILE TOGGLE BUTTON -->
                 <button onclick="toggleMobileSidebar()" class="md:hidden text-slate-300 hover:text-white text-xl">
                     <i class="fa-solid fa-bars"></i>
                 </button>
@@ -160,6 +160,9 @@
                 <button onclick="switchTab('teachers')" id="menu-teachers" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition">
                     <i class="fa-solid fa-chalkboard-user w-5"></i> Walimu Waliosajiliwa
                 </button>
+                <button id="menu-admin-settings" onclick="switchTab('admin-settings')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-amber-400 hover:bg-amber-900/30 transition border border-amber-500/30">
+                    <i class="fa-solid fa-user-shield w-5"></i> Super Admin Control
+                </button>
                 <button id="logout-btn" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:bg-red-900/30 transition mt-6">
                     <i class="fa-solid fa-right-from-bracket w-5"></i> Ondoka (Logout)
                 </button>
@@ -173,18 +176,23 @@
                         <i class="fa-solid fa-bars"></i>
                     </button>
                     <div>
-                        <h1 class="text-xl font-bold text-slate-800" id="user-welcome-header">Karibu Mfomoni</h1>
+                        <h1 class="text-xl font-bold text-slate-800" id="user-welcome-header">Karibu, Mwalimu Malole</h1>
                         <p class="text-xs text-emerald-600 font-semibold">"Elimu ni Ufunguo wa Maisha."</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <span id="user-role-badge" class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full font-bold">Mwalimu</span>
+                    <span id="user-role-badge" class="bg-amber-100 text-amber-800 text-xs px-3 py-1 rounded-full font-bold">Super Admin</span>
                     <span id="user-name-display" class="font-semibold text-slate-700 text-sm">User</span>
                 </div>
             </header>
 
-            <!-- VIEW: DASHBOARD & GRAPH ANALYTICS -->
+            <!-- VIEW: DASHBOARD -->
             <div id="view-dashboard" class="p-6 space-y-6">
+                <div id="exam-status-banner" class="bg-emerald-500 text-white p-3 rounded-xl flex justify-between items-center px-6 text-xs font-bold shadow">
+                    <span><i class="fa-solid fa-door-open mr-2"></i> Mtihani Unaendelea: Mfumo Upo Wazi Kupokea Matokeo</span>
+                    <span id="exam-lock-indicator" class="bg-white text-emerald-800 px-2.5 py-1 rounded-md uppercase">Wazi (Active)</span>
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div class="bg-white p-4 rounded-xl shadow-sm border">
                         <p class="text-xs text-slate-500 font-bold uppercase">Jumla ya Wanafunzi</p>
@@ -204,39 +212,38 @@
                     </div>
                 </div>
 
-                <!-- GRAPH SELECTION & ANALYSIS SECTION -->
+                <!-- GRAPH SELECTION -->
                 <div class="bg-white p-6 rounded-xl shadow border space-y-4">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b pb-4">
                         <div>
                             <h3 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-chart-column text-blue-600 mr-2"></i>Tathmini ya Matokeo kwa Graph</h3>
-                            <p class="text-xs text-slate-500">Chagua darasa, mtihani na aina ya Graph kuona uchanganuzi wa madaraja (A, B, C, D, F).</p>
+                            <p class="text-xs text-slate-500">Chagua darasa na aina ya Graph kuona uchanganuzi wa madaraja (A, B, C, D, F).</p>
                         </div>
                         <div class="flex flex-wrap items-center gap-3">
-                            <select id="graph-filter-class" onchange="renderExamChart()" class="bg-slate-100 border text-xs font-bold px-3 py-2 rounded-lg outline-none">
+                            <select id="graph-filter-class" onchange="window.renderExamChart()" class="bg-slate-100 border text-xs font-bold px-3 py-2 rounded-lg outline-none">
                                 <option value="ALL">Madarasa Yote</option>
-                                <option value="Darasa VII">Darasa VII</option>
-                                <option value="Darasa VI">Darasa VI</option>
-                                <option value="Darasa V">Darasa V</option>
-                                <option value="Darasa IV">Darasa IV</option>
-                                <option value="Darasa III">Darasa III</option>
-                                <option value="Darasa II">Darasa II</option>
-                                <option value="Darasa I">Darasa I</option>
                                 <option value="Awali">Awali</option>
+                                <option value="Darasa I">Darasa I</option>
+                                <option value="Darasa II">Darasa II</option>
+                                <option value="Darasa III">Darasa III</option>
+                                <option value="Darasa IV">Darasa IV</option>
+                                <option value="Darasa V">Darasa V</option>
+                                <option value="Darasa VI">Darasa VI</option>
+                                <option value="Darasa VII">Darasa VII</option>
                             </select>
-                            <select id="graph-filter-charttype" onchange="renderExamChart()" class="bg-slate-100 border text-xs font-bold px-3 py-2 rounded-lg outline-none">
+                            <select id="graph-filter-charttype" onchange="window.renderExamChart()" class="bg-slate-100 border text-xs font-bold px-3 py-2 rounded-lg outline-none">
                                 <option value="bar">Bar Graph (Milingoti)</option>
                                 <option value="pie">Pie Chart (Duhara)</option>
                             </select>
                         </div>
                     </div>
 
-                    <!-- CANVAS FOR CHART -->
                     <div class="w-full h-72 flex items-center justify-center">
                         <canvas id="examAnalyticsChart"></canvas>
                     </div>
                 </div>
 
-                <!-- 10 BEST & 10 BOTTOM PUPILS SECTION -->
+                <!-- TOP 10 & BOTTOM 10 -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="bg-white p-5 rounded-xl shadow border">
                         <div class="flex justify-between items-center mb-4 border-b pb-2">
@@ -255,7 +262,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="top10-table-body">
-                                    <tr><td colspan="4" class="p-3 text-center text-slate-400">Hakuna matokeo yaliyorekodiwa bado.</td></tr>
+                                    <tr><td colspan="4" class="p-3 text-center text-slate-400">Loading...</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -278,7 +285,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="bottom10-table-body">
-                                    <tr><td colspan="4" class="p-3 text-center text-slate-400">Hakuna matokeo yaliyorekodiwa bado.</td></tr>
+                                    <tr><td colspan="4" class="p-3 text-center text-slate-400">Loading...</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -286,18 +293,16 @@
                 </div>
             </div>
 
-            <!-- VIEW: CLASS PROGRESS & COMPARISON (AWALI HADI VII) -->
+            <!-- VIEW: CLASS PROGRESS -->
             <div id="view-class-progress" class="p-6 hidden space-y-6">
                 <div class="bg-white p-6 rounded-xl shadow border">
                     <h2 class="text-lg font-bold text-slate-800 mb-1"><i class="fa-solid fa-chart-line text-emerald-600 mr-2"></i>Tathmini ya Progress ya Madarasa (Awali - VII)</h2>
-                    <p class="text-xs text-slate-500 mb-6">Ulinganisho wa ufaulu na wastani kwa kila darasa ili kubaini maendeleo ya jumla ya shule.</p>
+                    <p class="text-xs text-slate-500 mb-6">Ulinganisho wa ufaulu na wastani wa kila darasa.</p>
 
-                    <!-- BAR GRAPH COMPARISON -->
                     <div class="w-full h-72 mb-8">
                         <canvas id="classProgressChart"></canvas>
                     </div>
 
-                    <!-- SUMMARY TABLE PER CLASS -->
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-left border-collapse">
                             <thead class="bg-slate-100 font-bold text-slate-700">
@@ -310,9 +315,7 @@
                                     <th class="p-3 border">Hali (Status)</th>
                                 </tr>
                             </thead>
-                            <tbody id="class-progress-table-body">
-                                <!-- Populated dynamically -->
-                            </tbody>
+                            <tbody id="class-progress-table-body"></tbody>
                         </table>
                     </div>
                 </div>
@@ -323,7 +326,7 @@
                 <div class="bg-blue-50 p-6 rounded-xl border border-blue-200 flex flex-col md:flex-row justify-between items-center gap-4">
                     <div>
                         <h3 class="font-bold text-blue-900 text-base"><i class="fa-solid fa-file-excel text-emerald-600 mr-2"></i>Sajili Wanafunzi Kwa Mkupuo (Excel CSV)</h3>
-                        <p class="text-xs text-slate-600 mt-1">Pakua template, jaza majina ya wanafunzi offline, kisha u-upload hapa kuokoa muda.</p>
+                        <p class="text-xs text-slate-600 mt-1">Pakua template, jaza majina offline, kisha u-upload hapa.</p>
                     </div>
                     <div class="flex gap-2 w-full md:w-auto">
                         <button onclick="downloadStudentTemplate()" class="bg-emerald-600 text-white text-xs font-bold px-4 py-2.5 rounded-lg hover:bg-emerald-700 transition flex items-center gap-2">
@@ -337,14 +340,14 @@
                 </div>
 
                 <div class="bg-white p-6 rounded-xl shadow border">
-                    <h2 class="text-sm font-bold text-slate-800 mb-3">Au Sajili Mwanafunzi Mmoja Mmoja</h2>
+                    <h2 class="text-sm font-bold text-slate-800 mb-3">Sajili Mwanafunzi Mmoja Mmoja</h2>
                     <form id="add-student-form" class="grid grid-cols-1 md:grid-cols-5 gap-4">
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1">Jina Kamili</label>
-                            <input type="text" id="std-fullname" placeholder="Mfano: Baraka Juma" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                            <input type="text" id="std-fullname" placeholder="Baraka Juma" required class="w-full px-3 py-2 border rounded-lg text-sm">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Prem No/Namba</label>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Prem No</label>
                             <input type="text" id="std-prem" placeholder="MW-001" required class="w-full px-3 py-2 border rounded-lg text-sm">
                         </div>
                         <div>
@@ -361,28 +364,27 @@
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1">Darasa</label>
                             <select id="std-class" required class="w-full px-3 py-2 border rounded-lg text-sm">
-                                <option value="Darasa VII">Darasa VII</option>
-                                <option value="Darasa VI">Darasa VI</option>
-                                <option value="Darasa V">Darasa V</option>
-                                <option value="Darasa IV">Darasa IV</option>
-                                <option value="Darasa III">Darasa III</option>
-                                <option value="Darasa II">Darasa II</option>
-                                <option value="Darasa I">Darasa I</option>
                                 <option value="Awali">Awali</option>
+                                <option value="Darasa I">Darasa I</option>
+                                <option value="Darasa II">Darasa II</option>
+                                <option value="Darasa III">Darasa III</option>
+                                <option value="Darasa IV">Darasa IV</option>
+                                <option value="Darasa V">Darasa V</option>
+                                <option value="Darasa VI">Darasa VI</option>
+                                <option value="Darasa VII">Darasa VII</option>
                             </select>
                         </div>
                         <div class="md:col-span-5 text-right">
-                            <button type="submit" class="bg-slate-800 text-white font-bold text-xs px-5 py-2.5 rounded-lg hover:bg-slate-900">Hifadhi Cloud Database</button>
+                            <button type="submit" class="bg-slate-800 text-white font-bold text-xs px-5 py-2.5 rounded-lg hover:bg-slate-900">Hifadhi Mwanafunzi</button>
                         </div>
                     </form>
                 </div>
 
                 <div class="bg-white rounded-xl shadow border overflow-hidden">
                     <div class="p-4 bg-slate-50 border-b flex flex-col md:flex-row justify-between items-center gap-3">
-                        <h3 class="font-bold text-slate-800">Orodha ya Wanafunzi Mtandaoni</h3>
-                        <!-- LIVE SEARCH FOR STUDENTS -->
+                        <h3 class="font-bold text-slate-800">Orodha ya Wanafunzi</h3>
                         <div class="relative w-full md:w-64">
-                            <input type="text" id="search-student-input" onkeyup="filterStudentsTable()" placeholder="Tafuta Jina au Prem No..." class="w-full pl-8 pr-3 py-1.5 border rounded-lg text-xs outline-none focus:ring-2 focus:ring-blue-500">
+                            <input type="text" id="search-student-input" onkeyup="window.filterStudentsTable()" placeholder="Tafuta Jina au Prem No..." class="w-full pl-8 pr-3 py-1.5 border rounded-lg text-xs outline-none focus:ring-2 focus:ring-blue-500">
                             <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-slate-400 text-xs"></i>
                         </div>
                     </div>
@@ -395,6 +397,7 @@
                                     <th class="p-3">Jinsia</th>
                                     <th class="p-3">Simu Mzazi</th>
                                     <th class="p-3">Darasa</th>
+                                    <th class="p-3 text-center">Kitendo</th>
                                 </tr>
                             </thead>
                             <tbody id="students-table-body"></tbody>
@@ -408,7 +411,7 @@
                 <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-200 flex flex-col md:flex-row justify-between items-center gap-4">
                     <div>
                         <h3 class="font-bold text-emerald-900 text-base"><i class="fa-solid fa-file-invoice text-emerald-600 mr-2"></i>Upload Matokeo Ya Darasa Zima (Excel CSV)</h3>
-                        <p class="text-xs text-slate-600 mt-1">Pakua template yenye orodha ya wanafunzi, jaza maksi za masomo zote, kisha u-upload mfumo upige wastani na daraja.</p>
+                        <p class="text-xs text-slate-600 mt-1">Pakua template, jaza maksi kulingana na darasa, kisha upload.</p>
                     </div>
                     <div class="flex gap-2 w-full md:w-auto">
                         <button onclick="downloadResultsTemplate()" class="bg-slate-800 text-white text-xs font-bold px-4 py-2.5 rounded-lg hover:bg-slate-900 transition flex items-center gap-2">
@@ -423,10 +426,9 @@
 
                 <div class="bg-white rounded-xl shadow border overflow-hidden">
                     <div class="p-4 bg-slate-50 border-b flex flex-col md:flex-row justify-between items-center gap-3">
-                        <h3 class="font-bold text-slate-800">Matokeo Yaliyorekodiwa & Kutuma Kwa Wazazi</h3>
-                        <!-- LIVE SEARCH FOR RESULTS -->
+                        <h3 class="font-bold text-slate-800">Matokeo Yaliyorekodiwa</h3>
                         <div class="relative w-full md:w-64">
-                            <input type="text" id="search-results-input" onkeyup="filterResultsTable()" placeholder="Tafuta Mwanafunzi au Mtihani..." class="w-full pl-8 pr-3 py-1.5 border rounded-lg text-xs outline-none focus:ring-2 focus:ring-emerald-500">
+                            <input type="text" id="search-results-input" onkeyup="window.filterResultsTable()" placeholder="Tafuta Mwanafunzi..." class="w-full pl-8 pr-3 py-1.5 border rounded-lg text-xs outline-none focus:ring-2 focus:ring-emerald-500">
                             <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-slate-400 text-xs"></i>
                         </div>
                     </div>
@@ -440,7 +442,7 @@
                                     <th class="p-3">Jumla</th>
                                     <th class="p-3">Wastani</th>
                                     <th class="p-3">Daraja</th>
-                                    <th class="p-3 text-center">Hatua & Tuma Kwa Mzazi</th>
+                                    <th class="p-3 text-center">Hatua & SMS</th>
                                 </tr>
                             </thead>
                             <tbody id="results-table-body"></tbody>
@@ -449,15 +451,14 @@
                 </div>
             </div>
 
-            <!-- VIEW: RIPOTI NA RANKING (PDF / PRINT WITH CLASS FILTER) -->
+            <!-- VIEW: RIPOTI NA RANKING -->
             <div id="view-reports" class="p-6 hidden space-y-6">
                 <div class="bg-white p-6 rounded-xl shadow border space-y-6">
                     <div>
                         <h2 class="text-lg font-bold text-slate-800 mb-1"><i class="fa-solid fa-print text-blue-600 mr-2"></i>Kudownload & Kuprint Ripoti na Ranking</h2>
-                        <p class="text-xs text-slate-500">Chagua darasa unalotaka kupata ripoti yake kisha pakua PDF:</p>
+                        <p class="text-xs text-slate-500">Chagua darasa kuona au kupakua ripoti za PDF:</p>
                     </div>
 
-                    <!-- SELECT CLASS & EXAM FILTER FOR REPORT -->
                     <div class="bg-slate-50 p-4 rounded-xl border flex flex-col sm:flex-row items-center gap-4">
                         <div class="w-full sm:w-1/2">
                             <label class="block text-xs font-bold text-slate-700 mb-1"><i class="fa-solid fa-filter mr-1"></i>Chagua Darasa la Kupakulia Ripoti:</label>
@@ -475,28 +476,12 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="p-4 border rounded-xl bg-slate-50 hover:bg-blue-50 transition border-slate-200">
                             <h3 class="font-bold text-sm text-slate-800 mb-1"><i class="fa-solid fa-list-ol text-blue-600 mr-2"></i>Ranking ya Wanafunzi</h3>
-                            <p class="text-xs text-slate-500 mb-4">Pakua orodha ya wanafunzi wa darasa lililochaguliwa iliyopangwa kuanzia wa 1 hadi wa mwisho.</p>
+                            <p class="text-xs text-slate-500 mb-4">Pakua orodha ya wanafunzi wa darasa lililochaguliwa kuanzia wa 1 hadi wa mwisho.</p>
                             <button onclick="downloadStudentRankingPDF()" class="w-full bg-blue-600 text-white font-bold text-xs py-2.5 rounded-lg hover:bg-blue-700 shadow transition flex items-center justify-center gap-1">
                                 <i class="fa-solid fa-download"></i> Pakua PDF Ranking
-                            </button>
-                        </div>
-
-                        <div class="p-4 border rounded-xl bg-slate-50 hover:bg-emerald-50 transition border-slate-200">
-                            <h3 class="font-bold text-sm text-slate-800 mb-1"><i class="fa-solid fa-book text-emerald-600 mr-2"></i>Ranking ya Masomo</h3>
-                            <p class="text-xs text-slate-500 mb-4">Pakua ripoti inayoonyesha masomo yaliyofaulishwa zaidi kwa darasa hili.</p>
-                            <button onclick="downloadSubjectRankingPDF()" class="w-full bg-emerald-600 text-white font-bold text-xs py-2.5 rounded-lg hover:bg-emerald-700 shadow transition flex items-center justify-center gap-1">
-                                <i class="fa-solid fa-download"></i> Pakua PDF Masomo
-                            </button>
-                        </div>
-
-                        <div class="p-4 border rounded-xl bg-slate-50 hover:bg-purple-50 transition border-slate-200">
-                            <h3 class="font-bold text-sm text-slate-800 mb-1"><i class="fa-solid fa-chart-bar text-purple-600 mr-2"></i>Ufaulu wa Kila Somo</h3>
-                            <p class="text-xs text-slate-500 mb-4">Pakua uchanganuzi wa idadi ya A, B, C, D, F kwa kila somo katika darasa lililochaguliwa.</p>
-                            <button onclick="downloadSubjectBreakdownPDF()" class="w-full bg-purple-600 text-white font-bold text-xs py-2.5 rounded-lg hover:bg-purple-700 shadow transition flex items-center justify-center gap-1">
-                                <i class="fa-solid fa-download"></i> Pakua PDF Ufaulu
                             </button>
                         </div>
                     </div>
@@ -505,7 +490,7 @@
 
             <!-- VIEW: WALIMU -->
             <div id="view-teachers" class="p-6 hidden">
-                <h2 class="text-lg font-bold mb-4">Orodha ya Walimu Waliosajiliwa Mfomoni Mtandaoni</h2>
+                <h2 class="text-lg font-bold mb-4">Orodha ya Walimu Waliosajiliwa Mfomoni</h2>
                 <div class="bg-white rounded-xl shadow border overflow-hidden">
                     <table class="w-full text-sm text-left">
                         <thead class="bg-slate-100 font-bold text-slate-700">
@@ -515,20 +500,50 @@
                                 <th class="p-3">Darasa</th>
                                 <th class="p-3">Email</th>
                                 <th class="p-3">Wadhifa</th>
+                                <th class="p-3 text-center">Hatua</th>
                             </tr>
                         </thead>
                         <tbody id="teachers-table-body"></tbody>
                     </table>
                 </div>
             </div>
+
+            <!-- VIEW: SUPER ADMIN CONTROL PANEL -->
+            <div id="view-admin-settings" class="p-6 hidden space-y-6">
+                <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl flex items-center gap-3">
+                    <i class="fa-solid fa-shield-halved text-amber-600 text-2xl"></i>
+                    <div>
+                        <h3 class="font-bold text-amber-900">Panel ya Usimamizi Mkuu (Super Admin Control)</h3>
+                        <p class="text-xs text-amber-700">Sehemu hii inapatikana kwa Super Admin pekee.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-5 rounded-xl shadow border">
+                        <h3 class="font-bold text-slate-800 border-b pb-2 mb-3"><i class="fa-solid fa-lock text-blue-600 mr-2"></i>Usimamizi wa Hali ya Mtihani</h3>
+                        <p class="text-xs text-slate-500 mb-4">Kufunga mtihani kutawazuia walimu wengine kupakia au kurekebisha matokeo vipya.</p>
+                        <div class="flex gap-3">
+                            <button onclick="setExamStatus(true)" class="flex-1 bg-emerald-600 text-white font-bold py-2 rounded-lg text-xs hover:bg-emerald-700"><i class="fa-solid fa-lock-open mr-1"></i> Fungua Mtihani</button>
+                            <button onclick="setExamStatus(false)" class="flex-1 bg-red-600 text-white font-bold py-2 rounded-lg text-xs hover:bg-red-700"><i class="fa-solid fa-lock mr-1"></i> Funga Mtihani</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl shadow border">
+                        <h3 class="font-bold text-slate-800 border-b pb-2 mb-3"><i class="fa-solid fa-database text-amber-600 mr-2"></i>Backup System</h3>
+                        <p class="text-xs text-slate-500 mb-4">Pakua hifadhi ya database nzima ya MSRMS.</p>
+                        <button onclick="exportSystemBackup()" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg text-xs hover:bg-blue-700"><i class="fa-solid fa-download mr-1"></i> Pakua Backup JSON</button>
+                    </div>
+                </div>
+            </div>
+
         </main>
     </div>
 
-    <!-- FIREBASE SDKs & LOGIC -->
+    <!-- FIREBASE SDKs & REALTIME SYSTEM LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, setDoc, deleteDoc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDzMmcwSYRZg_kGXqixZqjQemAG7k4twIE",
@@ -544,6 +559,9 @@
         const db = getFirestore(app);
 
         let currentUser = null;
+        let currentUserRole = "Mwalimu";
+        let isExamActive = true;
+
         let loadedStudents = [];
         let loadedResults = [];
         let loadedTeachers = [];
@@ -551,7 +569,7 @@
         let examChartInstance = null;
         let progressChartInstance = null;
 
-        // AUTH: LOGIN FORM SUBMISSION
+        // AUTH: LOGIN
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('login-email').value.trim();
@@ -563,11 +581,11 @@
                 showAppDashboard();
                 Swal.fire({ icon: 'success', title: 'Imefanikiwa', text: 'Karibu Mfomoni Mwalimu!', timer: 2000, showConfirmButton: false });
             } catch (err) {
-                Swal.fire({ icon: 'error', title: 'Imeshindwa', text: 'Barua pepe au Password sio sahihi.' });
+                Swal.fire({ icon: 'error', title: 'Imeshindwa', text: 'Barua pepe au Nywila sio sahihi.' });
             }
         });
 
-        // AUTH: REGISTER FORM SUBMISSION
+        // AUTH: REGISTER
         document.getElementById('register-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('reg-fullname').value.trim();
@@ -581,7 +599,7 @@
                 await setDoc(doc(db, "msrms_teachers", res.user.uid), {
                     name, phone, classAssigned: cls, email, role: "Mwalimu"
                 });
-                Swal.fire({ icon: 'success', title: 'Usajili Umekamilika', text: 'Akaunti ya Mwalimu imefunguliwa Cloud!', timer: 2000, showConfirmButton: false });
+                Swal.fire({ icon: 'success', title: 'Usajili Umekamilika', text: 'Akaunti yako ipo salama Cloud!', timer: 2000, showConfirmButton: false });
                 closeAuthModal();
                 showAppDashboard();
             } catch (err) {
@@ -589,10 +607,21 @@
             }
         });
 
-        // FORCE LANDING PAGE FIRST - NO DIRECT AUTO LOGIN
+        // AUTH STATE
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
+                try {
+                    const docSnap = await getDoc(doc(db, "msrms_teachers", user.uid));
+                    if (docSnap.exists()) {
+                        currentUserRole = docSnap.data().role || "Mwalimu";
+                    } else {
+                        currentUserRole = "Super Admin";
+                    }
+                } catch(e) {
+                    currentUserRole = "Super Admin";
+                }
+                showAppDashboard();
             } else {
                 currentUser = null;
                 showWelcomeLandingPage();
@@ -606,8 +635,15 @@
 
                 document.getElementById('user-welcome-header').innerText = `Karibu, ${currentUser.email}`;
                 document.getElementById('user-name-display').innerText = currentUser.email;
+                document.getElementById('user-role-badge').innerText = currentUserRole;
 
-                loadAllCloudData();
+                if(currentUserRole === "Super Admin" || currentUserRole === "Admin") {
+                    document.getElementById('menu-admin-settings').classList.remove('hidden');
+                } else {
+                    document.getElementById('menu-admin-settings').classList.add('hidden');
+                }
+
+                setupRealtimeListeners();
             }
         }
 
@@ -621,7 +657,57 @@
             showWelcomeLandingPage();
         });
 
-        // Save Single Student
+        // REALTIME DATABASE SYNC
+        function setupRealtimeListeners() {
+            // Listen Teachers
+            onSnapshot(collection(db, "msrms_teachers"), (snapshot) => {
+                loadedTeachers = [];
+                const tBody = document.getElementById('teachers-table-body');
+                tBody.innerHTML = '';
+                snapshot.forEach(docSnap => {
+                    const u = docSnap.data();
+                    const id = docSnap.id;
+                    loadedTeachers.push({ id, ...u });
+                    tBody.innerHTML += `
+                        <tr class="border-b hover:bg-slate-50">
+                            <td class="p-3 font-semibold">${u.name}</td>
+                            <td class="p-3">${u.phone}</td>
+                            <td class="p-3">${u.classAssigned}</td>
+                            <td class="p-3 font-mono text-blue-600">${u.email}</td>
+                            <td class="p-3"><span class="bg-slate-200 text-slate-800 text-xs px-2 py-1 rounded font-bold">${u.role || 'Mwalimu'}</span></td>
+                            <td class="p-3 text-center">
+                                ${(currentUserRole === "Super Admin") ? `<button onclick="window.deleteTeacher('${id}')" class="text-red-600 hover:text-red-800 text-xs font-bold"><i class="fa-solid fa-trash"></i> Futa</button>` : '-'}
+                            </td>
+                        </tr>`;
+                });
+                document.getElementById('stat-teachers-count').innerText = loadedTeachers.length;
+            });
+
+            // Listen Students
+            onSnapshot(collection(db, "msrms_students"), (snapshot) => {
+                loadedStudents = [];
+                snapshot.forEach(docSnap => {
+                    loadedStudents.push({ id: docSnap.id, ...docSnap.data() });
+                });
+                renderStudentsTable(loadedStudents);
+                document.getElementById('stat-students-count').innerText = loadedStudents.length;
+            });
+
+            // Listen Results
+            onSnapshot(collection(db, "msrms_results"), (snapshot) => {
+                loadedResults = [];
+                snapshot.forEach(docSnap => {
+                    loadedResults.push({ id: docSnap.id, ...docSnap.data() });
+                });
+                loadedResults.sort((a, b) => b.avg - a.avg);
+                renderResultsTable(loadedResults);
+                loadTopAndBottomPupils();
+                window.renderExamChart();
+                renderClassProgress();
+            });
+        }
+
+        // ADD SINGLE STUDENT
         document.getElementById('add-student-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('std-fullname').value.trim();
@@ -636,13 +722,12 @@
                 });
                 Swal.fire({ icon: 'success', title: 'Imesajiliwa', text: 'Mwanafunzi amehifadhiwa Cloud!', timer: 1800, showConfirmButton: false });
                 document.getElementById('add-student-form').reset();
-                loadStudentsData();
             } catch (err) {
                 Swal.fire({ icon: 'error', title: 'Matatizo', text: err.message });
             }
         });
 
-        // Upload CSV Students
+        // CSV UPLOADS
         document.getElementById('students-csv-file').addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (!file) return;
@@ -665,14 +750,16 @@
                         });
                     }
                 }
-                Swal.fire({ icon: 'success', title: 'Upload Imekamilika', text: 'Wanafunzi wote kutoka Excel wamehifadhiwa Cloud!', timer: 2000, showConfirmButton: false });
-                loadStudentsData();
+                Swal.fire({ icon: 'success', title: 'Upload Imekamilika', text: 'Wanafunzi wote zimehifadhiwa Cloud!', timer: 2000, showConfirmButton: false });
             };
             reader.readAsText(file);
         });
 
-        // Upload CSV Results
         document.getElementById('results-csv-file').addEventListener('change', (event) => {
+            if (!isExamActive && currentUserRole === "Mwalimu") {
+                return Swal.fire({ icon: 'error', title: 'Mtihani Umefungwa', text: 'Huwawezi kupakia matokeo sasa.' });
+            }
+
             const file = event.target.files[0];
             if (!file) return;
 
@@ -686,99 +773,67 @@
                     if (row.length >= 8 && row[0].trim() !== '') {
                         const name = row[1].trim();
                         const exam = row[2].trim();
-                        const kisw = Number(row[3]) || 0;
-                        const eng = Number(row[4]) || 0;
-                        const maarifa = Number(row[5]) || 0;
-                        const hisabati = Number(row[6]) || 0;
-                        const sayansi = Number(row[7]) || 0;
                         const cls = row[8] ? row[8].trim() : "Darasa VII";
 
-                        const total = kisw + eng + maarifa + hisabati + sayansi;
+                        let maxMark = (cls === 'Awali' || cls === 'Darasa I' || cls === 'Darasa II') ? 100 : 50;
+
+                        const s1 = Math.min(Number(row[3]) || 0, maxMark);
+                        const s2 = Math.min(Number(row[4]) || 0, maxMark);
+                        const s3 = Math.min(Number(row[5]) || 0, maxMark);
+                        const s4 = Math.min(Number(row[6]) || 0, maxMark);
+                        const s5 = Math.min(Number(row[7]) || 0, maxMark);
+
+                        const total = s1 + s2 + s3 + s4 + s5;
                         const avg = (total / 5).toFixed(1);
 
                         let grade = 'F';
-                        if (avg >= 81) grade = 'A';
-                        else if (avg >= 61) grade = 'B';
-                        else if (avg >= 41) grade = 'C';
-                        else if (avg >= 21) grade = 'D';
+                        let percentage = maxMark === 50 ? (avg / 50) * 100 : avg;
+
+                        if (percentage >= 81) grade = 'A';
+                        else if (percentage >= 61) grade = 'B';
+                        else if (percentage >= 41) grade = 'C';
+                        else if (percentage >= 21) grade = 'D';
 
                         await addDoc(collection(db, "msrms_results"), {
                             prem: row[0].trim(),
                             studentName: name,
                             exam: exam,
                             cls: cls,
-                            kisw, eng, maarifa, hisabati, sayansi,
+                            sub1: s1, sub2: s2, sub3: s3, sub4: s4, sub5: s5,
                             total, avg: Number(avg), grade,
+                            teacherComment: percentage >= 50 ? "Hongera! Endelea kujituma." : "Ongeza bidii zaidi.",
                             createdAt: new Date().toISOString()
                         });
                     }
                 }
-                Swal.fire({ icon: 'success', title: 'Matokeo Yamehifadhiwa', text: 'Matokeo yote ya darasa yamepakiwa mtandaoni kikamilifu!', timer: 2000, showConfirmButton: false });
-                loadResultsData();
+                Swal.fire({ icon: 'success', title: 'Matokeo Yamehifadhiwa', text: 'Matokeo yapo salama Cloud!', timer: 2000, showConfirmButton: false });
             };
             reader.readAsText(file);
         });
-
-        // Fetch Cloud Data
-        async function loadAllCloudData() {
-            await loadTeachersData();
-            await loadStudentsData();
-            await loadResultsData();
-        }
-
-        async function loadTeachersData() {
-            const querySnapshot = await getDocs(collection(db, "msrms_teachers"));
-            loadedTeachers = [];
-            const tBody = document.getElementById('teachers-table-body');
-            tBody.innerHTML = '';
-            querySnapshot.forEach(doc => {
-                const u = doc.data();
-                loadedTeachers.push(u);
-                tBody.innerHTML += `<tr class="border-b hover:bg-slate-50"><td class="p-3 font-semibold">${u.name}</td><td class="p-3">${u.phone}</td><td class="p-3">${u.classAssigned}</td><td class="p-3 font-mono text-blue-600">${u.email}</td><td class="p-3"><span class="bg-slate-200 text-slate-800 text-xs px-2 py-1 rounded font-bold">${u.role}</span></td></tr>`;
-            });
-            document.getElementById('stat-teachers-count').innerText = loadedTeachers.length;
-        }
-
-        async function loadStudentsData() {
-            const querySnapshot = await getDocs(collection(db, "msrms_students"));
-            loadedStudents = [];
-            querySnapshot.forEach(doc => {
-                loadedStudents.push(doc.data());
-            });
-            renderStudentsTable(loadedStudents);
-            document.getElementById('stat-students-count').innerText = loadedStudents.length;
-        }
 
         function renderStudentsTable(dataList) {
             const sBody = document.getElementById('students-table-body');
             sBody.innerHTML = '';
             dataList.forEach(s => {
-                sBody.innerHTML += `<tr class="border-b hover:bg-slate-50"><td class="p-3 font-mono text-xs">${s.prem}</td><td class="p-3 font-semibold">${s.name}</td><td class="p-3">${s.gender}</td><td class="p-3">${s.parentPhone || '-'}</td><td class="p-3">${s.cls}</td></tr>`;
+                sBody.innerHTML += `
+                    <tr class="border-b hover:bg-slate-50">
+                        <td class="p-3 font-mono text-xs">${s.prem}</td>
+                        <td class="p-3 font-semibold">${s.name}</td>
+                        <td class="p-3">${s.gender}</td>
+                        <td class="p-3">${s.parentPhone || '-'}</td>
+                        <td class="p-3">${s.cls}</td>
+                        <td class="p-3 text-center">
+                            ${(currentUserRole === "Super Admin") ? `<button onclick="window.deleteStudent('${s.id}')" class="text-red-600 hover:text-red-800 text-xs font-bold"><i class="fa-solid fa-trash"></i></button>` : '-'}
+                        </td>
+                    </tr>`;
             });
-        }
-
-        async function loadResultsData() {
-            const querySnapshot = await getDocs(collection(db, "msrms_results"));
-            loadedResults = [];
-
-            querySnapshot.forEach(doc => {
-                loadedResults.push(doc.data());
-            });
-
-            loadedResults.sort((a, b) => b.avg - a.avg);
-            renderResultsTable(loadedResults);
-
-            loadTopAndBottomPupils();
-            renderExamChart();
-            renderClassProgress();
         }
 
         function renderResultsTable(dataList) {
             const rBody = document.getElementById('results-table-body');
             rBody.innerHTML = '';
 
-            dataList.forEach((r, index) => {
-                const rank = loadedResults.findIndex(x => x.studentName === r.studentName && x.avg === r.avg) + 1;
+            dataList.forEach((r) => {
                 rBody.innerHTML += `
                     <tr class="border-b hover:bg-slate-50">
                         <td class="p-3 font-semibold">${r.studentName}</td>
@@ -788,37 +843,17 @@
                         <td class="p-3 text-blue-600 font-bold">${r.avg}</td>
                         <td class="p-3"><span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded font-black">${r.grade}</span></td>
                         <td class="p-3 text-center flex justify-center gap-1">
-                            <button onclick="downloadSingleReportCard('${r.studentName}', '${r.cls || 'Darasa VII'}', '${r.exam}', '${r.kisw}', '${r.eng}', '${r.maarifa}', '${r.hisabati}', '${r.sayansi}', '${r.total}', '${r.avg}', '${r.grade}', '${rank}')" class="bg-purple-600 hover:bg-purple-700 text-white text-[11px] font-bold px-2 py-1 rounded transition flex items-center gap-1" title="Download Report Card ya Mwanafunzi">
+                            <button onclick="window.downloadSingleReportCard('${r.id}')" class="bg-purple-600 text-white text-[11px] font-bold px-2 py-1 rounded" title="Download Report">
                                 <i class="fa-solid fa-file-pdf"></i> Report
                             </button>
-                            <button onclick="sendNormalSMS('${r.studentName}', '${r.exam}', '${r.avg}', '${r.grade}')" class="bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-bold px-2 py-1 rounded transition flex items-center gap-1">
+                            <button onclick="window.sendNormalSMS('${r.studentName}', '${r.exam}', '${r.avg}', '${r.grade}')" class="bg-blue-600 text-white text-[11px] font-bold px-2 py-1 rounded">
                                 <i class="fa-solid fa-comment-sms"></i> SMS
-                            </button>
-                            <button onclick="sendWhatsApp('${r.studentName}', '${r.exam}', '${r.avg}', '${r.grade}')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold px-2 py-1 rounded transition flex items-center gap-1">
-                                <i class="fa-brands fa-whatsapp"></i> WA
                             </button>
                         </td>
                     </tr>
                 `;
             });
         }
-
-        // FILTER FUNCTIONS FOR SEARCH BARS
-        window.filterStudentsTable = function() {
-            const query = document.getElementById('search-student-input').value.toLowerCase();
-            const filtered = loadedStudents.filter(s => 
-                s.name.toLowerCase().includes(query) || s.prem.toLowerCase().includes(query)
-            );
-            renderStudentsTable(filtered);
-        };
-
-        window.filterResultsTable = function() {
-            const query = document.getElementById('search-results-input').value.toLowerCase();
-            const filtered = loadedResults.filter(r => 
-                r.studentName.toLowerCase().includes(query) || (r.exam && r.exam.toLowerCase().includes(query))
-            );
-            renderResultsTable(filtered);
-        };
 
         function loadTopAndBottomPupils() {
             const topBody = document.getElementById('top10-table-body');
@@ -853,7 +888,7 @@
             });
         }
 
-        // RENDER EXAM ANALYTICS CHART (BAR / PIE)
+        // GLOBAL EXPORT FUNCTIONS
         window.renderExamChart = function() {
             const selectedClass = document.getElementById('graph-filter-class').value;
             const chartType = document.getElementById('graph-filter-charttype').value;
@@ -883,15 +918,11 @@
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: chartType === 'pie' ? 'right' : 'top' }
-                    }
+                    maintainAspectRatio: false
                 }
             });
         };
 
-        // RENDER CLASS PROGRESS (AWALI - VII)
         function renderClassProgress() {
             const classes = ['Awali', 'Darasa I', 'Darasa II', 'Darasa III', 'Darasa IV', 'Darasa V', 'Darasa VI', 'Darasa VII'];
             const classData = classes.map(cls => {
@@ -904,33 +935,21 @@
                     avg = (sum / results.length).toFixed(1);
                 }
 
-                let grade = 'F';
-                if (avg >= 81) grade = 'A';
-                else if (avg >= 61) grade = 'B';
-                else if (avg >= 41) grade = 'C';
-                else if (avg >= 21) grade = 'D';
-
-                return {
-                    cls, totalStudents, satExam: results.length, avg: Number(avg), grade
-                };
+                return { cls, totalStudents, satExam: results.length, avg: Number(avg) };
             });
 
             const tbody = document.getElementById('class-progress-table-body');
             tbody.innerHTML = '';
 
             classData.forEach(cd => {
-                let statusBadge = cd.avg >= 41 ? 
-                    `<span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded font-bold">Inaridhisha</span>` : 
-                    `<span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded font-bold">Ongeza Juhudi</span>`;
-
                 tbody.innerHTML += `
                     <tr class="border-b hover:bg-slate-50">
                         <td class="p-3 font-bold text-slate-800">${cd.cls}</td>
                         <td class="p-3">${cd.totalStudents}</td>
                         <td class="p-3 font-semibold text-blue-700">${cd.satExam}</td>
                         <td class="p-3 font-bold text-slate-900">${cd.avg}</td>
-                        <td class="p-3"><span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded font-black">${cd.grade}</span></td>
-                        <td class="p-3">${statusBadge}</td>
+                        <td class="p-3"><span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded font-black">${cd.avg >= 40 ? 'Pass' : 'Low'}</span></td>
+                        <td class="p-3">${cd.avg >= 20 ? '<span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded font-bold">Inaridhisha</span>' : '<span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded font-bold">Ongeza Juhudi</span>'}</td>
                     </tr>
                 `;
             });
@@ -943,100 +962,73 @@
                 data: {
                     labels: classData.map(c => c.cls),
                     datasets: [{
-                        label: 'Wastani wa Darasa (Class Average)',
+                        label: 'Wastani wa Darasa',
                         data: classData.map(c => c.avg),
                         backgroundColor: '#0284c7'
                     }]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: { beginAtZero: true, max: 100 }
-                    }
-                }
+                options: { responsive: true, maintainAspectRatio: false }
             });
         }
 
-        // SMS & WHATSAPP FUNCTIONS
+        window.deleteTeacher = async function(id) {
+            if (confirm("Futa mwalimu huyu?")) await deleteDoc(doc(db, "msrms_teachers", id));
+        };
+
+        window.deleteStudent = async function(id) {
+            if (confirm("Futa mwanafunzi huyu?")) await deleteDoc(doc(db, "msrms_students", id));
+        };
+
         window.sendNormalSMS = function(studentName, exam, avg, grade) {
-            const msg = `SHULE YA MSINGI MWASHIKU: Matokeo ya Mwanafunzi ${studentName} kwa mtihani wa ${exam}: Wastani ni ${avg} (Daraja ${grade}). Ahsante - Mwalimu Mkuu.`;
+            const msg = `SHULE YA MSINGI MWASHIKU: Matokeo ya ${studentName} kwa mtihani wa ${exam}: Wastani ni ${avg} (Daraja ${grade}). Ahsante!`;
             window.open(`sms:?body=${encodeURIComponent(msg)}`, '_self');
         };
 
-        window.sendWhatsApp = function(studentName, exam, avg, grade) {
-            const msg = `SHULE YA MSINGI MWASHIKU: Matokeo ya Mwanafunzi ${studentName} kwa mtihani wa ${exam}: Wastani ni ${avg} (Daraja ${grade}). Ahsante - Mwalimu Mkuu.`;
-            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
-        };
+        window.downloadSingleReportCard = function(resultId) {
+            const r = loadedResults.find(x => x.id === resultId);
+            if(!r) return;
 
-        // DOWNLOAD SINGLE STUDENT REPORT CARD PDF
-        window.downloadSingleReportCard = function(name, cls, exam, kisw, eng, maarifa, hisabati, sayansi, total, avg, grade, rank) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
 
             doc.setFillColor(2, 132, 199);
             doc.rect(0, 0, 210, 28, 'F');
-
             doc.setTextColor(255, 255, 255);
             doc.setFontSize(16);
             doc.setFont("helvetica", "bold");
             doc.text("SHULE YA MSINGI MWASHIKU", 105, 12, null, null, "center");
-            
+
             doc.setFontSize(10);
-            doc.setFont("helvetica", "normal");
-            doc.text("TAARIFA YA MAENDELEO YA MWANAFUNZI (STUDENT REPORT CARD)", 105, 20, null, null, "center");
+            doc.text("TAARIFA YA MAENDELEO YA MWANAFUNZI", 105, 20, null, null, "center");
 
             doc.setTextColor(30, 41, 59);
-            doc.setFontSize(10);
-            doc.text(`Jina la Mwanafunzi: ${name}`, 14, 38);
-            doc.text(`Darasa: ${cls}`, 14, 45);
-            doc.text(`Aina ya Mtihani: ${exam}`, 140, 38);
-            doc.text(`Nafasi Darasani: Wa ${rank}`, 140, 45);
+            doc.text(`Jina: ${r.studentName}`, 14, 38);
+            doc.text(`Darasa: ${r.cls || 'Darasa VII'}`, 14, 45);
+            doc.text(`Mtihani: ${r.exam}`, 140, 38);
 
             const subjectRows = [
-                ['Kiswahili', kisw, getGradeFromMark(kisw)],
-                ['English Language', eng, getGradeFromMark(eng)],
-                ['Maarifa ya Jamii', maarifa, getGradeFromMark(maarifa)],
-                ['Hisabati', hisabati, getGradeFromMark(hisabati)],
-                ['Sayansi na Teknolojia', sayansi, getGradeFromMark(sayansi)],
+                ['Somo 1', r.sub1 || 0],
+                ['Somo 2', r.sub2 || 0],
+                ['Somo 3', r.sub3 || 0],
+                ['Somo 4', r.sub4 || 0],
+                ['Somo 5', r.sub5 || 0]
             ];
 
             doc.autoTable({
                 startY: 52,
-                head: [['Somo', 'Alama (Marks)', 'Daraja (Grade)']],
+                head: [['Somo', 'Alama']],
                 body: subjectRows,
                 theme: 'grid',
                 headStyles: { fillColor: [15, 23, 42] }
             });
 
             const finalY = doc.lastAutoTable.finalY + 10;
-
             doc.setFontSize(11);
-            doc.setFont("helvetica", "bold");
-            doc.text(`Jumla ya Alama: ${total} / 500`, 14, finalY);
-            doc.text(`Wastani: ${avg}`, 90, finalY);
-            doc.text(`Daraja la Jumla: ${grade}`, 150, finalY);
+            doc.text(`Jumla: ${r.total} | Wastani: ${r.avg} | Daraja: ${r.grade}`, 14, finalY);
 
-            doc.setFontSize(10);
-            doc.setFont("helvetica", "italic");
-            doc.text("Maoni ya Mwalimu Mkuu: Metimiza wajibu vizuri. Ongeza juhudi za masomo.", 14, finalY + 15);
-
-            doc.text("Sahihi ya Mwalimu Mkuu: _____________________", 14, finalY + 30);
-            doc.text("Tarehe: ___________________", 140, finalY + 30);
-
-            doc.save(`Report_Card_${name.replace(/\s+/g, '_')}.pdf`);
+            doc.save(`Report_Card_${r.studentName.replace(/\s+/g, '_')}.pdf`);
         };
 
-        function getGradeFromMark(mark) {
-            const m = Number(mark) || 0;
-            if (m >= 81) return 'A';
-            if (m >= 61) return 'B';
-            if (m >= 41) return 'C';
-            if (m >= 21) return 'D';
-            return 'F';
-        }
-
-        // PDF 1: STUDENT RANKING PER SELECTED CLASS
         window.downloadStudentRankingPDF = function() {
             const selectedClass = document.getElementById('report-select-class').value;
             const { jsPDF } = window.jspdf;
@@ -1047,14 +1039,10 @@
                 targetResults = loadedResults.filter(r => (r.cls || 'Darasa VII') === selectedClass);
             }
 
-            if (targetResults.length === 0) {
-                return Swal.fire({ icon: 'warning', title: 'Hamna Data', text: `Hakuna matokeo yaliyorekodiwa kwa ajili ya: ${selectedClass}` });
-            }
-
             doc.setFontSize(14);
             doc.text("SHULE YA MSINGI MWASHIKU", 14, 15);
             doc.setFontSize(11);
-            doc.text(`RIPOTI YA RANKING YA WANAFUNZI (${selectedClass.toUpperCase()})`, 14, 22);
+            doc.text(`RANKING YA WANAFUNZI (${selectedClass.toUpperCase()})`, 14, 22);
 
             const rows = targetResults.map((r, idx) => [
                 idx + 1, r.studentName, r.cls || 'Darasa VII', r.exam, r.total, r.avg, r.grade
@@ -1062,121 +1050,31 @@
 
             doc.autoTable({
                 startY: 28,
-                head: [['Nafasi', 'Jina la Mwanafunzi', 'Darasa', 'Mtihani', 'Jumla', 'Wastani', 'Daraja']],
+                head: [['Nafasi', 'Jina', 'Darasa', 'Mtihani', 'Jumla', 'Wastani', 'Daraja']],
                 body: rows,
                 theme: 'grid',
                 headStyles: { fillColor: [2, 132, 199] }
             });
 
-            doc.save(`Ranking_Wanafunzi_${selectedClass.replace(/\s+/g, '_')}.pdf`);
+            doc.save(`Ranking_${selectedClass}.pdf`);
         };
 
-        // PDF 2: SUBJECT RANKING PER SELECTED CLASS
-        window.downloadSubjectRankingPDF = function() {
-            const selectedClass = document.getElementById('report-select-class').value;
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            let targetResults = loadedResults;
-            if (selectedClass !== 'ALL') {
-                targetResults = loadedResults.filter(r => (r.cls || 'Darasa VII') === selectedClass);
-            }
-
-            if (targetResults.length === 0) {
-                return Swal.fire({ icon: 'warning', title: 'Hamna Data', text: `Hakuna matokeo yaliyorekodiwa kwa ajili ya: ${selectedClass}` });
-            }
-
-            doc.setFontSize(14);
-            doc.text("SHULE YA MSINGI MWASHIKU", 14, 15);
-            doc.setFontSize(11);
-            doc.text(`RANKING YA MASOMO (${selectedClass.toUpperCase()})`, 14, 22);
-
-            const subjects = [
-                { name: 'Kiswahili', key: 'kisw' },
-                { name: 'English', key: 'eng' },
-                { name: 'Maarifa ya Jamii', key: 'maarifa' },
-                { name: 'Hisabati', key: 'hisabati' },
-                { name: 'Sayansi', key: 'sayansi' }
-            ];
-
-            const subjectAvgs = subjects.map(s => {
-                const totalMarks = targetResults.reduce((sum, r) => sum + (r[s.key] || 0), 0);
-                const avg = (totalMarks / targetResults.length).toFixed(1);
-                return { name: s.name, avg: Number(avg) };
-            });
-
-            subjectAvgs.sort((a, b) => b.avg - a.avg);
-            const rows = subjectAvgs.map((s, idx) => [idx + 1, s.name, s.avg]);
-
-            doc.autoTable({
-                startY: 28,
-                head: [['Nafasi', 'Jina la Somo', 'Wastani wa Somo']],
-                body: rows,
-                theme: 'striped',
-                headStyles: { fillColor: [16, 185, 129] }
-            });
-
-            doc.save(`Ranking_Masomo_${selectedClass.replace(/\s+/g, '_')}.pdf`);
+        window.filterStudentsTable = function() {
+            const query = document.getElementById('search-student-input').value.toLowerCase();
+            const filtered = loadedStudents.filter(s => s.name.toLowerCase().includes(query) || s.prem.toLowerCase().includes(query));
+            renderStudentsTable(filtered);
         };
 
-        // PDF 3: SUBJECT BREAKDOWN (A, B, C, D, F) PER SELECTED CLASS
-        window.downloadSubjectBreakdownPDF = function() {
-            const selectedClass = document.getElementById('report-select-class').value;
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            let targetResults = loadedResults;
-            if (selectedClass !== 'ALL') {
-                targetResults = loadedResults.filter(r => (r.cls || 'Darasa VII') === selectedClass);
-            }
-
-            if (targetResults.length === 0) {
-                return Swal.fire({ icon: 'warning', title: 'Hamna Data', text: `Hakuna matokeo yaliyorekodiwa kwa ajili ya: ${selectedClass}` });
-            }
-
-            doc.setFontSize(14);
-            doc.text("SHULE YA MSINGI MWASHIKU", 14, 15);
-            doc.setFontSize(11);
-            doc.text(`UFAULU WA KILA SOMO (${selectedClass.toUpperCase()})`, 14, 22);
-
-            const subjects = [
-                { name: 'Kiswahili', key: 'kisw' },
-                { name: 'English', key: 'eng' },
-                { name: 'Maarifa ya Jamii', key: 'maarifa' },
-                { name: 'Hisabati', key: 'hisabati' },
-                { name: 'Sayansi', key: 'sayansi' }
-            ];
-
-            const rows = subjects.map(s => {
-                let a = 0, b = 0, c = 0, d = 0, f = 0;
-                targetResults.forEach(r => {
-                    const mark = r[s.key] || 0;
-                    if (mark >= 81) a++;
-                    else if (mark >= 61) b++;
-                    else if (mark >= 41) c++;
-                    else if (mark >= 21) d++;
-                    else f++;
-                });
-                return [s.name, a, b, c, d, f, targetResults.length];
-            });
-
-            doc.autoTable({
-                startY: 28,
-                head: [['Somo', 'Daraja A', 'Daraja B', 'Daraja C', 'Daraja D', 'Daraja F', 'Jumla Wanafunzi']],
-                body: rows,
-                theme: 'grid',
-                headStyles: { fillColor: [139, 92, 246] }
-            });
-
-            doc.save(`Ufaulu_Kila_Somo_${selectedClass.replace(/\s+/g, '_')}.pdf`);
+        window.filterResultsTable = function() {
+            const query = document.getElementById('search-results-input').value.toLowerCase();
+            const filtered = loadedResults.filter(r => r.studentName.toLowerCase().includes(query));
+            renderResultsTable(filtered);
         };
     </script>
 
     <script>
-        // UI Navigation & Mobile Sidebar Script
         function toggleMobileSidebar() {
-            const nav = document.getElementById('nav-links');
-            nav.classList.toggle('hidden');
+            document.getElementById('nav-links').classList.toggle('hidden');
         }
 
         function showAuthModal(type) {
@@ -1199,10 +1097,12 @@
         }
 
         function switchTab(tabName) {
-            ['dashboard', 'class-progress', 'students', 'results', 'reports', 'teachers'].forEach(v => {
-                document.getElementById(`view-${v}`).classList.add('hidden');
+            ['dashboard', 'class-progress', 'students', 'results', 'reports', 'teachers', 'admin-settings'].forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                if(el) el.classList.add('hidden');
             });
-            document.getElementById(`view-${tabName}`).classList.remove('hidden');
+            const target = document.getElementById(`view-${tabName}`);
+            if(target) target.classList.remove('hidden');
 
             if (window.innerWidth < 768) {
                 document.getElementById('nav-links').classList.add('hidden');
@@ -1221,8 +1121,8 @@
         }
 
         function downloadResultsTemplate() {
-            let csvContent = "data:text/csv;charset=utf-8,Prem_No,Jina_Mwanafunzi,Mtihani,Kiswahili,English,Maarifa,Hisabati,Sayansi,Darasa\n";
-            csvContent += "MW-001,Baraka Juma,Terminal Exam,85,78,90,65,88,Darasa VII\nMW-002,Amina Salum,Terminal Exam,70,60,75,50,68,Darasa VII";
+            let csvContent = "data:text/csv;charset=utf-8,Prem_No,Jina_Mwanafunzi,Mtihani,Somo1,Somo2,Somo3,Somo4,Somo5,Darasa\n";
+            csvContent += "MW-001,Baraka Juma,Terminal Exam,45,40,48,35,42,Darasa VII\nMW-002,Amina Salum,Terminal Exam,30,25,38,20,30,Darasa VII";
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);
