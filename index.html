@@ -189,7 +189,7 @@
             <!-- VIEW: DASHBOARD -->
             <div id="view-dashboard" class="p-6 space-y-6">
                 <div id="exam-status-banner" class="bg-emerald-500 text-white p-3 rounded-xl flex justify-between items-center px-6 text-xs font-bold shadow">
-                    <span><i class="fa-solid fa-door-open mr-2"></i> Mtihani Unaendelea: Mfumo Upo Wazi Kupokea Matokeo</span>
+                    <span id="exam-status-text"><i class="fa-solid fa-door-open mr-2"></i> Mtihani Unaendelea: Mfumo Upo Wazi Kupokea Matokeo</span>
                     <span id="exam-lock-indicator" class="bg-white text-emerald-800 px-2.5 py-1 rounded-md uppercase">Wazi (Active)</span>
                 </div>
 
@@ -523,15 +523,15 @@
                         <h3 class="font-bold text-slate-800 border-b pb-2 mb-3"><i class="fa-solid fa-lock text-blue-600 mr-2"></i>Usimamizi wa Hali ya Mtihani</h3>
                         <p class="text-xs text-slate-500 mb-4">Kufunga mtihani kutawazuia walimu wengine kupakia au kurekebisha matokeo vipya.</p>
                         <div class="flex gap-3">
-                            <button onclick="setExamStatus(true)" class="flex-1 bg-emerald-600 text-white font-bold py-2 rounded-lg text-xs hover:bg-emerald-700"><i class="fa-solid fa-lock-open mr-1"></i> Fungua Mtihani</button>
-                            <button onclick="setExamStatus(false)" class="flex-1 bg-red-600 text-white font-bold py-2 rounded-lg text-xs hover:bg-red-700"><i class="fa-solid fa-lock mr-1"></i> Funga Mtihani</button>
+                            <button onclick="window.setExamStatus(true)" class="flex-1 bg-emerald-600 text-white font-bold py-2 rounded-lg text-xs hover:bg-emerald-700"><i class="fa-solid fa-lock-open mr-1"></i> Fungua Mtihani</button>
+                            <button onclick="window.setExamStatus(false)" class="flex-1 bg-red-600 text-white font-bold py-2 rounded-lg text-xs hover:bg-red-700"><i class="fa-solid fa-lock mr-1"></i> Funga Mtihani</button>
                         </div>
                     </div>
 
                     <div class="bg-white p-5 rounded-xl shadow border">
                         <h3 class="font-bold text-slate-800 border-b pb-2 mb-3"><i class="fa-solid fa-database text-amber-600 mr-2"></i>Backup System</h3>
                         <p class="text-xs text-slate-500 mb-4">Pakua hifadhi ya database nzima ya MSRMS.</p>
-                        <button onclick="exportSystemBackup()" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg text-xs hover:bg-blue-700"><i class="fa-solid fa-download mr-1"></i> Pakua Backup JSON</button>
+                        <button onclick="window.exportSystemBackup()" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg text-xs hover:bg-blue-700"><i class="fa-solid fa-download mr-1"></i> Pakua Backup JSON</button>
                     </div>
                 </div>
             </div>
@@ -704,6 +704,14 @@
                 loadTopAndBottomPupils();
                 window.renderExamChart();
                 renderClassProgress();
+            });
+
+            // Listen Exam Status
+            onSnapshot(doc(db, "msrms_settings", "exam_status"), (docSnap) => {
+                if (docSnap.exists()) {
+                    isExamActive = docSnap.data().active;
+                    updateExamUI();
+                }
             });
         }
 
@@ -888,7 +896,51 @@
             });
         }
 
+        // UPDATE EXAM UI
+        function updateExamUI() {
+            const banner = document.getElementById('exam-status-banner');
+            const statusText = document.getElementById('exam-status-text');
+            const lockIndicator = document.getElementById('exam-lock-indicator');
+
+            if (isExamActive) {
+                banner.className = "bg-emerald-500 text-white p-3 rounded-xl flex justify-between items-center px-6 text-xs font-bold shadow";
+                statusText.innerHTML = `<i class="fa-solid fa-door-open mr-2"></i> Mtihani Unaendelea: Mfumo Upo Wazi Kupokea Matokeo`;
+                lockIndicator.className = "bg-white text-emerald-800 px-2.5 py-1 rounded-md uppercase";
+                lockIndicator.innerText = "Wazi (Active)";
+            } else {
+                banner.className = "bg-red-600 text-white p-3 rounded-xl flex justify-between items-center px-6 text-xs font-bold shadow";
+                statusText.innerHTML = `<i class="fa-solid fa-lock mr-2"></i> Mtihani Umefungwa: Mfumo Hupokei Matokeo Mpya`;
+                lockIndicator.className = "bg-white text-red-800 px-2.5 py-1 rounded-md uppercase";
+                lockIndicator.innerText = "Imefungwa (Locked)";
+            }
+        }
+
         // GLOBAL EXPORT FUNCTIONS
+        window.setExamStatus = async function(status) {
+            try {
+                await setDoc(doc(db, "msrms_settings", "exam_status"), { active: status });
+                Swal.fire({ icon: 'success', title: 'Hali ya Mtihani Imerekebishwa', timer: 1500, showConfirmButton: false });
+            } catch (err) {
+                Swal.fire({ icon: 'error', title: 'Imeshindwa', text: err.message });
+            }
+        };
+
+        window.exportSystemBackup = function() {
+            const backupData = {
+                students: loadedStudents,
+                results: loadedResults,
+                teachers: loadedTeachers,
+                exportDate: new Date().toISOString()
+            };
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `MSRMS_Backup_${new Date().toISOString().slice(0,10)}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        };
+
         window.renderExamChart = function() {
             const selectedClass = document.getElementById('graph-filter-class').value;
             const chartType = document.getElementById('graph-filter-charttype').value;
