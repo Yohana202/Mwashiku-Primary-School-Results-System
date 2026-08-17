@@ -123,6 +123,53 @@
         </div>
     </div>
 
+    <!-- EDIT STUDENT MODAL -->
+    <div id="edit-student-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6 relative">
+            <button onclick="closeEditStudentModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 font-bold text-xl">&times;</button>
+            <h2 class="text-lg font-bold text-slate-800 mb-4"><i class="fa-solid fa-user-pen text-blue-600 mr-2"></i>Hariri Taarifa za Mwanafunzi</h2>
+            <form id="edit-student-form" class="space-y-4">
+                <input type="hidden" id="edit-std-id">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Prem No</label>
+                    <input type="text" id="edit-std-prem" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Jina Kamili</label>
+                    <input type="text" id="edit-std-name" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Jinsia</label>
+                    <select id="edit-std-gender" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                        <option value="M">Mvulana (M)</option>
+                        <option value="K">Msichana (K)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Simu ya Mzazi</label>
+                    <input type="tel" id="edit-std-phone" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Darasa</label>
+                    <select id="edit-std-class" required class="w-full px-3 py-2 border rounded-lg text-sm">
+                        <option value="Awali">Awali</option>
+                        <option value="Darasa I">Darasa I</option>
+                        <option value="Darasa II">Darasa II</option>
+                        <option value="Darasa III">Darasa III</option>
+                        <option value="Darasa IV">Darasa IV</option>
+                        <option value="Darasa V">Darasa V</option>
+                        <option value="Darasa VI">Darasa VI</option>
+                        <option value="Darasa VII">Darasa VII</option>
+                    </select>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeEditStudentModal()" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-lg text-xs font-bold">Ghairi</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-700">Hifadhi Mabadiliko</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- MAIN DASHBOARD SYSTEM -->
     <div id="app-section" class="hidden min-h-screen bg-slate-100 flex flex-col md:flex-row">
         
@@ -262,7 +309,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="top10-table-body">
-                                    <tr><td colspan="4" class="p-3 text-center text-slate-400">Loading...</td></tr>
+                                    <tr><td colspan="4" class="p-3 text-center text-slate-400">Inapakia...</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -285,7 +332,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="bottom10-table-body">
-                                    <tr><td colspan="4" class="p-3 text-center text-slate-400">Loading...</td></tr>
+                                    <tr><td colspan="4" class="p-3 text-center text-slate-400">Inapakia...</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -330,7 +377,7 @@
                     </div>
                     <div class="flex gap-2 w-full md:w-auto">
                         <button onclick="downloadStudentTemplate()" class="bg-emerald-600 text-white text-xs font-bold px-4 py-2.5 rounded-lg hover:bg-emerald-700 transition flex items-center gap-2">
-                            <i class="fa-solid fa-download"></i> Pakua Template
+                            <i class="fa-solid fa-download"></i> Pakua Template Usajili
                         </button>
                         <label class="bg-blue-600 text-white text-xs font-bold px-4 py-2.5 rounded-lg hover:bg-blue-700 transition cursor-pointer flex items-center gap-2">
                             <i class="fa-solid fa-upload"></i> Upload File (CSV)
@@ -380,12 +427,35 @@
                     </form>
                 </div>
 
+                <!-- ORODHA YA WANAFUNZI NA FILTER YA MADARASA -->
                 <div class="bg-white rounded-xl shadow border overflow-hidden">
                     <div class="p-4 bg-slate-50 border-b flex flex-col md:flex-row justify-between items-center gap-3">
-                        <h3 class="font-bold text-slate-800">Orodha ya Wanafunzi</h3>
-                        <div class="relative w-full md:w-64">
-                            <input type="text" id="search-student-input" onkeyup="window.filterStudentsTable()" placeholder="Tafuta Jina au Prem No..." class="w-full pl-8 pr-3 py-1.5 border rounded-lg text-xs outline-none focus:ring-2 focus:ring-blue-500">
-                            <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-slate-400 text-xs"></i>
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-bold text-slate-800">Orodha ya Wanafunzi</h3>
+                            <span id="student-count-badge" class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full font-bold">0</span>
+                        </div>
+                        
+                        <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                            <!-- DARASA FILTER FOR STUDENTS -->
+                            <div class="flex items-center gap-1">
+                                <label class="text-xs font-bold text-slate-600">Darasa:</label>
+                                <select id="student-class-filter" onchange="window.filterStudentsByClass()" class="bg-white border rounded-lg px-3 py-1.5 text-xs font-bold outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="ALL">Madarasa Yote</option>
+                                    <option value="Awali">Awali</option>
+                                    <option value="Darasa I">Darasa I</option>
+                                    <option value="Darasa II">Darasa II</option>
+                                    <option value="Darasa III">Darasa III</option>
+                                    <option value="Darasa IV">Darasa IV</option>
+                                    <option value="Darasa V">Darasa V</option>
+                                    <option value="Darasa VI">Darasa VI</option>
+                                    <option value="Darasa VII">Darasa VII</option>
+                                </select>
+                            </div>
+
+                            <div class="relative w-full md:w-64">
+                                <input type="text" id="search-student-input" onkeyup="window.filterStudentsTable()" placeholder="Tafuta Jina au Prem No..." class="w-full pl-8 pr-3 py-1.5 border rounded-lg text-xs outline-none focus:ring-2 focus:ring-blue-500">
+                                <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-slate-400 text-xs"></i>
+                            </div>
                         </div>
                     </div>
                     <div class="overflow-x-auto">
@@ -397,7 +467,7 @@
                                     <th class="p-3">Jinsia</th>
                                     <th class="p-3">Simu Mzazi</th>
                                     <th class="p-3">Darasa</th>
-                                    <th class="p-3 text-center">Kitendo</th>
+                                    <th class="p-3 text-center">Kitendo / Hatua</th>
                                 </tr>
                             </thead>
                             <tbody id="students-table-body"></tbody>
@@ -411,9 +481,20 @@
                 <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-200 flex flex-col md:flex-row justify-between items-center gap-4">
                     <div>
                         <h3 class="font-bold text-emerald-900 text-base"><i class="fa-solid fa-file-invoice text-emerald-600 mr-2"></i>Upload Matokeo Ya Darasa Zima (Excel CSV)</h3>
-                        <p class="text-xs text-slate-600 mt-1">Pakua template, jaza maksi kulingana na darasa, kisha upload.</p>
+                        <p class="text-xs text-slate-600 mt-1">Chagua Darasa, pakua Template iliyojazwa majina ya madafalsi huo, jaza maksi, kisha upload.</p>
                     </div>
-                    <div class="flex gap-2 w-full md:w-auto">
+                    <div class="flex flex-wrap gap-2 w-full md:w-auto items-center">
+                        <select id="results-download-class" class="bg-white border border-emerald-300 text-xs font-bold px-3 py-2.5 rounded-lg outline-none">
+                            <option value="Awali">Awali</option>
+                            <option value="Darasa I">Darasa I</option>
+                            <option value="Darasa II">Darasa II</option>
+                            <option value="Darasa III">Darasa III</option>
+                            <option value="Darasa IV">Darasa IV</option>
+                            <option value="Darasa V">Darasa V</option>
+                            <option value="Darasa VI">Darasa VI</option>
+                            <option value="Darasa VII" selected>Darasa VII</option>
+                        </select>
+
                         <button onclick="downloadResultsTemplate()" class="bg-slate-800 text-white text-xs font-bold px-4 py-2.5 rounded-lg hover:bg-slate-900 transition flex items-center gap-2">
                             <i class="fa-solid fa-download"></i> Pakua Template Matokeo
                         </button>
@@ -427,9 +508,22 @@
                 <div class="bg-white rounded-xl shadow border overflow-hidden">
                     <div class="p-4 bg-slate-50 border-b flex flex-col md:flex-row justify-between items-center gap-3">
                         <h3 class="font-bold text-slate-800">Matokeo Yaliyorekodiwa</h3>
-                        <div class="relative w-full md:w-64">
-                            <input type="text" id="search-results-input" onkeyup="window.filterResultsTable()" placeholder="Tafuta Mwanafunzi..." class="w-full pl-8 pr-3 py-1.5 border rounded-lg text-xs outline-none focus:ring-2 focus:ring-emerald-500">
-                            <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-slate-400 text-xs"></i>
+                        <div class="flex items-center gap-3 w-full md:w-auto">
+                            <select id="results-class-filter" onchange="window.filterResultsByClass()" class="bg-white border rounded-lg px-3 py-1.5 text-xs font-bold outline-none">
+                                <option value="ALL">Madarasa Yote</option>
+                                <option value="Awali">Awali</option>
+                                <option value="Darasa I">Darasa I</option>
+                                <option value="Darasa II">Darasa II</option>
+                                <option value="Darasa III">Darasa III</option>
+                                <option value="Darasa IV">Darasa IV</option>
+                                <option value="Darasa V">Darasa V</option>
+                                <option value="Darasa VI">Darasa VI</option>
+                                <option value="Darasa VII">Darasa VII</option>
+                            </select>
+                            <div class="relative w-full md:w-64">
+                                <input type="text" id="search-results-input" onkeyup="window.filterResultsTable()" placeholder="Tafuta Mwanafunzi..." class="w-full pl-8 pr-3 py-1.5 border rounded-lg text-xs outline-none focus:ring-2 focus:ring-emerald-500">
+                                <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-slate-400 text-xs"></i>
+                            </div>
                         </div>
                     </div>
                     <div class="overflow-x-auto">
@@ -539,6 +633,42 @@
         </main>
     </div>
 
+    <!-- UI HELPER FUNCTIONS -->
+    <script>
+        function showAuthModal(type) {
+            document.getElementById('auth-modal').classList.remove('hidden');
+            switchForm(type);
+        }
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.add('hidden');
+        }
+        function switchForm(type) {
+            if(type === 'login') {
+                document.getElementById('form-login-container').classList.remove('hidden');
+                document.getElementById('form-register-container').classList.add('hidden');
+            } else {
+                document.getElementById('form-login-container').classList.add('hidden');
+                document.getElementById('form-register-container').classList.remove('hidden');
+            }
+        }
+        function closeEditStudentModal() {
+            document.getElementById('edit-student-modal').classList.add('hidden');
+        }
+        function toggleMobileSidebar() {
+            const nav = document.getElementById('nav-links');
+            nav.classList.toggle('hidden');
+        }
+        function switchTab(tabId) {
+            const views = ['dashboard', 'class-progress', 'students', 'results', 'reports', 'teachers', 'admin-settings'];
+            views.forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                if(el) el.classList.add('hidden');
+            });
+            const activeView = document.getElementById(`view-${tabId}`);
+            if(activeView) activeView.classList.remove('hidden');
+        }
+    </script>
+
     <!-- FIREBASE SDKs & REALTIME SYSTEM LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -568,6 +698,24 @@
 
         let examChartInstance = null;
         let progressChartInstance = null;
+
+        // MASOMO DICTIONARY
+        const SUBJECTS_BY_CLASS = {
+            "Awali": ["KUHESABU", "KUSOMA", "KUANDIKA", "ENGLISH LANGUAGE", "AFYA NA MAZINGIRA", "KUTHAMINI UTAMADUNI SANAA NA MICHEZO"],
+            "Darasa I": ["KUHESABU", "KUSOMA", "KUANDIKA", "ENGLISH LANGUAGE", "AFYA NA MAZINGIRA", "KUTHAMINI UTAMADUNI SANAA NA MICHEZO"],
+            "Darasa II": ["KUHESABU", "KUSOMA", "KUANDIKA", "ENGLISH LANGUAGE", "AFYA NA MAZINGIRA", "KUTHAMINI UTAMADUNI SANAA NA MICHEZO"],
+            
+            "Darasa III": ["KISWAHILI", "HISABATI", "ENGLISH", "SAYANSI", "JIOGRAFIA NA MAZINGIRA", "HISTORIA YA TANZANIA NA MAADILI"],
+            "Darasa IV": ["KISWAHILI", "HISABATI", "ENGLISH", "SAYANSI", "JIOGRAFIA NA MAZINGIRA", "HISTORIA YA TANZANIA NA MAADILI"],
+            "Darasa V": ["KISWAHILI", "HISABATI", "ENGLISH", "SAYANSI", "JIOGRAFIA NA MAZINGIRA", "HISTORIA YA TANZANIA NA MAADILI"],
+
+            "Darasa VI": ["HISABATI", "KISWAHILI", "ENGLISH", "SAYANSI", "MAARIFA YA JAMII", "URAIA NA MAADILI"],
+            "Darasa VII": ["HISABATI", "KISWAHILI", "ENGLISH", "SAYANSI", "MAARIFA YA JAMII", "URAIA NA MAADILI"]
+        };
+
+        function getSubjectsForClass(cls) {
+            return SUBJECTS_BY_CLASS[cls] || SUBJECTS_BY_CLASS["Darasa VII"];
+        }
 
         // AUTH: LOGIN
         document.getElementById('login-form').addEventListener('submit', async (e) => {
@@ -689,7 +837,7 @@
                 snapshot.forEach(docSnap => {
                     loadedStudents.push({ id: docSnap.id, ...docSnap.data() });
                 });
-                renderStudentsTable(loadedStudents);
+                window.filterStudentsByClass();
                 document.getElementById('stat-students-count').innerText = loadedStudents.length;
             });
 
@@ -700,7 +848,7 @@
                     loadedResults.push({ id: docSnap.id, ...docSnap.data() });
                 });
                 loadedResults.sort((a, b) => b.avg - a.avg);
-                renderResultsTable(loadedResults);
+                window.filterResultsByClass();
                 loadTopAndBottomPupils();
                 window.renderExamChart();
                 renderClassProgress();
@@ -735,6 +883,82 @@
             }
         });
 
+        // EDIT STUDENT SUBMIT
+        document.getElementById('edit-student-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('edit-std-id').value;
+            const prem = document.getElementById('edit-std-prem').value.trim();
+            const name = document.getElementById('edit-std-name').value.trim();
+            const gender = document.getElementById('edit-std-gender').value;
+            const parentPhone = document.getElementById('edit-std-phone').value.trim();
+            const cls = document.getElementById('edit-std-class').value;
+
+            try {
+                await updateDoc(doc(db, "msrms_students", id), {
+                    prem, name, gender, parentPhone, cls
+                });
+                Swal.fire({ icon: 'success', title: 'Imesasishwa', text: 'Taarifa za mwanafunzi zimebadilishwa!', timer: 1800, showConfirmButton: false });
+                closeEditStudentModal();
+            } catch(err) {
+                Swal.fire({ icon: 'error', title: 'Kosa', text: err.message });
+            }
+        });
+
+        window.openEditStudentModal = function(id) {
+            const std = loadedStudents.find(s => s.id === id);
+            if(!std) return;
+            document.getElementById('edit-std-id').value = std.id;
+            document.getElementById('edit-std-prem').value = std.prem || '';
+            document.getElementById('edit-std-name').value = std.name || '';
+            document.getElementById('edit-std-gender').value = std.gender || 'M';
+            document.getElementById('edit-std-phone').value = std.parentPhone || '';
+            document.getElementById('edit-std-class').value = std.cls || 'Darasa VII';
+            document.getElementById('edit-student-modal').classList.remove('hidden');
+        };
+
+        // PAKUA TEMPLATE YA USAJILI WA WANAFUNZI
+        window.downloadStudentTemplate = function() {
+            const csvContent = "data:text/csv;charset=utf-8,PREM_NUMBER,FULL_NAME,GENDER(M/K),PARENT_PHONE,CLASS\nMW-001,Juma Hamisi,M,0712345678,Darasa VII\nMW-002,Asha Hassan,K,0787654321,Darasa VII";
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "Template_Usajili_Wanafunzi.csv");
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        };
+
+        // PAKUA TEMPLATE YA MATOKEO - YENYE MAJINA YA DARASA HUSIKA
+        window.downloadResultsTemplate = function() {
+            const cls = document.getElementById('results-download-class').value;
+            const subjects = getSubjectsForClass(cls);
+            
+            // Chuja wanafunzi wa darasa husika pekee
+            const classStudents = loadedStudents.filter(s => s.cls === cls);
+
+            let csvRows = [];
+            let headers = ["PREM_NO", "JINA_LA_MWANAFUNZI", "EXAM_NAME", ...subjects, "CLASS"];
+            csvRows.push(headers.join(","));
+
+            if(classStudents.length > 0) {
+                classStudents.forEach(s => {
+                    csvRows.push(`"${s.prem}","${s.name}","MTHIANI WA MUHULA",,,,,,"${cls}"`);
+                });
+            } else {
+                csvRows.push(`"MW-001","Mfano Mwanafunzi","MTHIANI WA MUHULA",,,,,,"${cls}"`);
+            }
+
+            const csvString = csvRows.join("\n");
+            const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", `Template_Matokeo_${cls.replace(/\s+/g, '_')}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        };
+
         // CSV UPLOADS
         document.getElementById('students-csv-file').addEventListener('change', (event) => {
             const file = event.target.files[0];
@@ -749,23 +973,23 @@
                     const row = lines[i].split(',');
                     if (row.length >= 4 && row[0].trim() !== '') {
                         await addDoc(collection(db, "msrms_students"), {
-                            prem: row[0].trim(),
-                            name: row[1].trim(),
-                            gender: row[2].trim(),
-                            parentPhone: row[3] ? row[3].trim() : "",
-                            cls: row[4] ? row[4].trim() : "Darasa VII",
+                            prem: row[0].replace(/"/g, '').trim(),
+                            name: row[1].replace(/"/g, '').trim(),
+                            gender: row[2].replace(/"/g, '').trim(),
+                            parentPhone: row[3] ? row[3].replace(/"/g, '').trim() : "",
+                            cls: row[4] ? row[4].replace(/"/g, '').trim() : "Darasa VII",
                             createdAt: new Date().toISOString()
                         });
                     }
                 }
-                Swal.fire({ icon: 'success', title: 'Upload Imekamilika', text: 'Wanafunzi wote zimehifadhiwa Cloud!', timer: 2000, showConfirmButton: false });
+                Swal.fire({ icon: 'success', title: 'Upload Imekamilika', text: 'Wanafunzi wote wamehifadhiwa Cloud!', timer: 2000, showConfirmButton: false });
             };
             reader.readAsText(file);
         });
 
         document.getElementById('results-csv-file').addEventListener('change', (event) => {
             if (!isExamActive && currentUserRole === "Mwalimu") {
-                return Swal.fire({ icon: 'error', title: 'Mtihani Umefungwa', text: 'Huwawezi kupakia matokeo sasa.' });
+                return Swal.fire({ icon: 'error', title: 'Mtihani Umefungwa', text: 'Huwezi kupakia matokeo sasa.' });
             }
 
             const file = event.target.files[0];
@@ -779,9 +1003,10 @@
                 for (let i = 1; i < lines.length; i++) {
                     const row = lines[i].split(',');
                     if (row.length >= 8 && row[0].trim() !== '') {
-                        const name = row[1].trim();
-                        const exam = row[2].trim();
-                        const cls = row[8] ? row[8].trim() : "Darasa VII";
+                        const prem = row[0].replace(/"/g, '').trim();
+                        const name = row[1].replace(/"/g, '').trim();
+                        const exam = row[2].replace(/"/g, '').trim() || "Mtihani";
+                        const cls = row[9] ? row[9].replace(/"/g, '').trim() : "Darasa VII";
 
                         let maxMark = (cls === 'Awali' || cls === 'Darasa I' || cls === 'Darasa II') ? 100 : 50;
 
@@ -790,9 +1015,10 @@
                         const s3 = Math.min(Number(row[5]) || 0, maxMark);
                         const s4 = Math.min(Number(row[6]) || 0, maxMark);
                         const s5 = Math.min(Number(row[7]) || 0, maxMark);
+                        const s6 = Math.min(Number(row[8]) || 0, maxMark);
 
-                        const total = s1 + s2 + s3 + s4 + s5;
-                        const avg = (total / 5).toFixed(1);
+                        const total = s1 + s2 + s3 + s4 + s5 + s6;
+                        const avg = (total / 6).toFixed(1);
 
                         let grade = 'F';
                         let percentage = maxMark === 50 ? (avg / 50) * 100 : avg;
@@ -803,60 +1029,117 @@
                         else if (percentage >= 21) grade = 'D';
 
                         await addDoc(collection(db, "msrms_results"), {
-                            prem: row[0].trim(),
+                            prem,
                             studentName: name,
                             exam: exam,
                             cls: cls,
-                            sub1: s1, sub2: s2, sub3: s3, sub4: s4, sub5: s5,
+                            sub1: s1, sub2: s2, sub3: s3, sub4: s4, sub5: s5, sub6: s6,
                             total, avg: Number(avg), grade,
                             teacherComment: percentage >= 50 ? "Hongera! Endelea kujituma." : "Ongeza bidii zaidi.",
                             createdAt: new Date().toISOString()
                         });
                     }
                 }
-                Swal.fire({ icon: 'success', title: 'Matokeo yako Yamehifadhiwa', text: 'Matokeo yapo salama Cloud!', timer: 2000, showConfirmButton: false });
+                Swal.fire({ icon: 'success', title: 'Matokeo Yamehifadhiwa', text: 'Matokeo yote yapo salama Cloud!', timer: 2000, showConfirmButton: false });
             };
             reader.readAsText(file);
         });
 
+        // FILTER STUDENTS BY CLASS
+        window.filterStudentsByClass = function() {
+            const cls = document.getElementById('student-class-filter').value;
+            let filtered = loadedStudents;
+            if(cls !== 'ALL') {
+                filtered = loadedStudents.filter(s => s.cls === cls);
+            }
+            document.getElementById('student-count-badge').innerText = filtered.length;
+            renderStudentsTable(filtered);
+        };
+
+        window.filterStudentsTable = function() {
+            const query = document.getElementById('search-student-input').value.toLowerCase();
+            const cls = document.getElementById('student-class-filter').value;
+            let list = loadedStudents;
+            if(cls !== 'ALL') list = list.filter(s => s.cls === cls);
+
+            const filtered = list.filter(s => 
+                s.name.toLowerCase().includes(query) || s.prem.toLowerCase().includes(query)
+            );
+            renderStudentsTable(filtered);
+        };
+
         function renderStudentsTable(dataList) {
             const sBody = document.getElementById('students-table-body');
             sBody.innerHTML = '';
+            if(dataList.length === 0) {
+                sBody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">Hakuna mwanafunzi aliyepatikana.</td></tr>`;
+                return;
+            }
             dataList.forEach(s => {
                 sBody.innerHTML += `
                     <tr class="border-b hover:bg-slate-50">
-                        <td class="p-3 font-mono text-xs">${s.prem}</td>
-                        <td class="p-3 font-semibold">${s.name}</td>
+                        <td class="p-3 font-mono text-xs font-bold text-slate-700">${s.prem}</td>
+                        <td class="p-3 font-semibold text-slate-800">${s.name}</td>
                         <td class="p-3">${s.gender}</td>
                         <td class="p-3">${s.parentPhone || '-'}</td>
-                        <td class="p-3">${s.cls}</td>
+                        <td class="p-3 font-semibold text-blue-600">${s.cls}</td>
                         <td class="p-3 text-center">
-                            ${(currentUserRole === "Super Admin") ? `<button onclick="window.deleteStudent('${s.id}')" class="text-red-600 hover:text-red-800 text-xs font-bold"><i class="fa-solid fa-trash"></i></button>` : '-'}
+                            <button onclick="window.openEditStudentModal('${s.id}')" class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-2.5 py-1 rounded mr-1">
+                                <i class="fa-solid fa-pen-to-square"></i> Hariri
+                            </button>
+                            <button onclick="window.deleteStudent('${s.id}')" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-2.5 py-1 rounded">
+                                <i class="fa-solid fa-trash"></i> Futa
+                            </button>
                         </td>
                     </tr>`;
             });
         }
 
+        // FILTER RESULTS BY CLASS
+        window.filterResultsByClass = function() {
+            const cls = document.getElementById('results-class-filter').value;
+            let filtered = loadedResults;
+            if(cls !== 'ALL') {
+                filtered = loadedResults.filter(r => (r.cls || 'Darasa VII') === cls);
+            }
+            renderResultsTable(filtered);
+        };
+
+        window.filterResultsTable = function() {
+            const query = document.getElementById('search-results-input').value.toLowerCase();
+            const cls = document.getElementById('results-class-filter').value;
+            let list = loadedResults;
+            if(cls !== 'ALL') list = list.filter(r => (r.cls || 'Darasa VII') === cls);
+
+            const filtered = list.filter(r => r.studentName.toLowerCase().includes(query));
+            renderResultsTable(filtered);
+        };
+
         function renderResultsTable(dataList) {
             const rBody = document.getElementById('results-table-body');
             rBody.innerHTML = '';
+            if(dataList.length === 0) {
+                rBody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-400">Hakuna matokeo yaliyopatikana.</td></tr>`;
+                return;
+            }
 
             dataList.forEach((r) => {
                 rBody.innerHTML += `
                     <tr class="border-b hover:bg-slate-50">
                         <td class="p-3 font-semibold">${r.studentName}</td>
-                        <td class="p-3">${r.cls || 'Darasa VII'}</td>
+                        <td class="p-3 font-medium text-blue-700">${r.cls || 'Darasa VII'}</td>
                         <td class="p-3">${r.exam}</td>
                         <td class="p-3 font-bold">${r.total}</td>
                         <td class="p-3 text-blue-600 font-bold">${r.avg}</td>
                         <td class="p-3"><span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded font-black">${r.grade}</span></td>
                         <td class="p-3 text-center flex justify-center gap-1">
-                            <button onclick="window.downloadSingleReportCard('${r.id}')" class="bg-purple-600 text-white text-[11px] font-bold px-2 py-1 rounded" title="Download Report">
-                                <i class="fa-solid fa-file-pdf"></i> Report
+                            <button onclick="window.downloadSingleReportCard('${r.id}')" class="bg-purple-600 hover:bg-purple-700 text-white text-[11px] font-bold px-2.5 py-1 rounded flex items-center gap-1" title="Download Report">
+                                <i class="fa-solid fa-file-pdf"></i> Report Card
                             </button>
-                            <button onclick="window.sendNormalSMS('${r.studentName}', '${r.exam}', '${r.avg}', '${r.grade}')" class="bg-blue-600 text-white text-[11px] font-bold px-2 py-1 rounded">
-                                <i class="fa-solid fa-comment-sms"></i> SMS
+                            <button onclick="window.sendNormalSMS('${r.id}')" class="bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-bold px-2.5 py-1 rounded flex items-center gap-1">
+                                <i class="fa-solid fa-comment-sms"></i> Mzazi SMS
                             </button>
+                            ${(currentUserRole === "Super Admin") ? `<button onclick="window.deleteResult('${r.id}')" class="bg-red-600 hover:bg-red-700 text-white text-[11px] font-bold px-2 py-1 rounded"><i class="fa-solid fa-trash"></i></button>` : ''}
                         </td>
                     </tr>
                 `;
@@ -896,7 +1179,6 @@
             });
         }
 
-        // UPDATE EXAM UI
         function updateExamUI() {
             const banner = document.getElementById('exam-status-banner');
             const statusText = document.getElementById('exam-status-text');
@@ -915,7 +1197,6 @@
             }
         }
 
-        // GLOBAL EXPORT FUNCTIONS
         window.setExamStatus = async function(status) {
             try {
                 await setDoc(doc(db, "msrms_settings", "exam_status"), { active: status });
@@ -1024,25 +1305,49 @@
         }
 
         window.deleteTeacher = async function(id) {
-            if (confirm("Futa mwalimu huyu?")) await deleteDoc(doc(db, "msrms_teachers", id));
+            if (confirm("Je, una uhakika unataka kumfuta mwalimu huyu?")) await deleteDoc(doc(db, "msrms_teachers", id));
         };
 
         window.deleteStudent = async function(id) {
-            if (confirm("Futa mwanafunzi huyu?")) await deleteDoc(doc(db, "msrms_students", id));
+            if (confirm("Je, una uhakika unataka kumfuta mwanafunzi huyu?")) await deleteDoc(doc(db, "msrms_students", id));
         };
 
-        window.sendNormalSMS = function(studentName, exam, avg, grade) {
-            const msg = `SHULE YA MSINGI MWASHIKU: Matokeo ya ${studentName} kwa mtihani wa ${exam}: Wastani ni ${avg} (Daraja ${grade}). Ahsante!`;
+        window.deleteResult = async function(id) {
+            if (confirm("Je, una uhakika unataka kufuta matokeo haya?")) await deleteDoc(doc(db, "msrms_results", id));
+        };
+
+        // Mfumo wa Kutuma SMS kwa Mzazi ukiwa na Matokeo Yote Matano/Sita na Nafasi
+        window.sendNormalSMS = function(resultId) {
+            const r = loadedResults.find(x => x.id === resultId);
+            if(!r) return;
+
+            const clsResults = loadedResults.filter(item => (item.cls || 'Darasa VII') === (r.cls || 'Darasa VII'));
+            const pos = clsResults.findIndex(item => item.id === r.id) + 1;
+            const totalInClass = clsResults.length;
+
+            const subjects = getSubjectsForClass(r.cls || 'Darasa VII');
+
+            const msg = `SHULE YA MSINGI MWASHIKU\nMatokeo ya: ${r.studentName}\nDarasa: ${r.cls}\nMtihani: ${r.exam}\n\n1.${subjects[0]}: ${r.sub1}\n2.${subjects[1]}: ${r.sub2}\n3.${subjects[2]}: ${r.sub3}\n4.${subjects[3]}: ${r.sub4}\n5.${subjects[4]}: ${r.sub5}\n6.${subjects[5]}: ${r.sub6 || 0}\n\nJumla: ${r.total}\nWastani: ${r.avg}\nDaraja: ${r.grade}\nNafasi: ${pos} kati ya ${totalInClass}\nAhsante!`;
+
             window.open(`sms:?body=${encodeURIComponent(msg)}`, '_self');
         };
 
+        // PDF REPORT CARD - ENHANCED FOR 6 SUBJECTS & CLASS RANKING
         window.downloadSingleReportCard = function(resultId) {
             const r = loadedResults.find(x => x.id === resultId);
             if(!r) return;
 
+            const cls = r.cls || 'Darasa VII';
+            const clsResults = loadedResults.filter(item => (item.cls || 'Darasa VII') === cls);
+            const pos = clsResults.findIndex(item => item.id === r.id) + 1;
+            const totalInClass = clsResults.length;
+
+            const subjects = getSubjectsForClass(cls);
+
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
 
+            // HEADER BANNER
             doc.setFillColor(2, 132, 199);
             doc.rect(0, 0, 210, 28, 'F');
             doc.setTextColor(255, 255, 255);
@@ -1051,36 +1356,50 @@
             doc.text("SHULE YA MSINGI MWASHIKU", 105, 12, null, null, "center");
 
             doc.setFontSize(10);
-            doc.text("TAARIFA YA MAENDELEO YA MWANAFUNZI", 105, 20, null, null, "center");
+            doc.text("TAARIFA YA MAENDELEO YA MWANAFUNZI (REPORT CARD)", 105, 20, null, null, "center");
 
             doc.setTextColor(30, 41, 59);
-            doc.text(`Jina: ${r.studentName}`, 14, 38);
-            doc.text(`Darasa: ${r.cls || 'Darasa VII'}`, 14, 45);
-            doc.text(`Mtihani: ${r.exam}`, 140, 38);
+            doc.setFontSize(11);
+            doc.text(`Jina la Mwanafunzi: ${r.studentName}`, 14, 38);
+            doc.text(`Prem No: ${r.prem || 'N/A'}`, 14, 45);
+            doc.text(`Darasa: ${cls}`, 140, 38);
+            doc.text(`Aina ya Mtihani: ${r.exam}`, 140, 45);
 
             const subjectRows = [
-                ['Somo 1', r.sub1 || 0],
-                ['Somo 2', r.sub2 || 0],
-                ['Somo 3', r.sub3 || 0],
-                ['Somo 4', r.sub4 || 0],
-                ['Somo 5', r.sub5 || 0]
+                [subjects[0], r.sub1 || 0],
+                [subjects[1], r.sub2 || 0],
+                [subjects[2], r.sub3 || 0],
+                [subjects[3], r.sub4 || 0],
+                [subjects[4], r.sub5 || 0],
+                [subjects[5], r.sub6 || 0]
             ];
 
             doc.autoTable({
                 startY: 52,
-                head: [['Somo', 'Alama']],
+                head: [['SOMO', 'ALAMA ALIZOPATA']],
                 body: subjectRows,
                 theme: 'grid',
-                headStyles: { fillColor: [15, 23, 42] }
+                headStyles: { fillColor: [15, 23, 42], fontSize: 10, halign: 'left' },
+                bodyStyles: { fontSize: 10 }
             });
 
             const finalY = doc.lastAutoTable.finalY + 10;
             doc.setFontSize(11);
-            doc.text(`Jumla: ${r.total} | Wastani: ${r.avg} | Daraja: ${r.grade}`, 14, finalY);
+            doc.setFont("helvetica", "bold");
+            doc.text(`JUMLA YA ALAMA: ${r.total}`, 14, finalY);
+            doc.text(`WASTANI: ${r.avg}`, 80, finalY);
+            doc.text(`DARAJA: ${r.grade}`, 140, finalY);
+
+            doc.setFont("helvetica", "normal");
+            doc.text(`NAFASI YAKE DARASANI: Ya ${pos} Kati ya Wanafunzi ${totalInClass}`, 14, finalY + 8);
+            doc.text(`Maoni ya Mwalimu: ${r.teacherComment || 'Ongeza Bidii zaidi.'}`, 14, finalY + 16);
+
+            doc.text(`Sahihi ya Mkuu wa Shule: ___________________`, 14, finalY + 32);
 
             doc.save(`Report_Card_${r.studentName.replace(/\s+/g, '_')}.pdf`);
         };
 
+        // RANKING PDF GENERATOR
         window.downloadStudentRankingPDF = function() {
             const selectedClass = document.getElementById('report-select-class').value;
             const { jsPDF } = window.jspdf;
@@ -1092,9 +1411,10 @@
             }
 
             doc.setFontSize(14);
+            doc.setFont("helvetica", "bold");
             doc.text("SHULE YA MSINGI MWASHIKU", 14, 15);
             doc.setFontSize(11);
-            doc.text(`RANKING YA WANAFUNZI (${selectedClass.toUpperCase()})`, 14, 22);
+            doc.text(`ORODHA YA RANKING YA WANAFUNZI (${selectedClass.toUpperCase()})`, 14, 22);
 
             const rows = targetResults.map((r, idx) => [
                 idx + 1, r.studentName, r.cls || 'Darasa VII', r.exam, r.total, r.avg, r.grade
@@ -1102,7 +1422,7 @@
 
             doc.autoTable({
                 startY: 28,
-                head: [['Nafasi', 'Jina', 'Darasa', 'Mtihani', 'Jumla', 'Wastani', 'Daraja']],
+                head: [['Nafasi', 'Jina la Mwanafunzi', 'Darasa', 'Mtihani', 'Jumla', 'Wastani', 'Daraja']],
                 body: rows,
                 theme: 'grid',
                 headStyles: { fillColor: [2, 132, 199] }
@@ -1110,78 +1430,6 @@
 
             doc.save(`Ranking_${selectedClass}.pdf`);
         };
-
-        window.filterStudentsTable = function() {
-            const query = document.getElementById('search-student-input').value.toLowerCase();
-            const filtered = loadedStudents.filter(s => s.name.toLowerCase().includes(query) || s.prem.toLowerCase().includes(query));
-            renderStudentsTable(filtered);
-        };
-
-        window.filterResultsTable = function() {
-            const query = document.getElementById('search-results-input').value.toLowerCase();
-            const filtered = loadedResults.filter(r => r.studentName.toLowerCase().includes(query));
-            renderResultsTable(filtered);
-        };
-    </script>
-
-    <script>
-        function toggleMobileSidebar() {
-            document.getElementById('nav-links').classList.toggle('hidden');
-        }
-
-        function showAuthModal(type) {
-            document.getElementById('auth-modal').classList.remove('hidden');
-            switchForm(type);
-        }
-
-        function closeAuthModal() {
-            document.getElementById('auth-modal').classList.add('hidden');
-        }
-
-        function switchForm(type) {
-            if (type === 'login') {
-                document.getElementById('form-login-container').classList.remove('hidden');
-                document.getElementById('form-register-container').classList.add('hidden');
-            } else {
-                document.getElementById('form-login-container').classList.add('hidden');
-                document.getElementById('form-register-container').classList.remove('hidden');
-            }
-        }
-
-        function switchTab(tabName) {
-            ['dashboard', 'class-progress', 'students', 'results', 'reports', 'teachers', 'admin-settings'].forEach(v => {
-                const el = document.getElementById(`view-${v}`);
-                if(el) el.classList.add('hidden');
-            });
-            const target = document.getElementById(`view-${tabName}`);
-            if(target) target.classList.remove('hidden');
-
-            if (window.innerWidth < 768) {
-                document.getElementById('nav-links').classList.add('hidden');
-            }
-        }
-
-        function downloadStudentTemplate() {
-            let csvContent = "data:text/csv;charset=utf-8,Prem_No,Jina_Kamili,Jinsia,Simu_ya_Mzazi,Darasa\n";
-            csvContent += "MW-001,Baraka Juma,M,0754000111,Darasa VII\nMW-002,Amina Salum,K,0765000222,Darasa VII";
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "Template_Usajili_Wanafunzi.csv");
-            document.body.appendChild(link);
-            link.click();
-        }
-
-        function downloadResultsTemplate() {
-            let csvContent = "data:text/csv;charset=utf-8,Prem_No,Jina_Mwanafunzi,Mtihani,Somo1,Somo2,Somo3,Somo4,Somo5,Darasa\n";
-            csvContent += "MW-001,Baraka Juma,Terminal Exam,45,40,48,35,42,Darasa VII\nMW-002,Amina Salum,Terminal Exam,30,25,38,20,30,Darasa VII";
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "Template_Matokeo_Mwashiku.csv");
-            document.body.appendChild(link);
-            link.click();
-        }
     </script>
 </body>
 </html>
